@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d1d">
+<title>POKER QUEST — 15分ポーカードリル</title>
+<style>
+:root{
+  --bg:#0b0d1d; --bg2:#11142b; --panel:#171a35; --panel2:#1f2347;
+  --ink:#eef0ff; --muted:#8b91b8; --line:#2b3060;
+  --gold:#ffc84d; --gold-deep:#c78a1e; --cyan:#4be1e8; --pink:#ff5c8a;
+  --green:#5ee6a0; --red:#ff7676; --purple:#9d7bff;
+  --shadow:0 18px 50px #0008;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; color:var(--ink); min-height:100vh;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, #232a63 0%, transparent 60%),
+    radial-gradient(ellipse 80% 40% at 90% 110%, #3a1f4d55 0%, transparent 60%),
+    var(--bg);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP",sans-serif;
+}
+button,select{font:inherit}
+.app{width:min(100%,1240px);margin:auto;padding:16px 14px calc(36px + env(safe-area-inset-bottom))}
+
+/* ===== HUD ===== */
+.hud{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 2px 14px;flex-wrap:wrap}
+.logo{font-size:1.3rem;font-weight:900;letter-spacing:.04em;margin:0;
+  background:linear-gradient(100deg,var(--gold) 20%,#fff3c9 45%,var(--gold) 60%,var(--pink));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 8px #ffc84d33)}
+.tagline{font-size:.7rem;color:var(--muted);margin:1px 0 0}
+.hud-right{display:flex;align-items:center;gap:8px}
+.lvbox{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 10px}
+.lvbadge{width:34px;height:34px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#ffe9a8,var(--gold) 55%,var(--gold-deep));color:#3a2800;font-weight:900;line-height:1;
+  box-shadow:0 0 12px #ffc84d55, inset 0 1px 0 #fff8}
+.lvbadge small{font-size:.45rem;letter-spacing:.08em}
+.lvbadge b{font-size:.95rem}
+.xpwrap{min-width:88px}
+.xpbar{height:8px;width:100%;background:#0b0d1d;border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.xpbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:width .5s ease;box-shadow:0 0 8px var(--cyan)}
+.xptext{font-size:.6rem;color:var(--muted);margin-top:3px;text-align:right;font-variant-numeric:tabular-nums}
+.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;width:38px;height:48px;cursor:pointer;font-size:1rem}
+.booklink{display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;padding:5px 9px;font-size:.6rem;gap:2px}
+.booklink span{font-size:1rem}
+
+/* ===== QUEST TABS ===== */
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:#07081599;padding:6px;border-radius:16px;
+  position:sticky;top:6px;z-index:5;backdrop-filter:blur(12px);border:1px solid #2b306044}
+.tab{border:1px solid transparent;background:transparent;color:var(--muted);border-radius:12px;min-height:52px;padding:5px 2px;
+  font-size:.68rem;font-weight:700;line-height:1.25;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tab .suit{display:block;font-size:1.05rem}
+.tab.active{background:linear-gradient(160deg,var(--panel2),var(--panel));color:var(--ink);border-color:var(--line);
+  box-shadow:0 4px 14px #0006, inset 0 1px 0 #ffffff14}
+.tab.active .suit{filter:drop-shadow(0 0 6px currentColor)}
+.t-range.active .suit{color:var(--cyan)} .t-odds.active .suit{color:var(--pink)}
+.t-push.active .suit{color:var(--gold)} .t-charts.active .suit{color:var(--green)}
+.view{display:none;margin-top:14px}.view.active{display:block}
+
+/* ===== CARD PANEL ===== */
+.card{background:linear-gradient(160deg,var(--panel2),var(--panel) 70%);border:1px solid var(--line);border-radius:22px;
+  box-shadow:var(--shadow), inset 0 1px 0 #ffffff10;padding:19px;position:relative;overflow:hidden}
+.status{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.74rem;font-weight:700;letter-spacing:.06em}
+.combo{color:var(--gold);font-weight:900}
+.combo.hot{animation:pulse .5s ease infinite alternate;text-shadow:0 0 10px #ffc84d88}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.12)}}
+.progress{height:7px;background:#07081566;border-radius:99px;overflow:hidden;margin:10px 0 20px;border:1px solid #2b306066}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));transition:width .3s;box-shadow:0 0 10px var(--purple)}
+
+.prompt{text-align:center;min-height:230px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-weight:900;color:var(--cyan);font-size:.72rem;text-shadow:0 0 12px #4be1e855}
+.cards{display:flex;justify-content:center;gap:10px;margin:15px 0 8px;perspective:600px}
+.playing{width:74px;height:100px;background:linear-gradient(170deg,#fff,#e9ecf5);color:#1a1d2e;border-radius:11px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;font-size:1.65rem;
+  box-shadow:0 10px 20px #0009, 0 0 0 2px #d7dbe8 inset;animation:deal .4s cubic-bezier(.2,1.4,.4,1) backwards}
+.playing:nth-child(2){animation-delay:.09s}
+@keyframes deal{from{transform:translateY(-30px) rotate(8deg) scale(.6);opacity:0}}
+.playing.red{color:#e0344a}
+.playing small{font-size:1.15rem;line-height:1}
+.handcode{font-weight:900;font-size:1.05rem;letter-spacing:.05em}
+.question{font-size:1.12rem;font-weight:750;margin:14px auto 0;max-width:550px}
+
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.answer{border:0;border-radius:15px;min-height:58px;padding:10px;font-weight:900;font-size:1rem;cursor:pointer;color:var(--ink);
+  background:linear-gradient(160deg,#252a52,#1b1f40);box-shadow:0 5px 0 #0d0f24, inset 0 1px 0 #ffffff18;
+  -webkit-tap-highlight-color:transparent;transition:filter .12s}
+.answer:active{transform:translateY(4px);box-shadow:0 1px 0 #0d0f24}
+.answer.primary{background:linear-gradient(160deg,#ffe19a,var(--gold) 60%,var(--gold-deep));color:#3a2800;box-shadow:0 5px 0 #7a5410, inset 0 1px 0 #fff9}
+.answer:disabled{opacity:.7;cursor:default}
+.answer.picked.good{outline:3px solid var(--green);box-shadow:0 0 18px #5ee6a066}
+.answer.picked.bad{outline:3px solid var(--red);box-shadow:0 0 18px #ff767666;animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.feedback{min-height:78px;margin-top:12px;padding:12px 14px;border-radius:14px;background:#07081588;font-size:.83rem;line-height:1.55;border:1px solid #2b306055}
+.feedback strong{font-size:1rem}
+.goodtext{color:var(--green)} .badtext{color:var(--red)}
+.next,.restart{width:100%;margin-top:10px;border:0;border-radius:15px;min-height:52px;cursor:pointer;font-weight:900;font-size:.95rem;
+  background:linear-gradient(160deg,#6ee7ef,var(--cyan) 55%,#1e9aa5);color:#03252a;box-shadow:0 5px 0 #0f5d64, inset 0 1px 0 #fff8}
+.next:active,.restart:active{transform:translateY(4px);box-shadow:0 1px 0 #0f5d64}
+.hidden{display:none!important}
+.choice4{grid-template-columns:1fr 1fr}
+.choice4 .answer{font-size:1.1rem;font-variant-numeric:tabular-nums}
+
+/* ===== RESULT ===== */
+.result{text-align:center;padding:16px 0 8px}
+.rank{font-size:4.6rem;font-weight:900;line-height:1;margin:6px 0 2px;animation:stamp .45s cubic-bezier(.2,1.6,.4,1) backwards}
+@keyframes stamp{from{transform:scale(2.2) rotate(-14deg);opacity:0}}
+.rank.S{color:var(--gold);text-shadow:0 0 24px #ffc84d99,0 0 60px #ffc84d44}
+.rank.A{color:var(--green);text-shadow:0 0 20px #5ee6a066}
+.rank.B{color:var(--cyan);text-shadow:0 0 20px #4be1e855}
+.rank.C{color:var(--purple)} .rank.D{color:var(--red)}
+.score-line{font-size:1.2rem;font-weight:900}
+.result p{color:var(--muted);font-size:.85rem}
+.gains{display:flex;justify-content:center;gap:8px;margin:12px 0 4px;flex-wrap:wrap}
+.gain{background:#07081588;border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:.75rem;font-weight:800}
+.gain b{color:var(--gold)}
+.confetti{position:absolute;top:-12px;width:9px;height:9px;border-radius:2px;pointer-events:none;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(120vh) rotate(720deg);opacity:.2}}
+
+.note{color:var(--muted);font-size:.76rem;margin:12px 4px 0}
+
+/* ===== CHARTS & RECORDS ===== */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.toolbar select{flex:1;min-width:100px;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:11px;padding:9px}
+.chartwrap{overflow:auto;padding-bottom:4px}
+.matrix{display:grid;grid-template-columns:repeat(13,minmax(28px,1fr));min-width:400px;gap:3px}
+.cell{aspect-ratio:1;border-radius:5px;background:#0d1029;color:#5c6390;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(.52rem,1.8vw,.68rem);font-weight:750;border:1px solid #232858}
+.cell.in{background:linear-gradient(160deg,#2ba57e,#1f7d60);color:#fff;border-color:#5ee6a0}
+.cell.pair.in{background:linear-gradient(160deg,#c79a35,#a57b2e);border-color:var(--gold)}
+.legend{display:flex;gap:15px;color:var(--muted);font-size:.72rem;margin-top:9px}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px;background:#2ba57e}
+.dot.gold{background:#c79a35}
+.records{margin-top:18px}
+.recordhead{display:flex;align-items:center;justify-content:space-between}
+.recordhead h2{font-size:1rem;margin:8px 0}
+.avg{font-size:.8rem;color:var(--muted)}
+.avg b{color:var(--gold);font-size:1rem}
+.history{display:grid;gap:7px}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:10px;padding:11px 12px;background:var(--panel);border:1px solid #2b306055;border-radius:12px;align-items:center;font-size:.8rem}
+.row time{color:var(--muted)}
+.row b{font-size:.95rem}
+.empty{text-align:center;color:var(--muted);padding:25px}
+.danger{display:block;margin:15px auto 0;border:0;background:transparent;color:#e48c9c;text-decoration:underline;cursor:pointer;font-size:.75rem}
+
+@media (min-width:720px){
+  .app{padding-top:28px}
+  .drill-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}
+  .answers{align-content:center}
+  .feedback{margin-top:0;min-height:112px}
+  .tab{font-size:.78rem}
+  .tab .suit{display:inline;margin-right:5px}
+  .card{padding:24px}
+  .prompt{min-height:280px}
+  .playing{width:84px;height:114px}
+}
+@media (min-width:1100px){
+  .app{padding-top:34px}
+  .logo{font-size:1.7rem}
+  .tagline{font-size:.8rem}
+  .tab{min-height:58px;font-size:.88rem}
+  .drill-layout{grid-template-columns:1.35fr 1fr;gap:24px}
+  .prompt{min-height:350px}
+  .playing{width:106px;height:142px;font-size:2.15rem;border-radius:14px}
+  .playing small{font-size:1.5rem}
+  .handcode{font-size:1.25rem}
+  .question{font-size:1.35rem}
+  .eyebrow{font-size:.82rem}
+  .status{font-size:.82rem}
+  .answer{min-height:68px;font-size:1.12rem}
+  .feedback{font-size:.94rem;min-height:132px}
+  .next,.restart{min-height:58px;font-size:1.05rem}
+  #charts.view.active{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:start}
+  #charts .records{margin-top:0}
+  .matrix{grid-template-columns:repeat(13,minmax(36px,1fr));gap:4px}
+  .cell{font-size:.74rem;border-radius:6px}
+  .legend{font-size:.8rem}
+  .row{font-size:.86rem;padding:12px 14px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body><main class="app">
+<header class="hud">
+  <div><h1 class="logo">POKER QUEST</h1><p class="tagline">ライブNLHEの判断を、毎日10問ずつ。</p></div>
+  <div class="hud-right">
+    <div class="lvbox">
+      <div class="lvbadge"><small>LV</small><b id="lv">1</b></div>
+      <div class="xpwrap"><div class="xpbar"><i id="xpbar"></i></div><div class="xptext" id="xptext">0 XP</div></div>
+    </div>
+    <a class="booklink" href="poker-textbook.html" title="教科書ページ"><span>📖</span>教科書</a>
+    <button class="iconbtn" id="soundBtn" title="効果音">🔊</button>
+  </div>
+</header>
+<nav class="tabs" aria-label="ドリル選択">
+ <button class="tab t-range active" data-tab="range"><span class="suit">♠</span>レンジ</button><button class="tab t-odds" data-tab="odds"><span class="suit">♦</span>オッズ</button><button class="tab t-push" data-tab="push"><span class="suit">♣</span>プッシュ</button><button class="tab t-charts" data-tab="charts"><span class="suit">★</span>チャート・記録</button>
+</nav>
+<section id="range" class="view active"><div class="card"><div id="rangeBody"></div></div></section>
+<section id="odds" class="view"><div class="card"><div id="oddsBody"></div></div></section>
+<section id="push" class="view"><div class="card"><div id="pushBody"></div></div><p class="note">※簡易表（Nash近似の丸め）であり厳密解ではありません。</p></section>
+<section id="charts" class="view"><div class="card charts-card"><div class="toolbar"><select id="chartType" aria-label="チャート種別"><option value="open">オープンレンジ</option><option value="10">10bb プッシュ</option><option value="15">15bb プッシュ</option></select><select id="chartPos" aria-label="ポジション"><option>EP</option><option>MP</option><option>CO</option><option>BTN</option><option>SB</option></select></div><div class="chartwrap"><div id="matrix" class="matrix"></div></div><div class="legend"><span><i class="dot gold"></i>ペア</span><span><i class="dot"></i>レンジ内</span></div><p class="note">全表を一気に見たい時は <a href="poker-textbook.html" style="color:var(--cyan)">📖 教科書ページ</a> へ。</p></div><div class="records"><div class="recordhead"><h2>ドリル記録</h2><span class="avg">直近10回 <b id="average">—</b> / 目標 90%</span></div><div id="history" class="history"></div><button id="clear" class="danger">記録をすべて削除</button></div></section>
+</main>
+<script>
+(function(){'use strict';
+const RANKS=['A','K','Q','J','T','9','8','7','6','5','4','3','2'], POS=['EP','MP','CO','BTN','SB'];
+// 169形式へ個別展開した固定データ。展開結果件数: EP 16 / MP 24 / CO 40 / BTN 59 / SB 58。
+const OPEN={
+EP:['77','88','99','TT','JJ','QQ','KK','AA','ATs','AJs','AQs','AKs','AJo','AQo','AKo','KQs'],
+MP:['55','66','77','88','99','TT','JJ','QQ','KK','AA','A9s','ATs','AJs','AQs','AKs','ATo','AJo','AQo','AKo','KJs','KQs','KQo','QJs','JTs'],
+CO:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A9o','ATo','AJo','AQo','AKo','KTs','KJs','KQs','KJo','KQo','QTs','QJs','JTs','T9s','98s'],
+BTN:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A2o','A3o','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K9s','KTs','KJs','KQs','KTo','KJo','KQo','Q9s','QTs','QJs','QTo','QJo','J9s','JTs','JTo','T8s','T9s','97s','98s','87s','76s','65s'],
+SB:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A2o','A3o','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','KTs','KJs','KQs','K9o','KTo','KJo','KQo','QTs','QJs','Q9o','QTo','QJo','J9s','JTs','JTo','T8s','T9s','97s','98s','87s','76s']};
+// 169形式へ個別展開した固定データ。展開結果件数: 10bb EP 16 / MP 23 / CO 40 / BTN 62 / SB 78。
+const PUSH10={EP:['77','88','99','TT','JJ','QQ','KK','AA','ATs','AJs','AQs','AKs','AJo','AQo','AKo','KQs'],MP:['55','66','77','88','99','TT','JJ','QQ','KK','AA','A8s','A9s','ATs','AJs','AQs','AKs','ATo','AJo','AQo','AKo','KJs','KQs','KQo'],CO:['44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K9s','KTs','KJs','KQs','KTo','KJo','KQo','QTs','QJs','JTs'],BTN:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A2o','A3o','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K5s','K6s','K7s','K8s','K9s','KTs','KJs','KQs','K9o','KTo','KJo','KQo','Q8s','Q9s','QTs','QJs','QTo','QJo','J8s','J9s','JTs','JTo','T8s','T9s','98s'],SB:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A2o','A3o','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K2s','K3s','K4s','K5s','K6s','K7s','K8s','K9s','KTs','KJs','KQs','K7o','K8o','K9o','KTo','KJo','KQo','Q5s','Q6s','Q7s','Q8s','Q9s','QTs','QJs','Q9o','QTo','QJo','J7s','J8s','J9s','JTs','J9o','JTo','T7s','T8s','T9s','T9o','97s','98s','87s','76s']};
+// 169形式へ個別展開した固定データ。展開結果件数: 15bb EP 12 / MP 16 / CO 28 / BTN 42 / SB 50。
+const PUSH15={EP:['88','99','TT','JJ','QQ','KK','AA','AJs','AQs','AKs','AQo','AKo'],MP:['77','88','99','TT','JJ','QQ','KK','AA','ATs','AJs','AQs','AKs','AJo','AQo','AKo','KQs'],CO:['55','66','77','88','99','TT','JJ','QQ','KK','AA','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A9o','ATo','AJo','AQo','AKo','KTs','KJs','KQs','KJo','KQo','QJs'],BTN:['33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K9s','KTs','KJs','KQs','KTo','KJo','KQo','QTs','QJs','JTs','T9s'],SB:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K8s','K9s','KTs','KJs','KQs','KTo','KJo','KQo','Q9s','QTs','QJs','QJo','J9s','JTs','T9s']};
+const LABEL={range:'レンジ',odds:'オッズ',push:'プッシュ'}, RANGE_TEXT={EP:'77+ / ATs+ / AJo+ / KQs',MP:'55+ / A9s+ / ATo+ / KJs+ / KQo / QJs / JTs',CO:'22+ / A2s+ / A9o+ / KTs+ / KJo+ / QTs+ / JTs / T9s / 98s',BTN:'全ペア / 全Ax / K9s+ / KTo+ / Q9s+ / QTo+ / J9s+ / JTo / T8s+ / 97s+ / 87s / 76s / 65s',SB:'全ペア / 全Ax / KTs+・K9o+ / QTs+・Q9o+ / J9s+ / JTo / T8s+ / 97s+ / 87s / 76s'};
+const all=[];RANKS.forEach((a,i)=>RANKS.forEach((b,j)=>{if(i===j)all.push(a+a);else if(i<j){all.push(a+b+'s');all.push(a+b+'o')}}));
+const sets={open:mapSets(OPEN),'10':mapSets(PUSH10),'15':mapSets(PUSH15)};
+function mapSets(o){const x={};POS.forEach(p=>x[p]=new Set(o[p]));return x}
+function one(a){return a[Math.floor(Math.random()*a.length)]}
+
+/* ===== sound (WebAudio, toggle) ===== */
+let soundOn=localStorage.getItem('pokerTrainerSound')!=='0', actx=null;
+const soundBtn=document.getElementById('soundBtn');
+function syncSoundBtn(){soundBtn.textContent=soundOn?'🔊':'🔇'}
+soundBtn.onclick=()=>{soundOn=!soundOn;localStorage.setItem('pokerTrainerSound',soundOn?'1':'0');syncSoundBtn()};
+syncSoundBtn();
+function beep(freq,dur,type,delay,vol){
+  if(!soundOn)return;
+  try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    const t=actx.currentTime+(delay||0), o=actx.createOscillator(), g=actx.createGain();
+    o.type=type||'sine'; o.frequency.value=freq;
+    g.gain.setValueAtTime(vol||.12,t); g.gain.exponentialRampToValueAtTime(.001,t+dur);
+    o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t+dur);
+  }catch(e){}
+}
+const sfx={
+  good(){beep(660,.09,'sine');beep(990,.14,'sine',.07)},
+  bad(){beep(160,.22,'square',0,.08)},
+  rankS(){[523,659,784,1047].forEach((f,i)=>beep(f,.16,'triangle',i*.09))},
+  done(){beep(440,.1,'sine');beep(554,.1,'sine',.08);beep(659,.18,'sine',.16)}
+};
+
+/* ===== XP / level ===== */
+function getXP(){return +(localStorage.getItem('pokerTrainerXP')||0)}
+function setXP(v){localStorage.setItem('pokerTrainerXP',String(v));renderXP()}
+function renderXP(){
+  const xp=getXP(), lv=Math.floor(xp/300)+1, into=xp%300;
+  document.getElementById('lv').textContent=lv;
+  document.getElementById('xpbar').style.width=Math.round(into/300*100)+'%';
+  document.getElementById('xptext').textContent=xp+' XP・次のLVまで '+(300-into);
+}
+
+/* ===== drills ===== */
+function boundary(table){return all.filter(h=>{let count=POS.reduce((n,p)=>n+(sets[table][p].has(h)?1:0),0);return count>0&&count<5})}
+function pickHand(table){return Math.random()<.5?one(boundary(table)):one(all)}
+function physical(code){const suits=['♠','♥','♦','♣'];if(code.length===2){let s=one(suits);return [[code[0],s],[code[1],suits.filter(x=>x!==s)[Math.floor(Math.random()*3)]]]}let suited=code[2]==='s',s1=one(suits),s2=suited?s1:one(suits.filter(x=>x!==s1));return [[code[0],s1],[code[1],s2]]}
+function cardHTML(code){return physical(code).map(c=>'<div class="playing '+(/[♥♦]/.test(c[1])?'red':'')+'"><span>'+c[0]+'</span><small>'+c[1]+'</small></div>').join('')}
+
+const sessions={};
+function start(kind){sessions[kind]={q:0,score:0,combo:0,maxCombo:0,answered:false};next(kind)}
+function comboHTML(s){return s.combo>=2?'<span class="combo'+(s.combo>=4?' hot':'')+'">🔥COMBO ×'+s.combo+'</span>':''}
+function shell(kind,inner,answers){
+  const s=sessions[kind];
+  document.getElementById(kind+'Body').innerHTML=
+    '<div class="status"><span>QUESTION '+(s.q+1)+' / 10</span>'+comboHTML(s)+'<span>正解 '+s.score+'</span></div>'+
+    '<div class="progress"><i style="width:'+s.q*10+'%"></i></div>'+
+    '<div class="drill-layout"><div class="prompt">'+inner+'</div><div>'+
+    '<div class="answers '+(kind==='odds'?'choice4':'')+'">'+answers+'</div>'+
+    '<div id="'+kind+'Feedback" class="feedback">答えを選ぶと、ここに根拠が表示されます。</div>'+
+    '<button id="'+kind+'Next" class="next hidden">次の問題へ</button></div></div>';
+}
+function next(kind){const s=sessions[kind];s.answered=false;if(kind==='odds')makeOdds();else makeHand(kind)}
+function makeHand(kind){
+  const s=sessions[kind],table=kind==='range'?'open':one(['10','15']),pos=one(POS),hand=pickHand(table),inside=sets[table][pos].has(hand);
+  s.current={answer:inside,pos,hand,table};
+  let sub=kind==='push'?table+'bb ・ '+pos:pos;
+  let q=kind==='push'?'オープンショブする？':'ファーストイン。どうする？';
+  shell(kind,'<span class="eyebrow">'+sub+'</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">'+q+'</p>',
+    '<button class="answer primary" data-v="1">'+(kind==='push'?'オールイン':'レイズ')+'</button><button class="answer" data-v="0">フォールド</button>');
+  bind(kind);
+}
+function makeOdds(){
+  const s=sessions.odds;let correct,formula,title;
+  if(Math.random()<.55){
+    let outs=one([4,5,6,8,9,12,15]),flop=Math.random()<.5,rate=outs*(flop?4:2);
+    correct=rate;title='アウツ <b>'+outs+'枚</b>、'+(flop?'フロップ時点（残り2枚）':'ターン時点（残り1枚）')+'<br>勝率は約何%？';
+    formula=outs+' × '+(flop?4:2)+' = '+rate+'%（'+(flop?'4':'2')+'の法則）';
+  }else{
+    let pair=one([[100,25],[100,50],[100,75],[100,100],[120,60],[150,50],[150,75]]),x=pair[0],y=pair[1];
+    correct=Math.round(y/(x+2*y)*100);
+    title='ポット <b>'+x+'</b>、相手が <b>'+y+'</b> ベット。<br>コールに必要な勝率は約何%？';
+    formula=y+' ÷ ('+x+' + '+y+' + '+y+') ≒ '+correct+'%';
+  }
+  let vals=new Set([correct]);
+  while(vals.size<4){let d=one([-10,-8,-5,5,8,10]);if(correct+d>0)vals.add(correct+d)}
+  let choices=[...vals].sort(()=>Math.random()-.5);
+  s.current={answer:correct,formula};
+  shell('odds','<span class="eyebrow">MENTAL MATH</span><p class="question">'+title+'</p>',
+    choices.map(v=>'<button class="answer" data-v="'+v+'">'+v+'%</button>').join(''));
+  bind('odds');
+}
+function bind(kind){
+  const root=document.getElementById(kind+'Body'),s=sessions[kind];
+  root.querySelectorAll('.answer').forEach(b=>b.onclick=()=>{
+    if(s.answered)return;s.answered=true;
+    let v=kind==='odds'?+b.dataset.v:b.dataset.v==='1',ok=v===s.current.answer;
+    if(ok){s.score++;s.combo++;s.maxCombo=Math.max(s.maxCombo,s.combo);sfx.good()}else{s.combo=0;sfx.bad()}
+    b.classList.add('picked',ok?'good':'bad');
+    root.querySelectorAll('.answer').forEach(x=>x.disabled=true);
+    let detail=kind==='odds'?s.current.formula:(kind==='range'?'正解レンジ: '+RANGE_TEXT[s.current.pos]:(s.current.table+'bb '+s.current.pos+' の固定チャートで '+(s.current.answer?'レンジ内':'レンジ外')));
+    document.getElementById(kind+'Feedback').innerHTML='<strong class="'+(ok?'goodtext':'badtext')+'">'+(ok?'✓ 正解　+10 XP':'✕ 不正解')+'</strong><br>'+detail;
+    const st=root.querySelector('.status');if(st)st.innerHTML='<span>QUESTION '+(s.q+1)+' / 10</span>'+comboHTML(s)+'<span>正解 '+s.score+'</span>';
+    let n=document.getElementById(kind+'Next');n.classList.remove('hidden');n.textContent=s.q===9?'結果を見る':'次の問題へ';
+    n.onclick=()=>{s.q++;if(s.q>=10)finish(kind);else next(kind)};
+  });
+}
+function rankOf(score){return score>=10?'S':score>=9?'A':score>=7?'B':score>=5?'C':'D'}
+function confetti(kind){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const host=document.querySelector('#'+kind+' .card'),colors=['#ffc84d','#4be1e8','#ff5c8a','#5ee6a0','#9d7bff'];
+  for(let i=0;i<36;i++){
+    const c=document.createElement('i');c.className='confetti';
+    c.style.left=Math.random()*100+'%';c.style.background=one(colors);
+    c.style.animationDelay=(Math.random()*.5)+'s';c.style.animationDuration=(1.2+Math.random())+'s';
+    host.appendChild(c);setTimeout(()=>c.remove(),2600);
+  }
+}
+function finish(kind){
+  const s=sessions[kind],rate=s.score*10,rank=rankOf(s.score);
+  const gained=s.score*10+(rate>=90?30:0);
+  setXP(getXP()+gained);
+  saveRecord(kind,rate);
+  if(rank==='S'){sfx.rankS();confetti(kind)}else if(rate>=90){sfx.done();confetti(kind)}else{sfx.done()}
+  document.getElementById(kind+'Body').innerHTML=
+    '<div class="result"><div class="eyebrow">SESSION COMPLETE</div>'+
+    '<div class="rank '+rank+'">'+rank+'</div>'+
+    '<div class="score-line">'+s.score+' / 10（'+rate+'%）</div>'+
+    '<div class="gains"><span class="gain">獲得 <b>+'+gained+' XP</b></span><span class="gain">最大コンボ <b>×'+s.maxCombo+'</b></span></div>'+
+    '<p>'+(rate>=90?'目標ライン90%クリア。判断が仕上がっています。':'境界を見直して、もう10問。')+'</p>'+
+    '<button class="restart">もう一度10問</button></div>';
+  document.querySelector('#'+kind+'Body .restart').onclick=()=>start(kind);
+}
+
+/* ===== records / charts ===== */
+function getRecords(){try{return JSON.parse(localStorage.getItem('pokerTrainerHistory')||'[]')}catch(e){return[]}}
+function saveRecord(type,rate){let a=getRecords();a.push({date:new Date().toISOString(),type,rate});localStorage.setItem('pokerTrainerHistory',JSON.stringify(a.slice(-100)));renderRecords()}
+function renderChart(){let t=document.getElementById('chartType').value,p=document.getElementById('chartPos').value,m=document.getElementById('matrix');m.innerHTML='';RANKS.forEach((r,i)=>RANKS.forEach((c,j)=>{let code=i===j?r+r:i<j?r+c+'s':c+r+'o',d=document.createElement('div');d.className='cell '+(i===j?'pair ':'')+(sets[t][p].has(code)?'in':'');d.textContent=code;m.appendChild(d)}))}
+function renderRecords(){let a=getRecords().slice().reverse(),h=document.getElementById('history');if(!a.length){h.innerHTML='<div class="empty">まだ記録がありません。まず10問から。</div>';document.getElementById('average').textContent='—';return}let recent=a.slice(0,10),avg=Math.round(recent.reduce((n,x)=>n+x.rate,0)/recent.length);document.getElementById('average').textContent=avg+'%';h.innerHTML=a.map(x=>'<div class="row"><span>'+LABEL[x.type]+'</span><time>'+new Date(x.date).toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+'</time><b style="color:'+(x.rate>=90?'var(--green)':'var(--ink)')+'">'+x.rate+'%</b></div>').join('')}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab,.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');if(b.dataset.tab==='charts'){renderChart();renderRecords()}});
+document.getElementById('chartType').onchange=renderChart;document.getElementById('chartPos').onchange=renderChart;
+document.getElementById('clear').onclick=()=>{if(confirm('すべてのドリル記録を削除しますか？（XPは残ります）')){localStorage.removeItem('pokerTrainerHistory');renderRecords()}};
+start('range');start('odds');start('push');renderChart();renderRecords();renderXP();
+})();
+</script></body></html>

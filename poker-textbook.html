@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#faf8f2">
+<title>ポーカー教科書 — ライブNLHE（アミュ店向け）</title>
+<style>
+:root{
+  --paper:#faf8f2; --card:#ffffff; --ink:#2b2a26; --muted:#6f6d64; --line:#e4e0d4;
+  --accent:#1f6f54; --accent-soft:#e4efe9; --gold:#a5781f; --gold-soft:#f4ead2;
+  --red:#b0483f; --red-soft:#f5e2df;
+  --in-cell:#2f8a68; --in-pair:#b8903a; --out-cell:#f0ede3; --out-ink:#a09d8f;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#14161a; --card:#1c1f25; --ink:#e8e8e2; --muted:#9a9c94; --line:#31353d;
+    --accent:#5cc094; --accent-soft:#1e352c; --gold:#d3a952; --gold-soft:#38301c;
+    --red:#e08a80; --red-soft:#3a2523;
+    --in-cell:#2f8a68; --in-pair:#b8903a; --out-cell:#23262d; --out-ink:#6b6f78;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);line-height:1.75;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP",sans-serif;font-size:15px}
+.page{max-width:800px;margin:auto;padding:28px 18px 80px}
+h1,h2,h3{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;line-height:1.4;letter-spacing:.01em}
+h1{font-size:1.6rem;margin:.2em 0 .1em}
+.lede{color:var(--muted);font-size:.86rem;margin:0 0 6px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.badge{font-size:.72rem;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:3px 11px;color:var(--muted)}
+.badge a{color:var(--accent);text-decoration:none;font-weight:700}
+
+h2{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:10px}
+h2 .no{flex:none;width:34px;height:34px;border-radius:9px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-family:inherit}
+h3{font-size:1.02rem;margin:1.6em 0 .5em;border-left:4px solid var(--accent);padding-left:10px}
+section.ch{margin-top:44px;padding-top:18px;border-top:2px solid var(--line)}
+.ch-lede{color:var(--muted);font-size:.86rem;margin:8px 0 0 44px}
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em;margin:.5em 0}
+li{margin:.25em 0}
+b,strong{color:var(--ink)}
+.top{font-size:.75rem;margin-left:44px}
+.top a{color:var(--muted);text-decoration:none}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:18px}
+.toc-t{font-size:.72rem;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:8px}
+.toc ol{margin:0;padding-left:1.5em}
+.toc a{color:var(--accent);text-decoration:none;font-weight:600}
+.toc small{color:var(--muted);font-weight:400}
+
+/* callouts */
+.point{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.92rem}
+.warn{background:var(--red-soft);border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.88rem}
+.tip{background:var(--gold-soft);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.88rem}
+
+/* tables */
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.85rem;background:var(--card)}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-size:.8rem}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto}
+
+/* range grids */
+.grids{display:grid;grid-template-columns:1fr;gap:22px;margin:14px 0}
+@media (min-width:660px){.grids{grid-template-columns:1fr 1fr}}
+figure.rangefig{margin:0}
+figcaption{font-size:.85rem;font-weight:700;margin-bottom:6px}
+figcaption small{display:block;color:var(--muted);font-weight:400;font-size:.74rem;line-height:1.5}
+.matrix{display:grid;grid-template-columns:repeat(13,1fr);gap:2px}
+.cell{aspect-ratio:1;border-radius:3px;background:var(--out-cell);color:var(--out-ink);display:flex;align-items:center;justify-content:center;
+  font-size:clamp(.42rem,1.15vw,.6rem);font-weight:700}
+.cell.in{background:var(--in-cell);color:#fff}
+.cell.pair.in{background:var(--in-pair)}
+.legend{display:flex;gap:16px;color:var(--muted);font-size:.74rem;margin:6px 0 0}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px;background:var(--in-cell);vertical-align:-1px}
+.dot.gold{background:var(--in-pair)}
+.howto{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.85rem;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0}
+.howto b{color:var(--accent)}
+
+footer{margin-top:56px;padding-top:14px;border-top:2px solid var(--line);color:var(--muted);font-size:.78rem}
+footer a{color:var(--accent)}
+
+/* ===== PC layout: sticky sidebar TOC + wider content ===== */
+@media (min-width:1120px){
+  body{font-size:16px}
+  .page{max-width:1320px;padding:36px 28px 90px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:0 40px;align-items:start}
+  .page>header{grid-column:1/-1;margin-bottom:10px}
+  h1{font-size:2rem}
+  .toc{grid-column:1;position:sticky;top:18px;max-height:calc(100vh - 36px);overflow:auto;margin-top:0}
+  .toc small{display:block;font-size:.72rem}
+  .toc li{margin:.45em 0}
+  .content{grid-column:2;min-width:0}
+  .content section.ch:first-of-type{margin-top:0;padding-top:0;border-top:0}
+  .grids{grid-template-columns:repeat(3,1fr);gap:18px}
+  .cell{font-size:.58rem}
+  h2{font-size:1.4rem}
+  h3{font-size:1.12rem}
+  .top{display:none}
+}
+</style>
+</head>
+<body><div class="page" id="top">
+
+<header>
+<h1>ポーカー教科書</h1>
+<p class="lede">ライブNLHE（アミューズメント店）向け・簡易レンジ準拠。ぽちぽち操作なしで上から通読できる1枚もの。</p>
+<div class="badges">
+  <span class="badge">🎮 ドリルで暗記 → <a href="poker-trainer.html">POKER QUEST</a></span>
+  <span class="badge">📋 プラン本体 → poker-training-plan-2026-08.md</span>
+  <span class="badge">※レンジは丸めた簡易表。厳密解ではない</span>
+</div>
+</header>
+<nav class="toc">
+  <div class="toc-t">目次</div>
+  <ol>
+    <li><a href="#ch1">プリフロップ</a> <small>— チャートの読み方と全5ポジションのオープンレンジ</small></li>
+    <li><a href="#ch2">オッズの暗算</a> <small>— 2&4の法則とポットオッズ（一覧表）</small></li>
+    <li><a href="#ch3">ポストフロップの型</a> <small>— ボード3分類・ベットの理由・SPR</small></li>
+    <li><a href="#ch4">ショートスタック</a> <small>— 15bb/10bbのプッシュ/フォールド全表</small></li>
+    <li><a href="#ch5">ライブ・アミュ店への適応</a> <small>— プレイヤータイプ別対策とテル</small></li>
+    <li><a href="#ch6">学習の回し方</a> <small>— 週間ルーチンとKPI</small></li>
+    <li><a href="#appendix">付録：レンジのテキスト表記一覧</a></li>
+  </ol>
+</nav>
+<main class="content">
+
+<!-- ================================================== -->
+<section class="ch" id="ch1">
+<h2><span class="no">1</span>プリフロップ</h2>
+<p class="ch-lede">結論：ファーストインは「レイズかフォールド」。リンプはしない。どのハンドでレイズするかは下の5枚の表がすべて。</p>
+
+<h3>1-1. チャート（13×13グリッド）の読み方</h3>
+<div class="howto">
+  <b>対角線</b><span>ペア（AA〜22）。金色のマスがレンジ内のペア</span>
+  <b>右上半分</b><span>スーテッド（s）＝2枚が同じスート。例: 右上のAKは AKs</span>
+  <b>左下半分</b><span>オフスーツ（o）＝スートが違う。例: 左下のAKは AKo</span>
+  <b>緑のマス</b><span>そのポジションでオープン（レイズ）するハンド。白いマスはフォールド</span>
+</div>
+<div class="point"><b>ポジションが後ろになるほどレンジは広がる。</b>EPは16ハンド（約7%）、BTNは59ハンド（約35%）。「後ろは広く、前は狭く」がプリフロップの背骨。</div>
+
+<h3>1-2. オープンレンジ（ファーストイン・9maxライブ想定）</h3>
+<div class="grids" id="openGrids"></div>
+<div class="legend"><span><i class="dot gold"></i>ペア</span><span><i class="dot"></i>レンジ内</span></div>
+
+<h3>1-3. サイズ</h3>
+<ul>
+  <li>オープンレイズ: <b>3〜4bb</b>。ライブのルース相場では小さくしない（小さいと全員ついてくる）</li>
+  <li>リンパーがいたら <b>+1bb/人</b> 上乗せしてアイソレイズ</li>
+</ul>
+
+<h3>1-4. 先にレイズが入っていたら</h3>
+<ul>
+  <li><b>3ベット（バリュー）: TT+ / AK</b> を基本形に。アミュ相場ではブラフ3ベットの優先度は低い</li>
+  <li><b>コール</b>: 22〜JJ（セットマイン）/ AQ / KQs / ポジションがある時のスーテッドコネクタ上位</li>
+  <li>それ以外はフォールド。「レイズにコールで様子見」を広げるのが一番典型的な漏れ</li>
+</ul>
+<p class="top"><a href="#top">↑ 目次へ</a></p>
+</section>
+
+<!-- ================================================== -->
+<section class="ch" id="ch2">
+<h2><span class="no">2</span>オッズの暗算</h2>
+<p class="ch-lede">結論：覚える式は2つだけ。「アウツ×2または×4＝勝率%」と「必要勝率＝ベット÷(ポット＋ベット×2)」。</p>
+
+<h3>2-1. アウツ→勝率（2&4の法則）</h3>
+<p>アウツ（自分を勝たせるカードの残り枚数）を数えて、<b>残り2枚見られるなら×4、残り1枚なら×2</b>。</p>
+<div class="scroll">
+<table>
+<tr><th>アウツ</th><th>代表的なドロー</th><th class="num">フロップ→リバー（×4）</th><th class="num">ターン→リバー（×2）</th></tr>
+<tr><td class="num">2</td><td>ポケットペア→セット待ち</td><td class="num">8%</td><td class="num">4%</td></tr>
+<tr><td class="num">4</td><td>ガットショット</td><td class="num">16%</td><td class="num">8%</td></tr>
+<tr><td class="num">6</td><td>オーバーカード2枚</td><td class="num">24%</td><td class="num">12%</td></tr>
+<tr><td class="num">8</td><td>オープンエンドストレートドロー</td><td class="num">32%</td><td class="num">16%</td></tr>
+<tr><td class="num">9</td><td>フラッシュドロー</td><td class="num">36%</td><td class="num">18%</td></tr>
+<tr><td class="num">12</td><td>フラッシュ＋ガット</td><td class="num">48%</td><td class="num">24%</td></tr>
+<tr><td class="num">15</td><td>フラッシュ＋オープンエンド</td><td class="num">60%（実際は約54%）</td><td class="num">30%</td></tr>
+</table>
+</div>
+<div class="warn"><b>×4が使えるのは「追加の支払いなしで2枚見られる時」だけ</b>（オールインになった時など）。フロップでベットに直面して「コールしてもターンでまたベットが来る」状況では、実質1ストリートずつの判断なので×2で見る。ここを混同すると常にコールが甘くなる。</div>
+
+<h3>2-2. ポットオッズ→必要勝率</h3>
+<p>式：<b>必要勝率 ＝ 相手のベット ÷（ポット ＋ ベット×2）</b>。よく出るサイズは丸暗記でよい。</p>
+<table>
+<tr><th>相手のベット（ポット比）</th><th class="num">必要勝率</th></tr>
+<tr><td>1/4 ポット</td><td class="num">約17%</td></tr>
+<tr><td>1/3 ポット</td><td class="num">20%</td></tr>
+<tr><td>1/2 ポット</td><td class="num">25%</td></tr>
+<tr><td>2/3 ポット</td><td class="num">約29%</td></tr>
+<tr><td>3/4 ポット</td><td class="num">30%</td></tr>
+<tr><td>ポット（等倍）</td><td class="num">約33%</td></tr>
+<tr><td>2倍ポット</td><td class="num">40%</td></tr>
+</table>
+
+<h3>2-3. 使い方（3秒手順）</h3>
+<ol>
+  <li>アウツを数える → ×2（基本）で自分の勝率を出す</li>
+  <li>相手のベットサイズから必要勝率を出す（上の表）</li>
+  <li><b>自分の勝率 ＞ 必要勝率 ならコール</b>、下回るならフォールド</li>
+</ol>
+<div class="tip"><b>例</b>：ターンでフラッシュドロー（9アウツ→18%）。相手が3/4ポットベット（必要30%）→ 数字上はフォールド。ただし相手がルースで「完成したら大きく払ってくれる」なら、その分（インプライドオッズ）を少し上乗せして考えてよい。</div>
+<p class="top"><a href="#top">↑ 目次へ</a></p>
+</section>
+
+<!-- ================================================== -->
+<section class="ch" id="ch3">
+<h2><span class="no">3</span>ポストフロップの型</h2>
+<p class="ch-lede">結論：ベットする前に「これはバリューか、ブラフか」を1語で言う。どちらでもなければチェック。これだけで大半のミスが消える。</p>
+
+<h3>3-1. ボードの3分類</h3>
+<table>
+<tr><th>分類</th><th>例</th><th>誰に有利か</th><th>基本方針</th></tr>
+<tr><td><b>ドライ高札</b></td><td>A♠7♦2♣ / K♥8♠3♦</td><td>プリフロップのレイザー</td><td>小さめのCB（1/3ポット）を高頻度で打つ</td></tr>
+<tr><td><b>ウェット中札</b></td><td>9♠8♠6♥ / T♦9♦7♣</td><td>コーラー側にも強い手が多い</td><td>チェックを増やす。打つなら強い手＋強いドローに絞って大きめ</td></tr>
+<tr><td><b>ペアボード</b></td><td>7♠7♦2♣ / Q♥Q♣5♦</td><td>どちらも空振りが多い</td><td>小さく高頻度で打ちやすい</td></tr>
+</table>
+
+<h3>3-2. バリューベットの基準</h3>
+<ul>
+  <li><b>相手のコールレンジの過半に勝っているならバリューベット</b>。迷ったらこれを自問する</li>
+  <li>ルースな相手にはトップペア良キッカー以上で<b>3ストリート打ち切る</b>。途中でビビって止めるのが最大の逸失利益</li>
+  <li>薄い勝ちしかない手（弱いペア）はベットせず、ショーダウンまで安く行く</li>
+</ul>
+
+<h3>3-3. SPR（スタック÷ポット）の感覚</h3>
+<ul>
+  <li><b>SPR 3以下</b>：トップペアでスタックが入ってよい</li>
+  <li><b>SPR 10以上</b>：ワンペアで全額は入れない。大ポットには2ペア以上・ナット級で</li>
+</ul>
+<div class="point">フロップに立ったらまず「ボードはどの分類か」「自分の手はバリューか」を確認し、リバーまでのプランを先に決める。ストリートごとに考え直すから迷走する。</div>
+<p class="top"><a href="#top">↑ 目次へ</a></p>
+</section>
+
+<!-- ================================================== -->
+<section class="ch" id="ch4">
+<h2><span class="no">4</span>ショートスタック（プッシュ/フォールド）</h2>
+<p class="ch-lede">結論：アミュのトーナメントは後半必ず15bb以下になる。そこでは「オールインかフォールド」の2択に単純化するのが最強。中途半端なレイズが一番弱い。</p>
+<p>浅いスタックでオープンショブが強い理由は2つ。①相手を降ろして無抵抗でブラインドを取れる（フォールドエクイティ）、②コールされても2枚見られるので手の価値を全部使える。</p>
+
+<h3>4-1. 15bbのオープンショブ表</h3>
+<div class="grids" id="push15Grids"></div>
+
+<h3>4-2. 10bbのオープンショブ表</h3>
+<div class="grids" id="push10Grids"></div>
+<div class="legend"><span><i class="dot gold"></i>ペア</span><span><i class="dot"></i>レンジ内</span></div>
+
+<div class="warn">この2表は<b>Nash近似を丸めた簡易表</b>で、前提は「ファーストイン（誰もまだ入っていない）」。リンパーやレイズが前にいる時、極端なバブル（賞品圏目前）ではもっとタイトに。</div>
+<p class="top"><a href="#top">↑ 目次へ</a></p>
+</section>
+
+<!-- ================================================== -->
+<section class="ch" id="ch5">
+<h2><span class="no">5</span>ライブ・アミュ店への適応</h2>
+<p class="ch-lede">結論：読みの優先度は「タイプ分類 ＞ テル」。まず相手を4タイプに置き、タイプ別の定石で搾る。個別のテルはおまけ。</p>
+
+<h3>5-1. プレイヤータイプ2×2</h3>
+<table>
+<tr><th>タイプ</th><th>特徴</th><th>対策</th></tr>
+<tr><td><b>ルース・パッシブ</b><br>（コーリングステーション）</td><td>何でもコール、レイズは本物。<b>アミュ店の多数派</b></td><td>バリューを広く厚く打つ。<b>ブラフ禁止</b>（降りない相手へのブラフは寄付）</td></tr>
+<tr><td><b>タイト・パッシブ</b><br>（ロック）</td><td>参加が少なく、ベットは強い手だけ</td><td>この人のレイズには素直に降りる。ブラインドは積極的に盗む</td></tr>
+<tr><td><b>タイト・アグレ</b><br>（TAG）</td><td>上手い人の型。参加は狭く攻撃的</td><td>正面衝突を避け、ポジションがある時だけ絡む</td></tr>
+<tr><td><b>ルース・アグレ</b><br>（LAG/マニアック）</td><td>広く参加して打ちまくる</td><td>降りずに待つ。強い手でコールを多用し、向こうに打たせて回収</td></tr>
+</table>
+
+<h3>5-2. ルース・パッシブ相場の標準調整（アミュ店デフォルト）</h3>
+<ol>
+  <li><b>バリューは厚く広く</b>：トップペアで3ストリート。薄めのバリューも打ち切る</li>
+  <li><b>ブラフは減らす</b>：特にリバーの大きなブラフはほぼ封印</li>
+  <li><b>リンプ多発ポットは大きめアイソレイズ</b>：4bb＋リンパー数ぶん</li>
+  <li><b>マルチウェイはナット偏重</b>：3人以上のポットでは1ペアの価値が急落する。ドローと強い手だけで参加</li>
+</ol>
+
+<h3>5-3. テル入門（信頼度低めのヒューリスティクス）</h3>
+<ul>
+  <li>個別のしぐさより<b>「その人の普段との変化」</b>を見る（会話が止まる・急に固まる・呼吸が変わる）</li>
+  <li>即ベット・即コールは考える必要がなかったサイン（二極化しにくい＝中程度の手が多い）</li>
+  <li>自分の番の前にチップを先に掴んでいる人がいたら、スチール（ブラフ気味のレイズ）は中止</li>
+</ul>
+<div class="warn">テルは統計的裏付けの弱い経験則。テルを理由にチャートから大きく外れる判断をしない。「チャート通り打って、迷った時の最後のひと押しにだけ使う」が正しい位置づけ。</div>
+<p class="top"><a href="#top">↑ 目次へ</a></p>
+</section>
+
+<!-- ================================================== -->
+<section class="ch" id="ch6">
+<h2><span class="no">6</span>学習の回し方</h2>
+<p class="ch-lede">結論：この教科書は「読む」もの、上達は「ドリルで答える」ことで起きる。読了→<a href="poker-trainer.html">POKER QUEST</a>で10問、が正しい動線。</p>
+<table>
+<tr><th>いつ</th><th>何を</th><th>時間</th></tr>
+<tr><td>平日D1</td><td>レンジドリル10問（POKER QUEST）</td><td class="num">15分</td></tr>
+<tr><td>平日D2</td><td>オッズ暗算ドリル10問</td><td class="num">15分</td></tr>
+<tr><td>平日D3</td><td>アプリ実戦（テーマを1つ決めて）</td><td class="num">15〜20分</td></tr>
+<tr><td>平日D4</td><td>ハンドレビュー1件（poker-log.md）</td><td class="num">15分</td></tr>
+<tr><td>週末</td><td>フレックス（弱点ドリル or この教科書の再読）</td><td class="num">30分</td></tr>
+<tr><td>月1</td><td>アミュ店ライブ実戦</td><td class="num">別枠</td></tr>
+</table>
+<ul>
+  <li>目標はドリル正答率<b>90%</b>。順位や賞品では自分を評価しない（分散が大きすぎる）</li>
+  <li>フェーズ詳細・昇級判定は poker-training-plan-2026-08.md を参照</li>
+</ul>
+<p class="top"><a href="#top">↑ 目次へ</a></p>
+</section>
+
+<!-- ================================================== -->
+<section class="ch" id="appendix">
+<h2><span class="no">付</span>レンジのテキスト表記一覧</h2>
+<p class="ch-lede">グリッドと同じ内容の文字列版。口頭で確認したい時用。</p>
+<h3>オープンレンジ</h3>
+<table>
+<tr><th>EP</th><td>77+ / ATs+ / AJo+ / KQs</td></tr>
+<tr><th>MP</th><td>55+ / A9s+ / ATo+ / KJs+ / KQo / QJs / JTs</td></tr>
+<tr><th>CO</th><td>22+ / A2s+ / A9o+ / KTs+ / KJo+ / QTs+ / JTs / T9s / 98s</td></tr>
+<tr><th>BTN</th><td>全ペア / 全Ax / K9s+ / KTo+ / Q9s+ / QTo+ / J9s+ / JTo / T8s+ / 97s+ / 87s / 76s / 65s</td></tr>
+<tr><th>SB</th><td>BTNから下位を1段削る（K9s・Q9s・65sを外し、K9o+/Q9o+は維持）</td></tr>
+</table>
+<h3>プッシュ（15bb）</h3>
+<table>
+<tr><th>EP</th><td>88+ / AJs+ / AQo+</td></tr>
+<tr><th>MP</th><td>77+ / ATs+ / AJo+ / KQs</td></tr>
+<tr><th>CO</th><td>55+ / A7s+ / A9o+ / KTs+ / KJo+ / QJs</td></tr>
+<tr><th>BTN</th><td>33+ / A2s+ / A7o+ / K9s+ / KTo+ / QTs+ / JTs / T9s</td></tr>
+<tr><th>SB</th><td>22+ / A2s+ / A4o+ / K8s+ / KTo+ / Q9s+ / QJo / J9s+ / T9s</td></tr>
+</table>
+<h3>プッシュ（10bb）</h3>
+<table>
+<tr><th>EP</th><td>77+ / ATs+ / AJo+ / KQs</td></tr>
+<tr><th>MP</th><td>55+ / A8s+ / ATo+ / KJs+ / KQo</td></tr>
+<tr><th>CO</th><td>44+ / A2s+ / A7o+ / K9s+ / KTo+ / QTs+ / JTs</td></tr>
+<tr><th>BTN</th><td>22+ / A2s+ / A2o+ / K5s+ / K9o+ / Q8s+ / QTo+ / J8s+ / JTo / T8s+ / 98s</td></tr>
+<tr><th>SB</th><td>22+ / A2s+ / A2o+ / K2s+ / K7o+ / Q5s+ / Q9o+ / J7s+ / J9o+ / T7s+ / T9o / 97s+ / 87s / 76s</td></tr>
+</table>
+</section>
+
+<footer>
+出典スタンス：レンジ・プッシュ表は一般的なGTO/Nash系チャートを暗記用に丸めた簡易版（厳密解ではない）。数式（2&4の法則・ポットオッズ）は標準的な近似。<br>
+関連：<a href="poker-trainer.html">🎮 POKER QUEST（ドリル）</a> ／ poker-training-plan-2026-08.md（プラン） ／ poker-log.md（記録）
+</footer>
+</main>
+</div>
+
+<script>
+(function(){'use strict';
+const RANKS=['A','K','Q','J','T','9','8','7','6','5','4','3','2'], POS=['EP','MP','CO','BTN','SB'];
+// トレーナー(poker-trainer.html)と同一の固定データ。件数: OPEN 16/24/40/59/58, PUSH10 16/23/40/62/78, PUSH15 12/16/28/42/50。
+const OPEN={
+EP:['77','88','99','TT','JJ','QQ','KK','AA','ATs','AJs','AQs','AKs','AJo','AQo','AKo','KQs'],
+MP:['55','66','77','88','99','TT','JJ','QQ','KK','AA','A9s','ATs','AJs','AQs','AKs','ATo','AJo','AQo','AKo','KJs','KQs','KQo','QJs','JTs'],
+CO:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A9o','ATo','AJo','AQo','AKo','KTs','KJs','KQs','KJo','KQo','QTs','QJs','JTs','T9s','98s'],
+BTN:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A2o','A3o','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K9s','KTs','KJs','KQs','KTo','KJo','KQo','Q9s','QTs','QJs','QTo','QJo','J9s','JTs','JTo','T8s','T9s','97s','98s','87s','76s','65s'],
+SB:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A2o','A3o','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','KTs','KJs','KQs','K9o','KTo','KJo','KQo','QTs','QJs','Q9o','QTo','QJo','J9s','JTs','JTo','T8s','T9s','97s','98s','87s','76s']};
+const PUSH10={EP:['77','88','99','TT','JJ','QQ','KK','AA','ATs','AJs','AQs','AKs','AJo','AQo','AKo','KQs'],MP:['55','66','77','88','99','TT','JJ','QQ','KK','AA','A8s','A9s','ATs','AJs','AQs','AKs','ATo','AJo','AQo','AKo','KJs','KQs','KQo'],CO:['44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K9s','KTs','KJs','KQs','KTo','KJo','KQo','QTs','QJs','JTs'],BTN:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A2o','A3o','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K5s','K6s','K7s','K8s','K9s','KTs','KJs','KQs','K9o','KTo','KJo','KQo','Q8s','Q9s','QTs','QJs','QTo','QJo','J8s','J9s','JTs','JTo','T8s','T9s','98s'],SB:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A2o','A3o','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K2s','K3s','K4s','K5s','K6s','K7s','K8s','K9s','KTs','KJs','KQs','K7o','K8o','K9o','KTo','KJo','KQo','Q5s','Q6s','Q7s','Q8s','Q9s','QTs','QJs','Q9o','QTo','QJo','J7s','J8s','J9s','JTs','J9o','JTo','T7s','T8s','T9s','T9o','97s','98s','87s','76s']};
+const PUSH15={EP:['88','99','TT','JJ','QQ','KK','AA','AJs','AQs','AKs','AQo','AKo'],MP:['77','88','99','TT','JJ','QQ','KK','AA','ATs','AJs','AQs','AKs','AJo','AQo','AKo','KQs'],CO:['55','66','77','88','99','TT','JJ','QQ','KK','AA','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A9o','ATo','AJo','AQo','AKo','KTs','KJs','KQs','KJo','KQo','QJs'],BTN:['33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K9s','KTs','KJs','KQs','KTo','KJo','KQo','QTs','QJs','JTs','T9s'],SB:['22','33','44','55','66','77','88','99','TT','JJ','QQ','KK','AA','A2s','A3s','A4s','A5s','A6s','A7s','A8s','A9s','ATs','AJs','AQs','AKs','A4o','A5o','A6o','A7o','A8o','A9o','ATo','AJo','AQo','AKo','K8s','K9s','KTs','KJs','KQs','KTo','KJo','KQo','Q9s','QTs','QJs','QJo','J9s','JTs','T9s']};
+const CAPTION={
+ open:{EP:'77+ / ATs+ / AJo+ / KQs（16ハンド・約7%）',MP:'55+ / A9s+ / ATo+ / KJs+ / KQo / QJs / JTs（24ハンド）',CO:'22+ / A2s+ / A9o+ / KTs+ / KJo+ / QTs+ / JTs / T9s / 98s（40ハンド）',BTN:'全ペア / 全Ax ほか（59ハンド・約35%）',SB:'BTNより1段タイト（58ハンド）'},
+ '15':{EP:'88+ / AJs+ / AQo+',MP:'77+ / ATs+ / AJo+ / KQs',CO:'55+ / A7s+ / A9o+ / KTs+ / KJo+ / QJs',BTN:'33+ / A2s+ / A7o+ / K9s+ / KTo+ / QTs+ / JTs / T9s',SB:'22+ / A2s+ / A4o+ / K8s+ / KTo+ / Q9s+ / QJo / J9s+ / T9s'},
+ '10':{EP:'77+ / ATs+ / AJo+ / KQs',MP:'55+ / A8s+ / ATo+ / KJs+ / KQo',CO:'44+ / A2s+ / A7o+ / K9s+ / KTo+ / QTs+ / JTs',BTN:'22+ / A2s+ / A2o+ / K5s+ / K9o+ / Q8s+ / QTo+ / J8s+ / JTo / T8s+ / 98s',SB:'22+ / A2s+ / A2o+ / K2s+ / K7o+ / Q5s+ / Q9o+ / J7s+ / J9o+ / T7s+ / T9o / 97s+ / 87s / 76s'}
+};
+const DATA={open:OPEN,'10':PUSH10,'15':PUSH15};
+function matrixHTML(set){
+  let h='<div class="matrix" role="img" aria-label="レンジ表">';
+  RANKS.forEach((r,i)=>RANKS.forEach((c,j)=>{
+    const code=i===j?r+r:i<j?r+c+'s':c+r+'o';
+    h+='<div class="cell '+(i===j?'pair ':'')+(set.has(code)?'in':'')+'">'+code+'</div>';
+  }));
+  return h+'</div>';
+}
+function renderGroup(elId,table,titlePrefix){
+  const host=document.getElementById(elId);let h='';
+  POS.forEach(p=>{
+    const set=new Set(DATA[table][p]);
+    h+='<figure class="rangefig"><figcaption>'+titlePrefix+p+'<small>'+CAPTION[table][p]+'</small></figcaption>'+matrixHTML(set)+'</figure>';
+  });
+  host.innerHTML=h;
+}
+renderGroup('openGrids','open','');
+renderGroup('push15Grids','15','15bb ');
+renderGroup('push10Grids','10','10bb ');
+})();
+</script>
+</body></html>
