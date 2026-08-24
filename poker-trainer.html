@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0d1d">
 <meta name="color-scheme" content="dark">
-<title>POKER QUEST v2</title>
+<title>POKER QUEST v3</title>
 <style>
 :root{
   color-scheme:dark;
@@ -142,20 +142,85 @@ button,select{font:inherit}
   .matrix{grid-template-columns:repeat(13,minmax(36px,1fr));gap:4px}.cell{font-size:.74rem;border-radius:6px}.legend{font-size:.8rem}.row{font-size:.86rem;padding:12px 14px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ===== v3: tabs 10 ===== */
+.tabs{grid-template-columns:repeat(5,1fr)}
+.t-mix.active .suit{color:#ffd76e} .t-story.active .suit{color:#b7a5ff} .t-grow.active .suit{color:#7ee8b0}
+/* ===== v3: Luna (navigator) ===== */
+.luna-row{display:flex;gap:10px;align-items:flex-start;margin:0 0 12px}
+.luna-avatar{flex:0 0 auto;width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid #ffd76e66;background:radial-gradient(circle at 50% 35%,#2a2f5e,#171a35);box-shadow:0 0 14px #9d7bff33}
+.luna-bubble{position:relative;flex:1;background:linear-gradient(160deg,#232858,#1a1e40);border:1px solid #3a3f78;border-radius:4px 16px 16px 16px;padding:10px 12px;font-size:.82rem;line-height:1.6}
+.luna-bubble b{color:var(--gold)}
+.luna-name{font-size:.62rem;color:#b7a5ff;font-weight:800;letter-spacing:.08em;margin-bottom:2px}
+/* ===== v3: quests ===== */
+.quests{display:grid;gap:6px;margin:0 0 12px}
+.quest{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid #2b306055;border-radius:12px;padding:8px 12px;font-size:.78rem}
+.quest .qmark{width:20px;height:20px;border-radius:6px;border:1.5px solid #4b5088;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex:0 0 auto;color:transparent}
+.quest.done{border-color:#5ee6a066}.quest.done .qmark{background:#1d4634;border-color:var(--green);color:var(--green)}
+.quest.done span{color:var(--muted);text-decoration:line-through}
+.quest small{margin-left:auto;color:var(--gold);font-weight:800;white-space:nowrap}
+.questbonus{font-size:.72rem;color:var(--green);font-weight:800;padding:2px 2px 0}
+/* ===== v3: level up overlay ===== */
+.lvup{position:fixed;inset:0;background:#05061adc;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.lvup-card{background:linear-gradient(165deg,#262b58,#14172f 70%);border:1px solid #ffd76e55;border-radius:24px;padding:28px 24px;max-width:420px;width:100%;text-align:center;box-shadow:0 24px 80px #000c,0 0 40px #ffc84d22;animation:stamp .5s cubic-bezier(.2,1.5,.4,1) backwards}
+.lvup-card .big{font-size:2.4rem;font-weight:900;color:var(--gold);text-shadow:0 0 24px #ffc84d77;margin:6px 0}
+.lvup-card .title-badge{display:inline-block;background:#3a2f11;border:1px solid #ffd76e88;color:#ffe6a0;border-radius:99px;padding:5px 14px;font-weight:900;margin:8px 0}
+.lvup-card p{color:var(--muted);font-size:.85rem;line-height:1.6}
+.lvup-card .unlock{color:#b7a5ff;font-weight:800;font-size:.9rem;margin:8px 0}
+.lvup-card button{margin-top:12px;border:0;border-radius:14px;min-height:50px;width:100%;font-weight:900;font-size:.95rem;cursor:pointer;background:linear-gradient(160deg,#ffe19a,var(--gold) 60%,var(--gold-deep));color:#3a2800}
+/* ===== v3: achievements ===== */
+.achv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:8px}
+.achv{background:var(--panel);border:1px solid #2b306055;border-radius:12px;padding:10px;font-size:.7rem;color:var(--muted);display:flex;gap:8px;align-items:center}
+.achv .ic{font-size:1.3rem;filter:grayscale(1);opacity:.35}
+.achv.got{border-color:#ffd76e55}.achv.got .ic{filter:none;opacity:1}
+.achv.got b{color:var(--gold)}
+.achv b{display:block;color:var(--ink);font-size:.74rem}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:linear-gradient(160deg,#2c3163,#1c2044);border:1px solid #ffd76e88;border-radius:99px;padding:10px 18px;font-size:.82rem;font-weight:800;z-index:70;box-shadow:0 12px 40px #000b;animation:toastin .35s cubic-bezier(.2,1.4,.4,1) backwards;white-space:nowrap}
+.toast b{color:var(--gold)}
+@keyframes toastin{from{transform:translateX(-50%) translateY(30px);opacity:0}}
+/* ===== v3: growth ===== */
+.growchart{width:100%;height:auto;background:#0a0c22;border:1px solid #2b306055;border-radius:14px;margin:8px 0}
+.mastery{display:grid;gap:7px;margin:10px 0}
+.mrow{display:grid;grid-template-columns:82px 1fr 44px;gap:9px;align-items:center;font-size:.76rem}
+.mbar{height:9px;background:#0b0d1d;border-radius:99px;overflow:hidden;border:1px solid #2b306066}
+.mbar i{display:block;height:100%;border-radius:99px;transition:width .6s ease}
+.mrow b{text-align:right;font-variant-numeric:tabular-nums}
+.mrow .goal{color:var(--green)}
+.legend-inline{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.68rem;margin:4px 0}
+.legend-inline i{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:4px}
+/* ===== v3: story ===== */
+.story-list{display:grid;gap:10px}
+.chap{background:linear-gradient(160deg,var(--panel2),var(--panel) 75%);border:1px solid var(--line);border-radius:18px;padding:14px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.chap.locked{opacity:.55;cursor:default;filter:saturate(.4)}
+.chap .num{font-size:.62rem;color:#b7a5ff;font-weight:900;letter-spacing:.12em}
+.chap h3{margin:3px 0 4px;font-size:1.02rem}
+.chap p{margin:0;color:var(--muted);font-size:.76rem;line-height:1.5}
+.chap .lock{float:right;color:var(--gold);font-size:.72rem;font-weight:800}
+.chap.readdone .num::after{content:" ・ 読了";color:var(--green)}
+.story-read{max-width:640px;margin:0 auto;font-size:.95rem;line-height:2.05;letter-spacing:.01em}
+.story-read h3{font-size:1.2rem;margin:4px 0 2px}
+.story-read .num{font-size:.66rem;color:#b7a5ff;font-weight:900;letter-spacing:.12em}
+.story-read p{margin:1.3em 0;text-align:justify}
+.story-read .backbtn{margin:18px 0 4px;width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:13px;min-height:48px;font-weight:800;cursor:pointer}
+.story-read em{font-style:normal;color:var(--cyan)}
+.story-note{color:var(--muted);font-size:.72rem;line-height:1.6;margin-top:14px;border-top:1px dashed #2b3060;padding-top:10px}
+@media (min-width:720px){.tabs{grid-template-columns:repeat(10,1fr)}.luna-bubble{font-size:.9rem}}
+@media (min-width:1100px){#charts.view.active{display:block}#grow.view.active{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:start}#grow .records{margin-top:0}}
 </style>
 </head>
 <body><main class="app">
 <header class="hud">
-  <div><h1 class="logo">POKER QUEST</h1><p class="tagline">v2 ・ アミュ店トーナメントの判断を、毎日10問ずつ。</p></div>
+  <div><h1 class="logo">POKER QUEST</h1><p class="tagline">v3 ・ アミュ店トーナメントの判断を、毎日10問ずつ。</p></div>
   <div class="hud-right">
     <div class="lvbox"><div class="lvbadge"><small>LV</small><b id="lv">1</b></div><div class="xpwrap"><div class="xpbar"><i id="xpbar"></i></div><div class="xptext" id="xptext">0 XP</div></div></div>
     <a class="booklink" href="poker-textbook.html" title="教科書"><span>📖</span>教科書</a>
     <button class="iconbtn" id="soundBtn" title="効果音">🔊</button>
   </div>
 </header>
+<div class="luna-row"><div class="luna-avatar" id="lunaAvatar"></div><div class="luna-bubble"><div class="luna-name">ルナ</div><div id="lunaLine"></div></div></div>
+<div class="quests" id="quests"></div>
 <div class="today" id="today"></div>
 <nav class="tabs" aria-label="ドリル選択">
- <button class="tab t-range active" data-tab="range"><span class="suit">♠</span>レンジ</button><button class="tab t-push" data-tab="push"><span class="suit">♣</span>オールイン</button><button class="tab t-call" data-tab="call"><span class="suit">♥</span>コール</button><button class="tab t-vs" data-tab="vs"><span class="suit">⚔</span>vsレイズ</button><button class="tab t-odds" data-tab="odds"><span class="suit">♦</span>数字</button><button class="tab t-judge" data-tab="judge"><span class="suit">⚖</span>判断</button><button class="tab t-charts" data-tab="charts"><span class="suit">★</span>記録</button>
+ <button class="tab t-range active" data-tab="range"><span class="suit">♠</span>レンジ</button><button class="tab t-push" data-tab="push"><span class="suit">♣</span>オールイン</button><button class="tab t-call" data-tab="call"><span class="suit">♥</span>コール</button><button class="tab t-vs" data-tab="vs"><span class="suit">⚔</span>vsレイズ</button><button class="tab t-odds" data-tab="odds"><span class="suit">♦</span>数字</button><button class="tab t-judge" data-tab="judge"><span class="suit">⚖</span>判断</button><button class="tab t-mix" data-tab="mix"><span class="suit">🎲</span>ミックス</button><button class="tab t-grow" data-tab="grow"><span class="suit">📈</span>成長</button><button class="tab t-story" data-tab="story"><span class="suit">🌙</span>物語</button><button class="tab t-charts" data-tab="charts"><span class="suit">★</span>表</button>
 </nav>
 <section id="range" class="view active"><div class="card"><div id="rangeBody"></div></div><p class="note">誰もまだ参加していない時に「レイズするか・降りるか」。9人卓100bb、Preflop Wizard公開チャート準拠（教科書2章）。</p></section>
 <section id="push" class="view"><div class="card"><div class="opts"><select id="pushAnte"><option value="bba">BBアンテあり</option><option value="none">アンテなし</option><option value="mix">両方ランダム</option></select><select id="pushStack"><option value="auto">スタック おまかせ(8〜15bb)</option><option value="5">5bb</option><option value="8">8bb</option><option value="10">10bb</option><option value="12">12bb</option><option value="15">15bb</option><option value="20">20bb</option></select></div><div id="pushBody"></div></div><p class="note">誰もまだ参加していない時に「オールインするか・降りるか」。自前計算のナッシュ近似（9人卓・ICMなし）。答えが半々の手は出題しません（教科書5章）。</p></section>
@@ -163,21 +228,35 @@ button,select{font:inherit}
 <section id="vs" class="view"><div class="card"><div class="opts"><select id="vsHero"><option value="auto">自分の席 おまかせ</option><option value="BB">BB</option><option value="SB">SB</option><option value="BTN">BTN</option><option value="CO">CO</option><option value="MP">MP/HJ</option></select></div><div id="vsBody"></div></div><p class="note">誰かが2.5bbでレイズしてきた。「3ベット／コール／降りる」。ZeroS表（6人卓100bb・NL20向け）準拠、教科書2-6と付録B。</p></section>
 <section id="odds" class="view"><div class="card"><div id="oddsBody"></div></div><p class="note">2と4の法則・必要勝率・守る割合（MDF）。式は教科書3章。</p></section>
 <section id="judge" class="view"><div class="card"><div id="judgeBody"></div></div><p class="note">場面カード。フロップ以降・相手タイプ・終盤の判断。根拠は教科書4〜6章。</p></section>
+<section id="mix" class="view"><div class="card"><div id="mixBody"></div></div><p class="note">全種目からランダムに10問。実戦は種目別に出ないので、仕上げはこれ（混合練習は分野を問わず効果が確認されている学習法。教科書7章）。</p></section>
+<section id="grow" class="view">
+ <div class="card">
+  <h2 style="font-size:1rem;margin:0 0 4px">成長ダッシュボード</h2>
+  <div class="kpi"><div>週ストリーク<b id="kpiWeekStreak">0</b></div><div>今週の練習日<b id="kpiWeekDays">0/2</b></div><div>通算回答数<b id="kpiTotalQ">0</b></div></div>
+  <div class="kpi"><div>練習した日数<b id="kpiDays">0</b></div><div>連続日数<b id="kpiStreak">0</b></div><div>復習待ち<b id="kpiDue">0</b></div></div>
+  <h3 style="font-size:.88rem;margin:12px 0 2px">正答率の推移（直近30セッション）</h3>
+  <svg id="growChart" class="growchart" viewBox="0 0 640 240" preserveAspectRatio="xMidYMid meet" role="img" aria-label="正答率の推移"></svg>
+  <div class="legend-inline" id="growLegend"></div>
+  <h3 style="font-size:.88rem;margin:12px 0 2px">種目別マスター度（直近3回の平均・目標90%）</h3>
+  <div class="mastery" id="mastery"></div>
+ </div>
+ <div class="card records" style="margin-top:14px">
+  <div class="recordhead"><h2>実績</h2><span class="avg" id="achvCount"></span></div>
+  <div class="achv-grid" id="achvGrid"></div>
+  <div class="recordhead" style="margin-top:14px"><h2 style="font-size:.9rem">苦手（間違えた回数が多い順）</h2><button class="smallbtn" id="weakBtn">苦手だけ10問</button></div>
+  <div class="weak" id="weakList"></div>
+  <div class="recordhead"><h2 style="font-size:.9rem">履歴</h2><span class="avg">直近10回の平均 <b id="average">—</b></span></div>
+  <div class="history" id="history"></div>
+  <button class="danger" id="clear">記録を消す（XPは残る）</button>
+ </div>
+</section>
+<section id="story" class="view"><div class="card"><div id="storyBody"></div></div><p class="note">レベルが上がると次の章が解放されます。ドリルに出てくる数字が、物語の中にも隠れています。</p></section>
 <section id="charts" class="view">
  <div class="card charts-card">
   <div class="toolbar"><select id="chartType" aria-label="チャート種別"><option value="open">オープンレンジ</option><option value="push">オールイン（自前ナッシュ）</option><option value="call">BBコール vs SBオールイン</option></select><select id="chartPos" aria-label="ポジション"><option>UTG</option><option>MP</option><option>HJ</option><option>CO</option><option>BTN</option><option>SB</option></select><select id="chartStack"><option>5</option><option>8</option><option selected>10</option><option>12</option><option>15</option><option>20</option></select><select id="chartAnte"><option value="bba">BBアンテ</option><option value="none">アンテなし</option></select></div>
   <div class="chartwrap"><div class="matrix" id="matrix"></div></div>
   <div class="legend"><span><span class="dot gold"></span>ペア</span><span><span class="dot"></span>する</span><span><span class="dot mix"></span>半々</span></div>
   <p class="chartcap" id="chartcap"></p>
- </div>
- <div class="card records">
-  <div class="recordhead"><h2>記録</h2><span class="avg">直近10回の平均 <b id="average">—</b></span></div>
-  <div class="kpi"><div>練習した日数<b id="kpiDays">0</b></div><div>連続日数<b id="kpiStreak">0</b></div><div>復習待ち<b id="kpiDue">0</b></div></div>
-  <div class="recordhead"><h2 style="font-size:.9rem">苦手（間違えた回数が多い順）</h2><button class="smallbtn" id="weakBtn">苦手だけ10問</button></div>
-  <div class="weak" id="weakList"></div>
-  <h2 style="font-size:.9rem">履歴</h2>
-  <div class="history" id="history"></div>
-  <button class="danger" id="clear">記録を消す（XPは残る）</button>
  </div>
 </section>
 </main>
@@ -209,10 +288,22 @@ soundBtn.onclick=()=>{soundOn=!soundOn;localStorage.setItem('pokerTrainerSound',
 function tone(f,dur,type,vol,when){if(!soundOn)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const t=actx.currentTime+(when||0),o=actx.createOscillator(),g=actx.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(vol||.12,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(g).connect(actx.destination);o.start(t);o.stop(t+dur)}catch(e){}}
 const sfx={good(){tone(880,.12,'triangle',.12);tone(1320,.16,'triangle',.1,.08)},bad(){tone(200,.25,'sawtooth',.08)},done(){[523,659,784,1047].forEach((f,i)=>tone(f,.2,'triangle',.12,i*.1))},rankS(){[523,659,784,1047,1319,1568].forEach((f,i)=>tone(f,.25,'triangle',.13,i*.09))}};
 
-/* ===== XP ===== */
+/* ===== XP / Level (v3: 逓増カーブ＋称号) ===== */
+const LV_TITLES=['見習い','ルーキー','ポジションの徒','レンジの読み手','ブラインドハンター','オッズの使い手','ボードの観察者','ショーダウンの賢者','レンジマスター','テーブルキャプテン','シャーク','クラッシャー','ファイナリスト','チャンピオン','確率の彼方'];
+function lvTitle(lv){return LV_TITLES[Math.min(lv-1,LV_TITLES.length-1)]}
+function lvNeed(lv){return 250+(lv-1)*50}
+function lvFromXP(xp){let lv=1;while(xp>=lvNeed(lv)&&lv<99){xp-=lvNeed(lv);lv++}return{lv,into:xp,need:lvNeed(lv)}}
 function getXP(){return +(localStorage.getItem('pokerTrainerXP')||0)}
-function setXP(v){localStorage.setItem('pokerTrainerXP',String(v));renderXP()}
-function renderXP(){const xp=getXP(),lv=Math.floor(xp/300)+1,into=xp%300;document.getElementById('lv').textContent=lv;document.getElementById('xpbar').style.width=Math.round(into/300*100)+'%';document.getElementById('xptext').textContent=xp+' XP・次のLVまで '+(300-into)}
+function setXP(v){const before=lvFromXP(getXP()).lv;localStorage.setItem('pokerTrainerXP',String(v));renderXP();const after=lvFromXP(v).lv;if(after>before)onLevelUp(after)}
+function renderXP(){const xp=getXP(),L=lvFromXP(xp);document.getElementById('lv').textContent=L.lv;document.getElementById('xpbar').style.width=Math.round(L.into/L.need*100)+'%';document.getElementById('xptext').textContent=lvTitle(L.lv)+'・次のLVまで '+(L.need-L.into)}
+function onLevelUp(lv){
+  sfx.rankS();
+  const unlocked=STORY.filter(c=>c.lv===lv);
+  const ov=document.createElement('div');ov.className='lvup';
+  ov.innerHTML='<div class="lvup-card">'+lunaSVG(72)+'<div class="eyebrow">LEVEL UP</div><div class="big">Lv '+lv+'</div><div class="title-badge">称号: '+lvTitle(lv)+'</div><p>'+lunaLevelLine(lv)+'</p>'+(unlocked.length?'<div class="unlock">🌙 物語 '+unlocked[0].num+'「'+unlocked[0].title+'」が解放されました</div>':'')+'<button>つづける</button></div>';
+  document.body.appendChild(ov);
+  ov.querySelector('button').onclick=()=>{ov.remove();if(unlocked.length)renderStory()};
+}
 
 /* ===== spaced repetition store ===== */
 const BOX_DAYS=[1,2,4,8,16];
@@ -232,7 +323,7 @@ function streak(){const set=new Set(getDays());let n=0;const d=new Date();if(!se
 /* ===== helpers ===== */
 function physical(code){const suits=['♠','♥','♦','♣'];if(code.length===2){let s=one(suits);return[[code[0],s],[code[1],suits.filter(x=>x!==s)[Math.floor(Math.random()*3)]]]}let suited=code[2]==='s',s1=one(suits),s2=suited?s1:one(suits.filter(x=>x!==s1));return[[code[0],s1],[code[1],s2]]}
 function cardHTML(code){return physical(code).map(c=>'<div class="playing '+(/[♥♦]/.test(c[1])?'red':'')+'"><span>'+c[0]+'</span><small>'+c[1]+'</small></div>').join('')}
-const LABEL={range:'レンジ',push:'オールイン',call:'コール',vs:'vsレイズ',odds:'数字',judge:'判断'};
+const LABEL={range:'レンジ',push:'オールイン',call:'コール',vs:'vsレイズ',odds:'数字',judge:'判断',mix:'ミックス'};
 const VS_TABLES={BB:{SB:'BBvsSB',BTN:'BBvsBTN',CO:'BBvsCO',EP:'BBvsEP'},SB:{BTN:'SBvsBTN',CO:'SBvsCO',EP:'SBvsEP'},BTN:{CO:'BTNvsCO',EP:'BTNvsEP'},CO:{EP:'COvsEP'},MP:{EP:'MPvsEP'}};
 const OPP_JA={EP:'UTG/MP（前の席）',CO:'CO',BTN:'BTN',SB:'SB'};
 function zAct(code){if(!code||code==='F')return 'fold';if(code[0]==='3')return '3b';if(code==='cc35'||code==='cc30'||code==='cc25')return 'call';return 'fold'}
@@ -252,29 +343,31 @@ function shell(kind,inner,answers,cls){
     '<div id="'+kind+'Feedback" class="feedback">答えを選ぶと、ここに根拠が表示されます。</div>'+
     '<button id="'+kind+'Next" class="next hidden">次の問題へ</button></div></div>';
 }
-function next(kind){const s=sessions[kind];s.answered=false;({range:makeRange,push:makePush,call:makeCall,vs:makeVs,odds:makeOdds,judge:makeJudge})[kind]()}
+function next(kind){const s=sessions[kind];s.answered=false;
+ if(kind==='mix'){one([makeRange,makePush,makeCall,makeVs,makeOdds,makeJudge,makeJudge])('mix');return}
+ ({range:makeRange,push:makePush,call:makeCall,vs:makeVs,odds:makeOdds,judge:makeJudge})[kind]()}
 
 /* --- range (RFI) --- */
 function boundaryOpen(){return all.filter(h=>{let n=POS.reduce((c,p)=>c+(openSets[p].has(h)?1:0),0);return n>0&&n<POS.length})}
 function pickFromPool(kind){const s=sessions[kind];if(s.pool&&s.pool.length){const it=s.pool.shift();return it}return null}
-function makeRange(){
-  const s=sessions.range;let pos,hand,srs=false;
-  const pooled=pickFromPool('range');
+function makeRange(T){T=T||'range';
+  const s=sessions[T];let pos,hand,srs=false;
+  const pooled=pickFromPool(T);
   if(pooled){[,pos,hand]=pooled.key.split('|');srs=true}
   else{const due=srsDue('r|');if(due.length&&Math.random()<.4){const d=one(due.slice(0,8));[,pos,hand]=d.key.split('|');srs=true}else{pos=one(POS);hand=Math.random()<.55?one(boundaryOpen()):one(all)}}
   const inside=openSets[pos].has(hand);
-  s.current={answer:inside,pos,hand,key:'r|'+pos+'|'+hand,label:pos+' '+hand+'（オープン）'};
-  shell('range','<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+POS_JA[pos]+'</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">誰もまだ参加していない。どうする？</p>',
+  s.current={qtype:'bin',answer:inside,pos,hand,key:'r|'+pos+'|'+hand,label:pos+' '+hand+'（オープン）'};
+  shell(T,'<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+POS_JA[pos]+'</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">あなたは'+pos+'。まだ誰も参加していない。どうする？</p>',
     '<button class="answer primary" data-v="1">レイズ</button><button class="answer" data-v="0">フォールド</button>');
-  bind('range',()=>'正解レンジ（'+pos+'）: '+RANGE_TEXT.OPEN[pos]+'（約'+RANGE_PCT.OPEN[pos]+'%）');
+  bind(T,()=>'正解レンジ（'+pos+'）: '+RANGE_TEXT.OPEN[pos]+'（約'+RANGE_PCT.OPEN[pos]+'%）');
 }
 /* --- push --- */
 function clearHands(kind,pos,S,A){const d=kind==='push'?NASH.jam[pos+'|'+S+'|'+A]:NASH.call['SB>BB|'+S+'|'+A];if(!d)return null;const out=[];d.freq.forEach((f,i)=>{if(f>=0.7||f<=0.3)out.push(CLS[i])});return out.length?out:null}
 function pickPushHand(pos,S,A){const c=clearHands('push',pos,S,A);if(!c)return null;if(Math.random()<.45){const others=POS.filter(p=>p!==pos);for(let t=0;t<12;t++){const h=one(c),p2=one(others),f=jamFreq(pos,S,A,h),f2=jamFreq(p2,S,A,h);if(f2!==null&&((f>=.7)!==(f2>=.7)))return h}}return one(c)}
 function pushSettings(){const a=document.getElementById('pushAnte').value,st=document.getElementById('pushStack').value;return{ante:a==='mix'?one(['bba','none']):a,stack:st==='auto'?one(['8','10','10','12','15']):st}}
-function makePush(){
-  const s=sessions.push;let pos,hand,S,A,srs=false;
-  const pooled=pickFromPool('push');
+function makePush(T){T=T||'push';
+  const s=sessions[T];let pos,hand,S,A,srs=false;
+  const pooled=pickFromPool(T);
   if(pooled){[,pos,S,A,hand]=pooled.key.split('|');srs=true}
   else{
     const due=srsDue('p|');
@@ -282,63 +375,63 @@ function makePush(){
     else{let tries=0;do{const st=pushSettings();S=st.stack;A=st.ante;pos=one(POS);hand=pickPushHand(pos,S,A);tries++}while(!hand&&tries<20)
       if(!hand){pos='BTN';S='10';A='bba';hand=pickPushHand(pos,S,A)||'AA'}}
   }
-  if(!NASH.jam[pos+'|'+S+'|'+A]){document.getElementById('pushBody').innerHTML='<div class="empty">この条件の表データがありません。設定を変えてください。</div>';return}
+  if(!NASH.jam[pos+'|'+S+'|'+A]){document.getElementById(T+'Body').innerHTML='<div class="empty">この条件の表データがありません。設定を変えてください。</div>';return}
   const f=jamFreq(pos,S,A,hand);const inside=f>=0.5;
-  s.current={answer:inside,pos,hand,key:'p|'+pos+'|'+S+'|'+A+'|'+hand,label:pos+' '+S+'bb'+(A==='bba'?'(アンテ)':'')+' '+hand+'（オールイン）'};
-  shell('push','<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+S+'bb ・ '+(A==='bba'?'BBアンテあり':'アンテなし')+' ・ '+POS_JA[pos]+'</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">誰もまだ参加していない。オールインする？</p>',
+  s.current={qtype:'bin',answer:inside,pos,hand,key:'p|'+pos+'|'+S+'|'+A+'|'+hand,label:pos+' '+S+'bb'+(A==='bba'?'(アンテ)':'')+' '+hand+'（オールイン）'};
+  shell(T,'<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+S+'bb ・ '+(A==='bba'?'BBアンテあり':'アンテなし')+' ・ '+POS_JA[pos]+'</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">あなたは'+pos+'で残り'+S+'bb。まだ誰も参加していない。オールインする？</p>',
     '<button class="answer primary" data-v="1">オールイン</button><button class="answer" data-v="0">フォールド</button>');
-  bind('push',()=>{const d=NASH.jam[pos+'|'+S+'|'+A];return 'ナッシュ近似: この手のオールイン率 '+Math.round(f*100)+'%。'+pos+' '+S+'bb'+(A==='bba'?'・BBアンテ':'')+'のオールイン範囲＝ '+d.text+'（約'+d.pct+'%）'});
+  bind(T,()=>{const d=NASH.jam[pos+'|'+S+'|'+A];return 'ナッシュ近似: この手のオールイン率 '+Math.round(f*100)+'%。'+pos+' '+S+'bb'+(A==='bba'?'・BBアンテ':'')+'のオールイン範囲＝ '+d.text+'（約'+d.pct+'%）'});
 }
 /* --- call (BB vs SB shove) --- */
-function makeCall(){
-  const s=sessions.call;let hand,S,A,srs=false;
-  const pooled=pickFromPool('call');
+function makeCall(T){T=T||'call';
+  const s=sessions[T];let hand,S,A,srs=false;
+  const pooled=pickFromPool(T);
   if(pooled){[,S,A,hand]=pooled.key.split('|');srs=true}
   else{const due=srsDue('c|');if(due.length&&Math.random()<.4){const d=one(due.slice(0,8));[,S,A,hand]=d.key.split('|');srs=true}
     else{A=document.getElementById('callAnte').value;let tries=0,c=null;do{S=one(['8','10','10','12','15']);c=clearHands('call',null,S,A);tries++}while(!c&&tries<12)
       if(!c){S='10';c=clearHands('call',null,S,A)}
       hand=c?one(c):'AA'}}
-  if(!NASH.call['SB>BB|'+S+'|'+A]){document.getElementById('callBody').innerHTML='<div class="empty">この条件の表データがありません。設定を変えてください。</div>';return}
+  if(!NASH.call['SB>BB|'+S+'|'+A]){document.getElementById(T+'Body').innerHTML='<div class="empty">この条件の表データがありません。設定を変えてください。</div>';return}
   const f=callFreq(S,A,hand);const inside=f>=0.5;
-  s.current={answer:inside,hand,key:'c|'+S+'|'+A+'|'+hand,label:'BB '+S+'bb'+(A==='bba'?'(アンテ)':'')+' '+hand+'（コール）'};
+  s.current={qtype:'bin',answer:inside,hand,key:'c|'+S+'|'+A+'|'+hand,label:'BB '+S+'bb'+(A==='bba'?'(アンテ)':'')+' '+hand+'（コール）'};
   const jam=NASH.jam['SB|'+S+'|'+A];
-  shell('call','<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+'BB ・ '+S+'bb ・ '+(A==='bba'?'BBアンテあり':'アンテなし')+'</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">SBが'+S+'bbでオールイン（均衡どおり約'+(jam?jam.pct:'?')+'%の手で押してくる）。コールする？</p>',
+  shell(T,'<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+'BB ・ '+S+'bb ・ '+(A==='bba'?'BBアンテあり':'アンテなし')+'</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">あなたはBBで残り'+S+'bb。SBが'+S+'bbでオールイン（均衡どおり約'+(jam?jam.pct:'?')+'%の手で押してくる）。コールする？</p>',
     '<button class="answer primary" data-v="1">コール</button><button class="answer" data-v="0">フォールド</button>');
-  bind('call',()=>{const d=NASH.call['SB>BB|'+S+'|'+A];return 'この手のコール率 '+Math.round(f*100)+'%。BBのコール範囲＝ '+d.text+'（約'+d.pct+'%）。相手がもっとタイトな人なら、さらに絞る'});
+  bind(T,()=>{const d=NASH.call['SB>BB|'+S+'|'+A];return 'この手のコール率 '+Math.round(f*100)+'%。BBのコール範囲＝ '+d.text+'（約'+d.pct+'%）。相手がもっとタイトな人なら、さらに絞る'});
 }
 /* --- vs raise (ZeroS) --- */
-function makeVs(){
-  const s=sessions.vs;let hero,opp,hand,srs=false;
-  const pooled=pickFromPool('vs');
+function makeVs(T){T=T||'vs';
+  const s=sessions[T];let hero,opp,hand,srs=false;
+  const pooled=pickFromPool(T);
   if(pooled){[,hero,opp,hand]=pooled.key.split('|');srs=true}
   else{const due=srsDue('v|');if(due.length&&Math.random()<.4){const d=one(due.slice(0,8));[,hero,opp,hand]=d.key.split('|');srs=true}
     else{const sel=document.getElementById('vsHero').value;hero=sel==='auto'?one(['BB','BB','SB','BTN','CO','MP']):sel;opp=one(Object.keys(VS_TABLES[hero]));
       const acts=zActs(hero,opp);const nonfold=CLS.filter((c,i)=>zAct(acts[i])!=='fold');hand=Math.random()<.55?one(nonfold):one(all)}}
-  const acts=zActs(hero,opp);if(!acts){document.getElementById('vsBody').innerHTML='<div class="empty">表データがありません。</div>';return}
+  const acts=zActs(hero,opp);if(!acts){document.getElementById(T+'Body').innerHTML='<div class="empty">表データがありません。</div>';return}
   const code=acts[CIDX[hand]],ans=zAct(code);
-  s.current={answer:ans,hand,key:'v|'+hero+'|'+opp+'|'+hand,label:hero+' vs '+opp+' '+hand+'（vsレイズ）'};
-  shell('vs','<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+'自分: '+(hero==='MP'?'MP/HJ':hero)+' ・ 相手: '+OPP_JA[opp]+'が2.5bbレイズ</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">どうする？</p>',
+  s.current={qtype:'vs',answer:ans,hand,key:'v|'+hero+'|'+opp+'|'+hand,label:hero+' vs '+opp+' '+hand+'（vsレイズ）'};
+  shell(T,'<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+'自分: '+(hero==='MP'?'MP/HJ':hero)+' ・ 相手: '+OPP_JA[opp]+'が2.5bbレイズ</span><div class="cards">'+cardHTML(hand)+'</div><div class="handcode">'+hand+'</div><p class="question">あなたは'+(hero==='MP'?'MP/HJ':hero)+'。'+OPP_JA[opp]+'のレイズにどうする？</p>',
     '<button class="answer primary" data-v="3b">3ベット</button><button class="answer" data-v="call">コール</button><button class="answer" data-v="fold" style="grid-column:1/-1">フォールド</button>');
-  bind('vs',()=>{const L=ZEROS.legend.vsopen;const tt=ZEROS.tables[VS_TABLES[hero][opp]].title;const bluffy=ans==='3b'&&(/^A[2-5]s$/.test(hand)||/^(76|65|54|43)s$/.test(hand));return 'ZeroS表「'+tt+'」: '+(L[code]||'降りる')+(code&&code[0]==='c'&&ans==='fold'?'（相手が2.5bbなので今回は降りる）':'')+(bluffy?'。※ブラフ寄りの3ベット。アミュ店の降りない相手にはコールか降りるに置き換えてよい':'')+'。詳しい表は教科書の付録B'});
+  bind(T,()=>{const L=ZEROS.legend.vsopen;const tt=ZEROS.tables[VS_TABLES[hero][opp]].title;const bluffy=ans==='3b'&&(/^A[2-5]s$/.test(hand)||/^(76|65|54|43)s$/.test(hand));return 'ZeroS表「'+tt+'」: '+(L[code]||'降りる')+(code&&code[0]==='c'&&ans==='fold'?'（相手が2.5bbなので今回は降りる）':'')+(bluffy?'。※ブラフ寄りの3ベット。アミュ店の降りない相手にはコールか降りるに置き換えてよい':'')+'。詳しい表は教科書の付録B'});
 }
 /* --- odds --- */
-function makeOdds(){
-  const s=sessions.odds;let correct,formula,title;const r=Math.random();
+function makeOdds(T){T=T||'odds';
+  const s=sessions[T];let correct,formula,title;const r=Math.random();
   if(r<.4){let outs=one([4,5,6,8,9,12,15]),flop=Math.random()<.5,rate=outs*(flop?4:2);correct=rate;title='アウツ <b>'+outs+'枚</b>、'+(flop?'フロップ時点（残り2枚見られる）':'ターン時点（残り1枚）')+'<br>勝率は約何%？';formula=outs+' × '+(flop?4:2)+' = '+rate+'%（'+(flop?'4':'2')+'の法則）'}
   else if(r<.75){let pair=one([[100,25],[100,33],[100,50],[100,75],[100,100],[120,60],[150,50],[150,75],[200,100]]),x=pair[0],y=pair[1];correct=Math.round(y/(x+2*y)*100);title='ポット <b>'+x+'</b>、相手が <b>'+y+'</b> ベット。<br>コールに必要な勝率は約何%？';formula=y+' ÷ ('+x+' + '+y+' + '+y+') ≒ '+correct+'%'}
   else{let pair=one([[100,33],[100,50],[100,75],[100,100],[100,150]]),x=pair[0],y=pair[1];correct=Math.round(x/(x+y)*100);title='ポット <b>'+x+'</b>、相手が <b>'+y+'</b> ベット。<br>ブラフに付け込まれないために最低どれだけ守る？（MDF）';formula='守る割合 = '+x+' ÷ ('+x+' + '+y+') ≒ '+correct+'%。ただし相手にブラフが無いなら、これより大きく降りてよい'}
   let vals=new Set([correct]);while(vals.size<4){let d=one([-12,-10,-8,-5,5,8,10,12]);if(correct+d>0&&correct+d<100)vals.add(correct+d)}
   let choices=[...vals].sort(()=>Math.random()-.5);
-  s.current={answer:correct,formula,key:null};
-  shell('odds','<span class="eyebrow">MENTAL MATH</span><p class="question">'+title+'</p>',choices.map(v=>'<button class="answer" data-v="'+v+'">'+v+'%</button>').join(''),'choice4');
-  bind('odds',()=>formula);
+  s.current={qtype:'num',answer:correct,formula,key:null};
+  shell(T,'<span class="eyebrow">MENTAL MATH</span><p class="question">'+title+'</p>',choices.map(v=>'<button class="answer" data-v="'+v+'">'+v+'%</button>').join(''),'choice4');
+  bind(T,()=>formula);
 }
 /* --- judge (scenario cards) --- */
 const JUDGE=[
  {id:'j01',t:'board',s:'自分がプリフロップでレイズ、相手（BB）1人がコール。フロップ <b>Q♠ Q♦ 6♣</b>。相手チェック。',q:'基本の打ち方は？',c:['小さく（ポットの1/3）高頻度で打つ','大きく（3/4〜ポット超）打つ','チェックして様子を見る','ポットの半分を打つのは強い手だけ'],a:0,w:'乾いた高札・ペアボードはレイズ側が有利で、相手は弱い手しか降りない。小さく、ほぼ毎回打つ（教科書4-2）。'},
- {id:'j02',t:'board',s:'自分がレイズ側、相手1人。フロップ <b>K♠ J♠ 7♦</b>（つながった2トーン）。相手チェック。',q:'基本の打ち方は？',c:['大きく（3/4〜ポット超）高頻度で打つ','小さく（1/3）高頻度で打つ','チェックを増やす','強い手だけ小さく打つ'],a:0,w:'ウェットなボードは、相手の「そこそこの手」（K9sや両面ドロー）を降ろす価値が高い。大きく打つ。「ウェット＝チェック」は逆（GTO Wizard KJ7tt: 75〜125%）。'},
+ {id:'j02',t:'board',s:'あなたがプリフロップでレイズ、BBだけがコール。フロップ <b>K♠ J♠ 7♦</b>（つながった2トーン）。相手チェック。',q:'基本の打ち方は？',c:['打つ頻度は下げてチェックを増やす。打つ時は大きめ（2/3ポット前後）','小さく（1/3）ほぼ毎回打つ','大きくほぼ毎回打つ','必ずチェック'],a:0,w:'つながったボードは相手のレンジにも強い手とドローが多く、乾いた高札のようには高頻度で打てない。打つ手を選んで（バリューと良いドロー中心）、サイズは大きめに。「全ボード高頻度CB」は誤り（教科書4-2）。'},
  {id:'j03',t:'board',s:'自分がレイズ側、相手1人。フロップ <b>Q♦ J♦ T♦</b>（同じマーク3枚・つながり）。',q:'基本の打ち方は？',c:['小さく打つかチェック、半々くらい','大きく高頻度で打つ','小さく高頻度で打つ','必ずチェック'],a:0,w:'両者とも強い手を作れる超ウェットボードでは、レイズ側の有利が消える。打つなら小さく、頻度は半々（教科書4-2）。'},
- {id:'j04',t:'board',s:'自分がレイズ側、相手1人。フロップ <b>A♠ 7♦ 2♣</b>。',q:'K♥8♠3♦の時と比べて、打つ頻度は？',c:['少し下げる（相手もAを持ちやすく、降ろせる手が減る）','上げる（Aハイはレイズ側が一番有利）','同じ','必ず大きく打つ'],a:0,w:'Aが出た高札は、K〜8ハイより打つ頻度が低い。相手のコール範囲にもAが多く、降ろせる手が減るため（GTO Wizard）。'},
+ {id:'j04',t:'board',s:'あなたがプリフロップでレイズ、BBだけがコール。フロップ <b>A♠ 7♦ 2♣</b>（乾いたAハイ）。相手チェック。',q:'基本の打ち方は？',c:['小さく（1/3）、ほぼ全部の手で打ってよい','チェック中心（相手もAを持ちやすいから）','大きく打つ手だけ選ぶ','ポットと同額で毎回'],a:0,w:'乾いたAハイはレイズ側の代表的な「小さく・ほぼレンジ全部」ボード。相手（BB）の強いAx（AK・AQ）は3ベットで抜けているので、Axはむしろこちらに偏っている。頻度を下げるのはAJTのようにつながったAハイの方（教科書4-2）。'},
  {id:'j05',t:'value',s:'相手は何でもコールする人（ルース・パッシブ）。自分はトップペア良キッカー。フロップ・ターンと打って2回ともコールされた。リバーは安全なカード。',q:'リバーは？',c:['3回目のバリューベットを打ち切る','チェックして安く見せ合う','大きなブラフに切り替える','小さく打って様子見'],a:0,w:'降りない相手には、トップペア良キッカー以上で3回打ち切るのが最大の利益。途中で止めるのが一番の取りこぼし（教科書4-3・6-2）。'},
  {id:'j06',t:'value',s:'自分はミドルペア（弱いペア）。相手1人。ターンまでチェックで回ってきた。',q:'リバー、基本は？',c:['打たずに安く見せ合いに行く','バリューベット','ブラフ','大きく打って降ろす'],a:0,w:'薄い勝ちしかない手は、打っても「自分より弱い手」はあまりコールしてこない。安くショーダウン（教科書4-3）。'},
  {id:'j07',t:'spr',s:'フロップ時点で残り30bb、ポット30bb（SPR＝1）。自分はトップペア。',q:'どこまで入れてよい？',c:['全部入れてよい','2ペア以上になるまで待つ','ワンペアでは絶対に全部は入れない','相手が先に打つまでチェック'],a:0,w:'SPR 1〜3ではトップペア・オーバーペアで全部入れてよい（教科書4-4）。'},
@@ -356,9 +449,9 @@ const JUDGE=[
  {id:'j19',t:'short',s:'残り9bb。アンテあり。BTNで <b>K7s</b>。前の全員が降りた。',q:'どうする？',c:['オールイン（後ろ2人、BTNは4割前後の手で押せる）','フォールド','ミニレイズ','コール'],a:0,w:'BTNの10bb前後は4割前後の手でオールイン。Kのスーテッドは十分入る（教科書5-3）。'},
  {id:'j20',t:'short',s:'残り14bb。アンテあり。前に2人がリンプ。自分はCOで <b>A5s</b>。',q:'考え方は？',c:['表より狭く。複数人に強い手（ペア・Aスーテッド上位・絵札2枚）でだけオールイン','誰もいない時と同じ表で押す','コールで参加','必ずオールイン'],a:0,w:'リンパーがいると降りてくれる確率が落ちるので、表より狭く。複数人に強い手を優先（教科書5-3）。'},
  {id:'j21',t:'short',s:'残り18bb。BTNで <b>KQo</b>。前の全員が降りた。',q:'15〜20bb帯の考え方は？',c:['オールインだけでなく、小さいレイズ（2〜2.2bb）も正解に混ざる帯','必ずオールイン','必ずフォールド','必ずリンプ'],a:0,w:'12〜20bbはミニレイズとオールインが混ざる帯。10bb以下で純粋な「オールインかフォールド」になる（教科書5章）。'},
- {id:'j22',t:'short',s:'BBにいて残り10bb。SBが（広めの手で）オールインしてきた。自分は <b>K9o</b>。',q:'どうする？',c:['フォールド（コールはKTs以上・KJo以上・A8o以上・ペア等）','コール','迷ったらコール','レイズ'],a:0,w:'受ける側は押す側よりずっと狭い。10bbでSBが半分の手で押してきても、BBのコールは約2割（教科書5-4）。'},
+ {id:'j22',t:'short',s:'あなたはBBで残り10bb。SBが（半分くらいの手で）オールインしてきた。手札は <b>K9o</b>。',q:'どうする？',c:['コール（相手が広いなら、あなたは約35%で受ける。K9oは受かる）','フォールド（受けるのはA8o以上・KJo以上・ペアだけ）','迷ったらフォールド','レイズし返す'],a:0,w:'押す側（約58%）よりは狭いが、思っているよりずっと広く受ける——正解は約35%（22+・Ax全部・K9o+・K5s+・Q8s+など）。「いい手だけ受ける」と、押す側に毎回ブラインドを献上して負ける（教科書5-4・自前ナッシュ計算）。'},
  {id:'j23',t:'short',s:'入賞まであと1人（バブル）。自分は中くらいの持ちチップ。大きいチップの人がオールインしてきた。自分はAJo。',q:'考え方は？',c:['コールに必要な勝率が上がる（33%→37〜38%）。コールを減らす','チップEVだけで判断してコール','バブルは関係ない','必ずコール'],a:0,w:'ICM：終盤・バブルではコールを大きく減らす。オールイン（押す側）はわずかに減るだけ（教科書3-4・5-4）。'},
- {id:'j24',t:'short',s:'アンテあり。持ちチップ20bb。',q:'M値（あと何周もつか）はおよそ？',c:['約8（20÷2.5）','約20','約4','約13'],a:0,w:'アンテありの卓ではM≒bb÷2.5。M≦8はオールインかフォールドの世界（教科書5-2）。'},
+ {id:'j24',t:'short',s:'アンテありの卓で、あなたの持ちチップは20bb。',q:'M値（あと何周もつか）はおよそ？',c:['約8（20÷2.5）','約20','約4','約13'],a:0,w:'アンテありの卓ではM≒bb÷2.5。ただしM8（≒20bb）はまだ通常レイズやミニレイズが使える帯。「オールインかフォールドだけ」に単純化してよいのはM≦5（≒10〜12bb）から（教科書5-2）。'},
  {id:'j25',t:'pre',s:'UTG（最初）の人がレイズ。自分はCOで <b>TT</b>。',q:'基本は？',c:['コール（UTG相手の3ベットはJJ+/AK）','3ベット','フォールド','オールイン'],a:0,w:'相手がUTG〜MPなら3ベットはJJ+/AK。TTはコール（セットマインにもなる）（教科書2-5）。'},
  {id:'j26',t:'pre',s:'BTNの人がレイズ（2.5bb）。自分はSBで <b>AQs</b>。',q:'基本は？',c:['3ベット（CO/BTN相手はTT+/AQs+/AKo）','コール','フォールド','リンプ'],a:0,w:'後ろの席からのレイズは広いので、3ベットの範囲も広がる（教科書2-5）。'},
  {id:'j27',t:'pre',s:'相手がレイズ。自分は <b>44</b>。相手の残りは25bb、コール額は2.5bb。',q:'セットマイン（3枚目狙い）でコールしてよい？',c:['微妙〜やめる。目安は「コール額の15倍以上」（37.5bb以上欲しい）','よい。ペアは常にコール','3ベットする','オールイン'],a:0,w:'セットになるのは約12%。当たった時に大きく回収できる深さ（15:1）がないと割に合わない（教科書2-5）。'},
@@ -376,30 +469,61 @@ const JUDGE=[
  {id:'j39',t:'ring',s:'リングゲーム、100bb。前に3人リンプ。自分はCOでAJs。',q:'レイズするなら大きさは？',c:['大きめ（5bb＋リンプ人数ぶん＝約8bb）で1対1に寄せる','2.5bbの標準サイズ','コールで付き合う','最小レイズ'],a:0,w:'リンパーが多い時は大きめに隔離。ZeroSのリンパー越し表は5bb基準（教科書1-2・付録B-6）。'},
  {id:'j40',t:'ring',s:'リングゲーム、100bb。自分はBBで76s。BTNが2.5bbでレイズ、他は降りた。',q:'ZeroS表の基本は？',c:['コール（BB vs BTNは広く守る。76sはコール）','フォールド','3ベット','オールイン'],a:0,w:'BBはすでに1bb払っていて必要勝率は3割弱。BTN相手は約5〜6割を守る（教科書2-6・付録B-2）。'},
  {id:'j41',t:'vs',s:'自分はSBで KJo。BTNが2.5bbでレイズ。',q:'ZeroS表の基本は？',c:['3ベット（4ベットされたら降りる）。SBはコールせず「3ベットか降りる」','コール','フォールド','オールイン'],a:0,w:'SBは後ろにBBがいて、フロップ以降も先に動く。コールはせず「3ベットか降りる」の2択。KJoはBTNのレイズに3ベット側（教科書2-6・付録B-2）。'},
- {id:'j42',t:'vs',s:'自分はBTNで AQo。UTG（前の席）が2.5bbでレイズ。',q:'ZeroS表の基本は？',c:['コール（前の席のレイズに3ベットするのはQQ+/AK級。AQoはコール）','3ベット','フォールド','オールイン'],a:0,w:'相手が前の席ほど3ベットは狭く、コールで参加する手が増える（教科書2-5・2-6）。'}
+ {id:'j42',t:'vs',s:'自分はBTNで AQo。UTG（前の席）が2.5bbでレイズ。',q:'ZeroS表の基本は？',c:['コール（前の席のレイズに3ベットするのはQQ+/AK級。AQoはコール）','3ベット','フォールド','オールイン'],a:0,w:'相手が前の席ほど3ベットは狭く、コールで参加する手が増える（教科書2-5・2-6）。'},
+ {id:'j43',t:'board',s:'あなたがBTNでレイズ、BBがコール。フロップ <b>T♦ 9♦ 6♣</b>（真ん中の連結2トーン）。BBチェック。',q:'基本の打ち方は？',c:['チェックを多めに混ぜる。打つならバリューと良いドローで大きめに','小さくほぼ毎回打つ（レイズ側の特権）','大きくほぼ毎回打つ','必ずチェック'],a:0,w:'T96のような真ん中の連結ボードは、BBのコール範囲（T9s・87s・両面ドロー）にこそ強く当たる。レイズ側の有利が薄いので高頻度では打てない。「高札はよく打つ・真ん中は選んで打つ」（教科書4-2）。'},
+ {id:'j44',t:'board',s:'あなたが K♥8♠3♦ で小さくCBを打ち、BBがコール。ターンは <b>2♣</b>（何も変えないカード）。BBチェック。',q:'ターンの基本は？',c:['強い手（トップペア以上）と良いドローで続けて打つ。どちらでもない手はチェック','フロップで打ったら全部のターンも打ち切る','ターンは必ずチェック','ターンから急に大きくブラフ'],a:0,w:'ターンからはポットが育ち、間違いが高くつく。「打つ理由（バリューかドローか）を1語で言えたら打つ」——フロップより手を選ぶこと（教科書4-7）。'},
+ {id:'j45',t:'board',s:'あなたがCOでレイズしてK♦7♠2♠のCBにコールされた。ターンで <b>A♣</b> が落ちた。相手はチェック。あなたの手はQJ（何もない）。',q:'このAはあなたにとって？',c:['ブラフ継続に向くカード（Aはレイズ側のレンジに多く、相手のK中位を降ろせる）','危険なカード。すぐ諦める','関係ない。手が無ければ常にチェック','必ずオールイン'],a:0,w:'AやKの高札は、プリフロップでレイズしたあなたの側に多いカード。相手の「そこそこの手」が続けにくくなるので、選んだブラフを続ける口実になる。ただし降りない相手には打たない（教科書4-7・6-2）。'},
+ {id:'j46',t:'board',s:'リバーまで来て、あなたの♠フラッシュドローは完成しなかった。相手はそこそこ降りる人。',q:'リバーでブラフするなら、どんな手が向いている？',c:['この手のような「外れたドロー」（勝ち目ゼロ・降ろせれば丸儲け）','ミドルペア（そこそこ勝ち目がある）','どんな手でも同じ','ブラフは常に悪'],a:0,w:'ブラフは「そのままでは勝てない手」から選ぶのが基本。ミドルペアはチェックで勝てる可能性を捨てることになる。外れたドローは勝ち目ゼロなので、降ろせた分がすべて利益。ただし相手が降りる人限定（教科書4-8）。'},
+ {id:'j47',t:'board',s:'あなたがJJで3ベットし、BTNがコール。フロップ <b>8♠6♦2♣</b>。ポット20bb、あなたの残り40bb（SPR＝2）。',q:'考え方は？',c:['SPRが低いのでオーバーペアでコミットしてよい（打って、打たれても降りない）','3ベットポットでもワンペアは慎重に','チェックして様子見','相手が打つまで何もしない'],a:0,w:'3ベットポットはポットが先に大きくなるのでSPRが低い。SPR1〜3ならオーバーペア・トップペアで全部入れてよい——「100bbの深い時の慎重さ」を持ち込むのが逆に誤り（教科書4-4）。'},
+ {id:'j48',t:'bluffcatch',s:'リバーで相手がポットの半分を打ってきた。MDFで計算すると67%は守るべき。ただしこの相手は、ブラフをほぼしない人だと分かっている。',q:'どうする？',c:['MDFを無視して大きく降りてよい（MDFはブラフしてくる相手への上限）','67%きっちり守る','必ずコール','必ずレイズ'],a:0,w:'MDFは「ちゃんとブラフを混ぜる相手」に搾取されないための下限。ブラフがない相手のベットはバリューだけなので、数字より大きく降りるのが正しい搾取（教科書3-3・4-5）。'},
+ {id:'j49',t:'odds2',s:'ターンであなたはフラッシュドロー（9アウツ＝約18%）。相手がポットの1/4をベット（必要勝率17%）。',q:'どうする？',c:['コール（18%＞17%でぎりぎりプラス。完成時の上乗せも見込める）','フォールド（ドローは常に降りる）','レイズ','オールイン'],a:0,w:'アウツ×2＝18%。1/4ポットの必要勝率は約17%なので、素のオッズだけでぎりぎり合う。完成した時に追加で取れる分（インプライドオッズ）は上乗せのボーナス（教科書3-1・3-2）。'},
+ {id:'j50',t:'odds2',s:'同じフラッシュドロー（約18%）で、今度は相手がポットの3/4をベット（必要勝率30%）。',q:'基本は？',c:['フォールド（18%＜30%。相手が完成時に大きく払う人の時だけ例外的にコール）','コール（ドローは常に追う）','レイズでブラフ','オールイン'],a:0,w:'18%に対して必要30%は大差の赤字。「フラッシュドローだから」は理由にならない。インプライドオッズで正当化できるのは、相手が深くて、完成時に本当に払う人の時だけ（教科書3-2）。'},
+ {id:'j51',t:'value',s:'あなたはナッツ級（フラッシュ完成）。相手は何でもコールしてくれる人で、ポットは既に大きい。',q:'リバーのベットサイズは？',c:['大きく。ポットと同額〜それ以上も可（降りない相手に遠慮は不要）','小さく確実に取る','チェックで罠を張る','半額が常に最適'],a:0,w:'降りない相手への最強の武器は、強い手で大きく打つこと。ベットサイズは「相手が払える最大」まで上げてよい。小さく打つのは、もったいないの典型（教科書6-2）。'},
+ {id:'j52',t:'odds2',s:'あなたの手は6♠7♦、ボードは 9♥T♣K♦ のターン。8が来ればストレート（ガットショット）。',q:'リバーで8が来る確率はおよそ？',c:['約8%（アウツ4枚×2）','約16%','約4%','約24%'],a:0,w:'ガットショットは「ストレートの真ん中の1種類（4枚）を待つドロー」。残り1枚なら4×2＝約8%。両面（8枚待ち＝16%）の半分しかない弱いドロー（教科書3-1・用語集）。'},
+ {id:'j53',t:'board',s:'あなたはBBでコールした側。フロップで良いペアができて、プリフロップでレイズした相手より先に打ちたくなった。',q:'基本は？',c:['チェック（先に打つ「ドンクベット」は例外プレー。チェックからコールかレイズで足りる）','先に打つ（強いのだから）','必ずチェックフォールド','ミニベット'],a:0,w:'ドンクベット＝前のラウンドの攻撃側（レイズした人）より先に、守り側のあなたから打つこと。レンジで不利な側から打つ例外プレーなので、初級のうちは全部チェックでよい（教科書4-6・用語集）。'},
+ {id:'j54',t:'board',s:'ボードは <b>7♠7♦2♣</b>。あなたの手札は A♠7♥。',q:'この役の呼び方と強さは？',c:['トリップス（ボードの2枚＋手札の1枚で作る3枚。この形はかなり強い）','セット（ポケットペアで作る3枚）','ツーペア','ただのハイカード'],a:0,w:'手札1枚＋ボード2枚＝トリップス、ポケットペア＋ボード1枚＝セット。呼び分けがある（セットの方が隠れていて強い）。A7のトリップスはこのボードでほぼ最強クラス（用語集）。'},
+ {id:'j55',t:'short',s:'入賞まであと1人（バブル）。あなたはショートスタックのBTN。前の全員が降りた。',q:'ICMを考えると、あなたのオールインは？',c:['通常どおり広く押してよい（ICMで狭くなるのは主に「受ける側」）','バブルでは押すのも大きく減らす','バブルでは何もしない','必ずフォールド'],a:0,w:'ICMの効きは非対称——相手はコールに大きなリスクプレミアムを払うので、押す側のあなたはむしろフォールドをたくさんもらえる。「ICMはオールインを少ししか減らさず、コールを大きく減らす」（教科書3-4・5-4）。'},
+ {id:'j56',t:'short',s:'中盤、あなたはBTNで残り14bb。前に2人がリンプしている。手札は <b>88</b>。',q:'どうする？',c:['オールイン（リンパー越しは表より狭くだが、中位ペアは複数人相手でも強い）','ミニレイズ','コールで様子見','フォールド'],a:0,w:'リンパーがいる時のオールインは「複数人に受けられても戦える手」＝ペア・Aスーテッド上位・絵札2枚を優先。88はその筆頭。リンプで膨れたポットを、降ろしても取れる（教科書5-5）。'},
+ {id:'j57',t:'pre',s:'あなたはBBで、SBがリンプ（コールだけ）してきた。手札は K8o。',q:'基本は？',c:['チェックで無料のフロップを見る（強い手ならレイズ）','必ずレイズ','フォールド','オールイン'],a:0,w:'BBのあなたはチェックすれば無料でフロップが見られる。微妙な手で無理にレイズする必要はない。上位の手（絵札2枚以上・ペア・良いAx）ならレイズしてリンプを罰する（教科書2章）。'},
+ {id:'j58',t:'live',s:'アミュ店で、2.5bbでレイズしても毎回3〜4人がコールしてくる卓に座っている。',q:'レイズサイズをどうする？',c:['3.5〜4bbに上げる（卓に合わせる。ただし手の強さでは変えない）','2.5bbを守り続ける','リンプに切り替える','毎回オールイン'],a:0,w:'サイズは卓の反応に合わせて調整してよい——全員が同じ額なら情報は漏れない。やってはいけないのは「AAの時だけ大きく」のように手の強さで変えること（教科書2-4）。'},
+ {id:'j59',t:'short',s:'あなたの残りは6bbまで減ってしまった。',q:'この深さで知っておくべきことは？',c:['フォールドエクイティがほぼ無い（6bbは誰でも受ける）。本当はもっと早く動くべきだった','6bbでも相手はよく降りる','リンプで温存する','ブラインドを待って回避'],a:0,w:'オールインの力の半分は「相手が降りてくれること」（フォールドエクイティ）。浅くなりすぎるとそれが消える。10bb前後の「まだ怖がられる深さ」のうちに勝負するのが理想（教科書5-1）。'},
+ {id:'j60',t:'mental',s:'大きなポットを18%側のバッドビートで失った直後。次のハンドが配られようとしている。',q:'どうする？',c:['1〜2周降りて呼吸を整える。参加基準は絶対に変えない','すぐ取り返しに行く（広めに参加）','その日はもう全部降りる','倍賭けする'],a:0,w:'ティルト対策は「気合い」ではなくルール——負けた直後の数ハンドは自動的に基準を厳しめに保つ。正しい選択で負けたなら、変えるものは何もない（教科書6章・7章）。'},
+ {id:'j61',t:'mental',s:'週1回のハンドレビューをする。今週のハンドからどれを選ぶ？',q:'選び方は？',c:['今週いちばん大きかったポット（勝ち負けは問わない）','いちばん悔しかった負け','いちばん気持ちよかった勝ち','ランダム'],a:0,w:'大きいポットは判断の重みも大きい。勝ったハンドにも間違いは埋まっている（結果と選択は別）。「勝ち負けを問わず最大ポット」が偏りのない選び方（教科書7章・poker-log.md）。'},
+ {id:'j62',t:'mental',s:'今日はポーカーチェイスで実戦練習の日。',q:'一番効果的なやり方は？',c:['テーマを1つだけ決めて打つ（例:「今日はリンプしない」）','とにかく長時間打つ','勝つまでやめない','テーマを5個決める'],a:0,w:'実戦練習は「1テーマ集中」が最効率——全部を同時に意識すると全部が中途半端になる。テーマは週替わりで、ドリルの苦手と連動させる（教科書7章）。'},
+ {id:'j63',t:'short',s:'あなたはCOで残り25bb。誰もまだ参加していない。手札は KJo。',q:'どうする？',c:['通常のレイズ（2〜2.5bb）。25bbはまだオールインの帯ではない','オールイン','フォールド','リンプ'],a:0,w:'25bbは通常レイズの帯。オールインとミニレイズが混ざるのは12〜20bb、「オールインかフォールドだけ」は10bb以下。深さで武器が変わる（教科書5章）。'},
+ {id:'j64',t:'board',s:'あなたが K♥8♠3♦ でCBを打ちコールされた。ターンで <b>3♣</b>（ボードがペアになった）。',q:'このカードはあなたにとって？',c:['ほぼ何も変えない良いカード（相手のコール範囲を強くしない。バリューは続けて打てる）','危険なカード。すぐチェック','相手が3を持っている前提で降りる','必ずオールイン'],a:0,w:'低いカードのボードペアは、どちらのレンジもほぼ強くしない＝フロップで有利だった側（あなた）が有利なまま。Kx以上のバリューは自信を持って続けてよい（教科書4-7）。'},
+ {id:'j65',t:'mental',s:'今夜は大きく勝っていて、残り30分。「せっかくだから」と広い手で参加したくなってきた。',q:'どうする？',c:['参加基準は変えない（勝ち分は判断材料にしない）','勝ってる時は広げてよい','即帰る','全部オールイン'],a:0,w:'チップの増減は次のハンドの正解を1ミリも変えない。「勝ってるから緩める・負けてるから取り返す」はどちらも同じ病気。基準は開始前に決めたまま（教科書6章）。'},
+ {id:'j66',t:'live',s:'アミュ店で初めて同卓した相手たち。情報がまだ何もない。',q:'observationの最初の一歩は？',c:['各相手を4タイプ（参加が広い/狭い × コール型/レイズ型）のどこに置くか観察する','しぐさ（テル）を細かく観察する','全員同じと仮定して打つ','強そうな人を避ける'],a:0,w:'読みの優先順位は「タイプ分け＞個別のしぐさ」。参加頻度と攻め方は数ハンドで見えて、対策に直結する。テルは最後のひと押しにだけ使う補助（教科書6-1・6-4）。'},
+ {id:'j67',t:'ring',s:'リングゲームで負けが込み、持ちチップが40bbまで減った。',q:'考えるべきことは？',c:['買い足して100bbに戻すか、浅いスタックの戦い方に切り替えるか、意識的に選ぶ','何も考えず続ける','すぐ帰る','倍額買い足す'],a:0,w:'リングは深さを自分で選べるのが特徴。40bbのまま「100bbのつもり」で打つのが一番危ない——SPRの感覚が全部ずれる。戻すか、切り替えるか、決めてから次のハンドへ（教科書1-2）。'},
+ {id:'j68',t:'pre',s:'あなたはHJでレイズし、BTNに3ベットされた。手札は <b>QQ</b>。100bb。',q:'基本は？',c:['4ベット（QQ+/AKは4ベットの中核。100bbなら5ベットオールインまで想定）','コールだけ','フォールド','必ずオールイン'],a:0,w:'QQ・KK・AA・AKは3ベットされた時の反撃の中核。100bbの4ベットは「5ベットが来たら全部入れる」前提のサイズで打つ。中途半端に怖がるのが一番損（教科書2-5・付録B-4）。'},
+ {id:'j69',t:'pre',s:'UTGがレイズ、MPがコール。あなたはBBで <b>A4s</b>。',q:'スクイーズ（大きい3ベット）を考えてよい場面か？',c:['形は良いが相手が悪い（UTGのレンジは強い）。アミュ店では降りるかコールが無難','絶好のスクイーズチャンス','必ずコール','必ずフォールド'],a:0,w:'スクイーズは「レイズ＋コールの2人を降ろせる」時に強い。ただしUTGレイザーのレンジは強く、アミュ店の相手はそもそも降りない。ブラフのスクイーズは相手を選ぶ武器（教科書2-6・付録B-5）。'},
+ {id:'j70',t:'mental',s:'ドリルの正答率は90%を超えた。でも実戦では同じ場面で手が震えて、表より狭く降りてしまう。',q:'次の一手は？',c:['実戦で「表どおり打てた率」を自己採点し、ズレた場面だけログに書く','ドリルをもっとやる','実戦をやめる','気合いで直す'],a:0,w:'知識と実行のギャップは「記録」でしか埋まらない。poker-log.mdの型どおり率と、外れた場面の1行ログが、次の週のドリル配分を決める材料になる（教科書7章）。'}
 ];
-function makeJudge(){
-  const s=sessions.judge;let item,srs=false;
-  const pooled=pickFromPool('judge');
+function makeJudge(T){T=T||'judge';
+  const s=sessions[T];let item,srs=false;
+  const pooled=pickFromPool(T);
   if(pooled){item=JUDGE.find(j=>'j|'+j.id===pooled.key)||one(JUDGE);srs=true}
   else{const due=srsDue('j|');if(due.length&&Math.random()<.45){const d=one(due.slice(0,8));item=JUDGE.find(j=>'j|'+j.id===d.key)||one(JUDGE);srs=true}else{const used=s.used||(s.used=new Set());let c=JUDGE.filter(j=>!used.has(j.id));if(!c.length){used.clear();c=JUDGE}item=one(c);used.add(item.id)}}
   // shuffle choices, track correct index
   const order=item.c.map((_,i)=>i).sort(()=>Math.random()-.5);
   const correctPos=order.indexOf(item.a);
-  s.current={answer:correctPos,key:'j|'+item.id,label:'判断 '+item.id,why:item.w,item};
-  shell('judge','<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+'場面カード</span><div class="scen">'+item.s+'</div><p class="question">'+item.q+'</p>',
+  s.current={qtype:'num',answer:correctPos,key:'j|'+item.id,label:'判断 '+item.id,why:item.w,item};
+  shell(T,'<span class="eyebrow'+(srs?' srs':'')+'">'+(srs?'復習 ・ ':'')+'場面カード</span><div class="scen">'+item.s+'</div><p class="question">'+item.q+'</p>',
     order.map((oi,pos)=>'<button class="answer" data-v="'+pos+'">'+item.c[oi]+'</button>').join(''),'list');
-  bind('judge',()=>item.w);
+  bind(T,()=>item.w);
 }
 /* --- bind answers --- */
 function bind(kind,detailFn){
   const root=document.getElementById(kind+'Body'),s=sessions[kind];
   root.querySelectorAll('.answer').forEach(b=>b.onclick=()=>{
     if(s.answered)return;s.answered=true;
-    let v=(kind==='odds'||kind==='judge')?+b.dataset.v:(kind==='vs'?b.dataset.v:b.dataset.v==='1'),ok=v===s.current.answer;
+    const qt=s.current.qtype;
+    const parse=x=>qt==='num'?+x.dataset.v:(qt==='vs'?x.dataset.v:x.dataset.v==='1');
+    let v=parse(b),ok=v===s.current.answer;
     if(ok){s.score++;s.combo++;s.maxCombo=Math.max(s.maxCombo,s.combo);sfx.good()}else{s.combo=0;sfx.bad()}
     b.classList.add('picked',ok?'good':'bad');
-    root.querySelectorAll('.answer').forEach(x=>{x.disabled=true;if(!ok){const xv=(kind==='odds'||kind==='judge')?+x.dataset.v:(kind==='vs'?x.dataset.v:x.dataset.v==='1');if(xv===s.current.answer)x.classList.add('reveal')}});
+    root.querySelectorAll('.answer').forEach(x=>{x.disabled=true;if(!ok){if(parse(x)===s.current.answer)x.classList.add('reveal')}});
+    bumpQ();
     if(s.current.key)srsMark(s.current.key,s.current.label,ok);
     document.getElementById(kind+'Feedback').innerHTML='<strong class="'+(ok?'goodtext':'badtext')+'">'+(ok?'✓ 正解　+10 XP':'✕ 不正解（2日後にまた出ます）')+'</strong><br>'+detailFn();
     const st=root.querySelector('.status');if(st)st.innerHTML='<span>QUESTION '+(s.q+1)+' / 10</span>'+comboHTML(s)+'<span>正解 '+s.score+'</span>';
@@ -411,10 +535,290 @@ function rankOf(score){return score>=10?'S':score>=9?'A':score>=7?'B':score>=5?'
 function confetti(kind){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const host=document.querySelector('#'+kind+' .card'),colors=['#ffc84d','#4be1e8','#ff5c8a','#5ee6a0','#9d7bff'];for(let i=0;i<36;i++){const c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.background=one(colors);c.style.animationDelay=(Math.random()*.5)+'s';c.style.animationDuration=(1.2+Math.random())+'s';host.appendChild(c);setTimeout(()=>c.remove(),2600)}}
 function finish(kind){
   const s=sessions[kind],rate=s.score*10,rank=rankOf(s.score),gained=s.score*10+(rate>=90?30:0);
-  setXP(getXP()+gained);saveRecord(kind,rate);markDay();renderToday();
+  saveRecord(kind,rate);markDay();
   if(rank==='S'){sfx.rankS();confetti(kind)}else if(rate>=90){sfx.done();confetti(kind)}else{sfx.done()}
-  document.getElementById(kind+'Body').innerHTML='<div class="result"><div class="eyebrow">SESSION COMPLETE</div><div class="rank '+rank+'">'+rank+'</div><div class="score-line">'+s.score+' / 10（'+rate+'%）</div><div class="gains"><span class="gain">獲得 <b>+'+gained+' XP</b></span><span class="gain">最大コンボ <b>×'+s.maxCombo+'</b></span></div><p>'+(rate>=90?'目標ライン90%クリア。判断が仕上がっています。':'間違えた問題は2日後にまた出ます。もう10問。')+'</p><button class="restart">もう一度10問</button></div>';
+  document.getElementById(kind+'Body').innerHTML='<div class="result"><div class="eyebrow">SESSION COMPLETE</div><div class="rank '+rank+'">'+rank+'</div><div class="score-line">'+s.score+' / 10（'+rate+'%）</div><div class="gains"><span class="gain">獲得 <b>+'+gained+' XP</b></span><span class="gain">最大コンボ <b>×'+s.maxCombo+'</b></span></div><p id="lunaResultLine">'+lunaResultLine(kind,rate)+'</p><button class="restart">もう一度10問</button></div>';
   document.querySelector('#'+kind+'Body .restart').onclick=()=>start(kind);
+  checkAchv(kind,s,rate);checkQuestBonus();renderToday();renderQuests();
+  setXP(getXP()+gained);
+}
+/* ===== v3: total answered ===== */
+function getQTotal(){return +(localStorage.getItem('pokerTrainerQTotal')||0)}
+function getQToday(){try{const o=JSON.parse(localStorage.getItem('pokerTrainerQToday')||'{}');return o.d===today()?o.n:0}catch(e){return 0}}
+function bumpQ(){localStorage.setItem('pokerTrainerQTotal',String(getQTotal()+1));localStorage.setItem('pokerTrainerQToday',JSON.stringify({d:today(),n:getQToday()+1}))}
+/* ===== v3: toast ===== */
+function toast(html,ms){const t=document.createElement('div');t.className='toast';t.innerHTML=html;document.body.appendChild(t);setTimeout(()=>t.remove(),ms||3000)}
+/* ===== v3: achievements ===== */
+const ACHV=[
+ {id:'first10',ic:'🎴',t:'はじめの10問',d:'どれかのドリルを1セット完走'},
+ {id:'rank_s',ic:'👑',t:'パーフェクト',d:'10問全問正解のSランク'},
+ {id:'combo8',ic:'🔥',t:'燃える判断',d:'1セット中にコンボ×8'},
+ {id:'alldrills',ic:'🧭',t:'全種目デビュー',d:'6種類のドリルを全部1回ずつ完走'},
+ {id:'mix90',ic:'🎲',t:'実戦の頭',d:'ミックスで90%以上'},
+ {id:'q100',ic:'💯',t:'100問の壁',d:'通算100問に回答'},
+ {id:'q500',ic:'🗻',t:'500問の峰',d:'通算500問に回答'},
+ {id:'q1471',ic:'🌌',t:'1,471回の反復',d:'実力が偶然を追い越す回数（Fiedler & Rock 2009）'},
+ {id:'week2',ic:'📅',t:'今週のノルマ',d:'同じ週に2日練習（継続の最低ライン）'},
+ {id:'week4',ic:'🌟',t:'フルルーチン',d:'同じ週に4日練習'},
+ {id:'srs_zero',ic:'🧹',t:'復習ゼロ',d:'復習待ちを全部消化'},
+ {id:'master1',ic:'🏅',t:'一芸マスター',d:'どれかの種目で直近3回平均90%以上'},
+ {id:'master_all',ic:'🏆',t:'昇級ライン',d:'レンジ・オールイン・判断の3種で直近3回平均90%以上'},
+ {id:'story3',ic:'📖',t:'物語の途中',d:'ストーリーを3章まで読む'},
+ {id:'storyall',ic:'🌙',t:'ルナの答え',d:'ストーリーを最終夜まで読む'},
+];
+function getAchvMap(){try{return JSON.parse(localStorage.getItem('pokerTrainerAchv')||'{}')}catch(e){return{}}}
+function unlockAchv(id){const m=getAchvMap();if(m[id])return false;m[id]=today();localStorage.setItem('pokerTrainerAchv',JSON.stringify(m));const a=ACHV.find(x=>x.id===id);if(a){toast(a.ic+' 実績解除 <b>'+a.t+'</b> +30 XP');setXP(getXP()+30)}return true}
+function checkAchv(kind,s,rate){
+  unlockAchv('first10');
+  if(rate===100)unlockAchv('rank_s');
+  if(s.maxCombo>=8)unlockAchv('combo8');
+  if(kind==='mix'&&rate>=90)unlockAchv('mix90');
+  const types=new Set(getRecords().map(r=>r.type));
+  if(['range','push','call','vs','odds','judge'].every(k=>types.has(k)))unlockAchv('alldrills');
+  const q=getQTotal();if(q>=100)unlockAchv('q100');if(q>=500)unlockAchv('q500');if(q>=1471)unlockAchv('q1471');
+  const wd=weekDaysCount();if(wd>=2)unlockAchv('week2');if(wd>=4)unlockAchv('week4');
+  if(Object.keys(getSRS()).length>3&&srsDue('').length===0)unlockAchv('srs_zero');
+  const m3=k=>{const a=getRecords().filter(r=>r.type===k);return a.length>=3?Math.round(a.slice(-3).reduce((n,x)=>n+x.rate,0)/3):null};
+  if(['range','push','call','vs','odds','judge','mix'].some(k=>(m3(k)||0)>=90))unlockAchv('master1');
+  if(['range','push','judge'].every(k=>(m3(k)||0)>=90))unlockAchv('master_all');
+}
+/* ===== v3: week helpers ===== */
+function localDayOf(iso){const d=new Date(iso);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function mondayOf(dstr){const d=new Date(dstr+'T12:00');const wd=(d.getDay()+6)%7;d.setDate(d.getDate()-wd);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function weekDaysCount(){const wk=mondayOf(today());return getDays().filter(d=>mondayOf(d)===wk).length}
+function weekStreak(){
+  const byWeek={};getDays().forEach(d=>{const w=mondayOf(d);byWeek[w]=(byWeek[w]||0)+1});
+  let n=0;const cur=new Date(mondayOf(today())+'T12:00');
+  if((byWeek[mondayOf(today())]||0)>=2)n=1;else if(!byWeek[mondayOf(today())]){/* 今週まだ0日でも先週から数える */}
+  let d=new Date(cur);d.setDate(d.getDate()-7);
+  for(;;){const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if((byWeek[k]||0)>=2){n++;d.setDate(d.getDate()-7)}else break}
+  return n;
+}
+/* ===== v3: daily quests ===== */
+function todayRecs(){return getRecords().filter(r=>localDayOf(r.date)===today())}
+function questState(){
+  const tr=todayRecs();
+  return [
+   {t:'どれかのドリルを1セット完走',done:tr.length>=1},
+   {t:'「今日のおすすめ」（'+LABEL[recToday().pick]+'）を完走',done:tr.some(r=>r.type===recToday().pick)},
+   {t:'今日20問に答える（'+Math.min(getQToday(),20)+'/20）',done:getQToday()>=20},
+  ];
+}
+function checkQuestBonus(){
+  const q=questState();
+  if(q.every(x=>x.done)&&localStorage.getItem('pokerTrainerQuestBonus')!==today()){
+    localStorage.setItem('pokerTrainerQuestBonus',today());
+    toast('⚔ デイリークエスト全達成 <b>+50 XP</b>');setXP(getXP()+50);
+  }
+}
+function renderQuests(){
+  const host=document.getElementById('quests');const q=questState();
+  const bonusGot=localStorage.getItem('pokerTrainerQuestBonus')===today();
+  host.innerHTML=q.map(x=>'<div class="quest'+(x.done?' done':'')+'"><span class="qmark">✓</span><span>'+x.t+'</span></div>').join('')
+   +(bonusGot?'<div class="questbonus">今日のクエストは全達成。+50 XP獲得済み。おかわりは自由。</div>':'');
+}
+/* ===== v3: Luna ===== */
+function lunaSVG(size){size=size||56;return '<svg viewBox="0 0 100 100" width="'+size+'" height="'+size+'" aria-label="ルナ">'
+ +'<defs><radialGradient id="lbg" cx="50%" cy="35%"><stop offset="0%" stop-color="#2e3468"/><stop offset="100%" stop-color="#171a35"/></radialGradient></defs>'
+ +'<circle cx="50" cy="50" r="50" fill="url(#lbg)"/>'
+ +'<circle cx="24" cy="22" r="1.4" fill="#cfd6ff" opacity=".8"/><circle cx="80" cy="30" r="1" fill="#cfd6ff" opacity=".6"/><circle cx="70" cy="14" r="1.2" fill="#cfd6ff" opacity=".7"/>'
+ +'<path d="M50 12 C28 12 20 30 21 48 C22 60 26 66 28 78 L34 70 C33 58 30 50 32 40 C36 26 44 22 50 22 C56 22 64 26 68 40 C70 50 67 58 66 70 L72 78 C74 66 78 60 79 48 C80 30 72 12 50 12 Z" fill="#3a3560"/>'
+ +'<ellipse cx="50" cy="52" rx="21" ry="23" fill="#ffe6d5"/>'
+ +'<path d="M50 20 C36 20 30 34 31 46 C38 42 44 36 50 36 C56 36 62 42 69 46 C70 34 64 20 50 20 Z" fill="#453f72"/>'
+ +'<path d="M31 46 C33 40 36 34 41 31 C38 38 37 44 37 49 Z" fill="#5a5390"/>'
+ +'<ellipse cx="42" cy="54" rx="4" ry="5.2" fill="#fff"/><ellipse cx="58" cy="54" rx="4" ry="5.2" fill="#fff"/>'
+ +'<circle cx="42" cy="55" r="3" fill="#57c8dd"/><circle cx="58" cy="55" r="3" fill="#57c8dd"/>'
+ +'<circle cx="42" cy="55" r="1.4" fill="#123"/><circle cx="58" cy="55" r="1.4" fill="#123"/>'
+ +'<circle cx="43" cy="53.6" r=".8" fill="#fff"/><circle cx="59" cy="53.6" r=".8" fill="#fff"/>'
+ +'<path d="M37 47 Q42 45 46 47" stroke="#453f72" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+ +'<path d="M54 47 Q58 45 63 47" stroke="#453f72" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+ +'<path d="M46 64 Q50 67 54 64" stroke="#d98a80" stroke-width="1.8" fill="none" stroke-linecap="round"/>'
+ +'<circle cx="36" cy="61" r="2.6" fill="#ffb9a8" opacity=".55"/><circle cx="64" cy="61" r="2.6" fill="#ffb9a8" opacity=".55"/>'
+ +'<path d="M67 26 A7 7 0 1 0 74 36 A5.6 5.6 0 1 1 67 26 Z" fill="#ffd76e"/>'
+ +'<path d="M29 78 C36 72 64 72 71 78 L74 92 L26 92 Z" fill="#2c3163"/>'
+ +'<path d="M46 76 L50 82 L54 76 L50 74 Z" fill="#ffd76e"/>'
+ +'</svg>'}
+const LUNA_LINES=[
+ '今日もテーブルへ。<b>まず1セット</b>だけでいい。10問なら3分で終わるから。',
+ 'あなたがBTNにいる時が、いちばん自由。約41%の手で開けられる——レンジドリルで境界を確かめよう。',
+ '間違えた問題は数日後にまた出るようにしてある。<b>忘れかけた頃に思い出す</b>のが、いちばん記憶に残るの。',
+ '結果は選べない。<b>選択だけが選べる</b>。今日の10問は全部「選択」の練習。',
+ 'BBで受ける勇気の数字は<b>35.5%</b>。三回にひとつは、怖くても受ける。',
+ 'SBで10bbなら<b>58.6%</b>で押す。ほとんどの夜は、勇気の側が正しい。',
+ '降りるのも立派なプレー。今日のドリルで「きれいに降りた回数」も数えてあげて。',
+ 'ウェットなボードでは頻度を落として、打つ時はしっかり大きく。全部は打たなくていいの。',
+ 'A72みたいな乾いたAハイは、レイズした側がほぼ全部の手で小さく打っていい代表ボード。',
+ '実力が偶然を追い越すには、およそ<b>1,471回</b>の繰り返しがいる。今日の10問もその一部。',
+ '疲れてる日は「苦手だけ10問」で十分。ゼロの日を作らないことより、<b>戻ってくること</b>が大事。',
+ 'ミックスは実戦と同じで、何が来るか分からない。仕上げに使って。',
+];
+function lunaLevelLine(lv){
+  if(lv>=14)return 'ここまで来たんだ。……ねえ、物語の続きを読んで。';
+  if(lv>=11)return 'もう、私が教えられることはあと少しだけ。';
+  if(lv>=8)return '判断が速くなってきた。数字があなたの味方になってる。';
+  if(lv>=5)return 'いい調子。境界のハンドで迷わなくなってきたね。';
+  if(lv>=3)return '続けて戻ってきたことが、いちばんの才能だよ。';
+  return 'ようこそ、ノクターンへ。ここからが本番。';
+}
+function lunaResultLine(kind,rate){
+  if(rate>=100)return 'ルナ「完璧。……ちょっと悔しいくらい」';
+  if(rate>=90)return 'ルナ「目標ライン90%クリア。その判断、実戦で使えるよ」';
+  if(rate>=70)return 'ルナ「悪くない。間違えた問題は数日後にまた出すから、今は先へ」';
+  return 'ルナ「今日は境界を確かめた日。間違いは授業料じゃなくて、地図になるの」';
+}
+function renderLuna(){
+  document.getElementById('lunaAvatar').innerHTML=lunaSVG(56);
+  const due=srsDue('').length;
+  let line;
+  if(due>=5)line='復習待ちが<b>'+due+'問</b>たまってる。今日はまずそこから片付けよう。「苦手だけ10問」が近道。';
+  else{const seed=(new Date().getDate())+getQTotal();line=LUNA_LINES[seed%LUNA_LINES.length]}
+  document.getElementById('lunaLine').innerHTML=line;
+}
+/* ===== v3: story ===== */
+const STORY=[
+{lv:1,num:'第一夜',title:'0.45%',sub:'閉店後のノクターンで、僕は彼女に出会う。',text:
+'<p>火曜日の雨は、傘を差すほどでもないのに服だけ確実に濡らしていく。そういう雨だった。僕――湊悠人、27歳、取り柄なし――は、駅前の雑居ビル3階のアミューズメントポーカー店「ノクターン」で、その夜も静かに削られていた。</p>'
++'<p>チップは開始の3分の1。理由なら分かっている。分からないから負けるのではない。分かった気になっているから負けるのだ。</p>'
++'<p>閉店30分前、フロアの照明が一段落ちた。奥のテーブルに、それまで気づかなかった客がひとり座っていた。制服みたいな黒いワンピースの、僕より少し年下に見える女の子。金色の三日月の髪飾りが、暗い店内でそこだけ灯りみたいに光っていた。</p>'
++'<p>「次のハンド、あなたにエースがふたり来る」</p>'
++'<p>すれ違いざま、彼女は僕にだけ聞こえる声でそう言った。「同じ手がもう一度配られる確率は0.45%。221回にいちどの夜。――そして、あなたはたぶん、それを台無しにする」</p>'
++'<p>次のハンド、僕の手札はスペードとハートのエースだった。</p>'
++'<p>心臓が跳ねた。僕は誰も降ろしたくなくて小さく打ち、全員をフロップに招待し、ストレートを完成させた常連に全部を運んだ。台無しにする、の意味を理解したのは全てが終わった後だった。</p>'
++'<p>閉店後。なぜか僕はまだ店にいて、奥のテーブルで彼女と向かい合っていた。店員は誰も僕らを追い出しに来ない。それどころか、誰も彼女のほうを見ない。</p>'
++'<p>「カードは正しかったよ」と彼女は言った。「あなたが順番を間違えただけ。エースは221回にいちどしか来ないのに、あなたはそれを、毎回来る手みたいに安売りした」</p>'
++'<p>「……君は誰?」</p>'
++'<p>「ルナ。ここの、いちばん古い常連」彼女はチップをひとつ、指の上で歩かせた。「ねえ、賭けをしない? 三ヶ月で、あなたをこの店でいちばん強いプレイヤーにしてあげる。私はそういうのが視えるの。カードの裏の数字が、ぜんぶ」</p>'
++'<p>「僕が賭けるものは?」</p>'
++'<p>彼女は少しだけ黙った。それから、笑った。雨上がりみたいな顔だった。</p>'
++'<p>「私のことを、最後まで覚えていること。それが賭け金。安いでしょう?」</p>'
++'<p>安すぎる賭け金には裏がある。それを僕に教えたのは、他ならぬ彼女なのだけれど――この時の僕はまだ、何も知らなかった。</p>'},
+{lv:3,num:'第二夜',title:'18%',sub:'キングがエースに負けた夜。彼女は結果と選択の話をする。',text:
+'<p>キングがふたり。ルナの授業が始まって二週間、僕は初めての「ほぼ最強」を手にして、教わったとおり3ベットし、教わったとおり全部を入れた。</p>'
++'<p>相手の手札はエースがふたりだった。ボードは何もしてくれなかった。</p>'
++'<p>「クソ」と僕は言った。柄にもなく、テーブルを少し叩いた。「教わったとおりに打ったのに」</p>'
++'<p>「そう。教わったとおりに打った」閉店後の定位置で、ルナは頷いた。「キング同士がエース同士にぶつかった時、あなたが勝つ確率は18%。今夜は、残りの82%が起きた。それだけのこと」</p>'
++'<p>「それだけ、で済むかよ」</p>'
++'<p>「済むの」彼女の声は静かだった。「いい? 湊くん。あなたが選べるのは結果じゃない。選択だけ。キングで全部入れるのは、100回やったら100回正しい選択。結果でそれを殴る人は、正しい選択のほうを捨てちゃうの。次から怖くなって、キングを安売りする。そうやって、正しさから遠ざかっていく」</p>'
++'<p>「……プロセスで測れ、ってこと」</p>'
++'<p>「そう。今夜のあなたは満点だった。負けたけど、満点だった」ルナはチップの山をひとつ、僕のほうへ押した。意味のない、ただのジェスチャーだ。ここのチップはお金にならない。「私はね、負けた夜の打ち方でその人の値段が決まると思ってる。勝ってる夜は誰でも上手いの」</p>'
++'<p>帰り際、僕は彼女に傘を渡そうとした。外はまた雨だったからだ。</p>'
++'<p>彼女の指が、傘の柄を――すり抜けた。</p>'
++'<p>一瞬だった。次の瞬間には彼女はちゃんと傘をつかんでいて、「ありがと。でも私、濡れないから」と笑って、返してよこした。</p>'
++'<p>その夜の帰り道、僕は考えていた。82%の側が起きた夜のこと。誰もルナを見ない店内のこと。濡れないから、の意味のこと。</p>'
++'<p>考えて、やめた。答え合わせをするには、僕はまだ彼女のことを何も知らなかった。</p>'},
+{lv:5,num:'第三夜',title:'11.8%',sub:'小さなペアの夢の見方。そして、写真の中の彼女。',text:
+'<p>「2がふたり」僕は手札を睨んだ。「最弱のペアだ」</p>'
++'<p>「最弱で、夢がある」とルナは言った。「フロップで3枚目の2が落ちる確率は11.8%。8回にいちどより少し多いくらい。セットは化ける。相手のエースふたりを、裏路地で静かに倒せる」</p>'
++'<p>「8回に7回は外れるんだろ? 追っていいのか、そんな夢」</p>'
++'<p>「いい質問」彼女は指を一本立てた。「追っていいのは、当たった時に大きく回収できる時だけ。目安は、相手の残りチップがコール額の15倍。回収の見込みがない夢は、ただの寄付。――恋も似てる、って言ったら怒る?」</p>'
++'<p>「怒らないけど、君に恋の話をされると調子が狂う」</p>'
++'<p>「ふうん」ルナは笑って、それきりその話はしなかった。</p>'
++'<p>その夜、店主の橘さんが珍しく僕に話しかけてきた。閉店後にいつまでも居座る僕を、彼はなぜか一度も咎めたことがない。</p>'
++'<p>「あんた、最近強くなったね」と橘さんは言った。「打ち方が、昔の子に似てきた」</p>'
++'<p>「昔の子?」</p>'
++'<p>「10年前の常連でね。高校生くらいの女の子だったけど、ここの月例トーナメントで負けなしだった。決勝を三連覇した夜に――」橘さんはそこで言葉を切って、カウンターの奥の写真立てを見た。「まあ、いいや。古い話だ」</p>'
++'<p>帰り際、僕はその写真立てを見た。色褪せた集合写真。優勝トロフィーを抱えた小柄な少女が、真ん中で笑っていた。</p>'
++'<p>金色の、三日月の髪飾り。</p>'
++'<p>振り返ると、奥のテーブルにはもう誰もいなかった。ただ、テーブルの上にチップが一枚、まるで置き忘れみたいに残っていて、拾おうとした僕の指は、それをすり抜けた。</p>'},
+{lv:8,num:'第四夜',title:'35.5%',sub:'守りすぎる人は、静かに消えていく。',text:
+'<p>「今夜は、受ける勇気の話」ルナはチップを10bbぶんだけ積んだ。「あなたがビッグブラインドで、スモールブラインドの相手が10bbを全部押してきた。相手は配られた手の半分くらいで押してくる。あなたはどれくらいの手で受けるべき?」</p>'
++'<p>「……いい手だけ。2割くらい?」</p>'
++'<p>「35.5%」と彼女は言った。「三回にひとつより多く。K9も、Q8のスーテッドも、エースなら全部。あなたが思うより、ずっと広い」</p>'
++'<p>「そんなに? 負けるかもしれないのに」</p>'
++'<p>「負けるかもしれない手で受けるの。相手が半分の手で押してくるなら、あなたのK9は五分より上。それを毎回降りてたら、あなたはブラインドを黙って払い続けるだけの人になる」ルナは僕の目を見た。「降りてばかりの人はね、派手には負けない。静かに、少しずつ削られて、いつの間にかテーブルからいなくなるの。……カードの話だけじゃなく」</p>'
++'<p>最後のひとことは、ほとんど独り言みたいだった。</p>'
++'<p>「ルナ。ひとつ聞いていい?」僕は思い切って言った。「橘さんの写真の子。あれ、君だろ」</p>'
++'<p>彼女は驚かなかった。ただ、チップをひとつ指の上で歩かせて、それが指をすり抜けて落ちるのを、ふたりで眺めた。最近、それはよく起きた。彼女の輪郭は、出会った夜より確実に薄くなっていた。</p>'
++'<p>「賭けはまだ途中」と彼女は言った。「答え合わせは、あなたがもう少し強くなってから。――ねえ、それより復習。さっきのK9、本当に受けられる? 明日の夜のあなたが、震えずに?」</p>'
++'<p>「受けるよ。35.5%、覚えた」</p>'
++'<p>「よろしい」彼女は笑った。その笑顔がひどく綺麗で、ひどく遠かったこと、その夜の僕は気づかないふりをした。</p>'},
+{lv:11,num:'第五夜',title:'58.6%',sub:'押す勇気の数字。そして、賭けの本当の中身。',text:
+'<p>「スモールブラインドで10bb。誰もまだ参加していない。あなたは、配られた手の何%で全部を押すべき?」</p>'
++'<p>「……半分?」</p>'
++'<p>「58.6%」ルナは言った。「半分より多く。7もあれば押す。ジャックと4のスーテッドでも押す。ほとんどの夜は、勇気の側が正しいの」</p>'
++'<p>「随分と乱暴な数字に見える」</p>'
++'<p>「そう見えるのは、降りた未来が見えないから。押せば、相手が降りてくれるだけでブラインドとアンテが手に入る。受けられても、5枚のカード全部があなたの味方をしてくれる。10bbのスモールブラインドで待つことは、ゆっくり負けることと同じ」</p>'
++'<p>それから彼女は、少しだけ黙って、言った。</p>'
++'<p>「――答え合わせの時間。私の賭けの話」</p>'
++'<p>10年前の月例トーナメント決勝の夜、彼女は店を出て、交差点で、視ていなかった2%の側に出会った。それだけの話、と彼女は言った。ただし彼女には心残りがあった。誰にも、何も、渡せていなかったこと。</p>'
++'<p>「そうしたら、胴元が来たの」と彼女は言った。「確率そのもの、みたいな存在。彼は賭けを持ちかけてきた。『誰かひとりを、お前より強くしてみせろ。できたら勝ち。できなければ、お前は最初からいなかったことになる』――期待値を計算したら、受けない理由がなかった」</p>'
++'<p>「……それで、僕を」</p>'
++'<p>「そう。でもね、ひとつだけ計算外があった」彼女は薄くなった手のひらを、灯りに透かした。「あなたが強くなるほど、私は薄くなる。賭けに勝つことと、消えることが、同じ意味だったの。ひどい契約でしょう? 読み落とした私の負け。――でも、降りなかった」</p>'
++'<p>「なんで」</p>'
++'<p>「期待値がプラスだったから」彼女は笑った。出会った夜と同じ、雨上がりの顔で。「あなたに会えたことが」</p>'
++'<p>僕は何か言おうとして、何も言えなかった。58.6%。押す勇気の数字。それを教わった夜に、彼女の側こそがずっと、いちばん大きな全部を押し続けていたことを知った。</p>'},
+{lv:14,num:'最終夜',title:'100%',sub:'月例トーナメント。彼女のいないテーブルで。',text:
+'<p>月例トーナメントの夜、ノクターンは満員だった。奥のテーブルには誰もいない。二週間前から、ずっと。</p>'
++'<p>僕は打った。教わったとおりに。0.45%の手は来なかったけれど、来ない夜の打ち方こそ教わっていた。ポジション。境界のハンド。ウェットなボードで頻度を落とすこと。降りない相手にブラフをしないこと。浅くなったら、勇気の側。</p>'
++'<p>ファイナルテーブルで、僕はK9で10bbのオールインを受けた。35.5%の内側。震えなかった。負けた。正しく負けた。</p>'
++'<p>結果は3位だった。優勝じゃない。でも帰り道の僕は、自分の全部の選択を順番に思い出して、直したい場所がふたつしかないことに気づいた。彼女なら言うだろう。「今夜のあなたは、ほとんど満点」</p>'
++'<p>閉店後の店に、僕はひとりで残った。橘さんは何も言わずに照明を一段落としてくれた。</p>'
++'<p>奥のテーブルに、カードが一枚、伏せて置いてあった。</p>'
++'<p>スペードのエース。その裏に、細い字。</p>'
++'<p>「実力が偶然を追い越すには、およそ1,471回の繰り返しが必要なんだって。あなたはまだ200回ちょっと。先は長いよ。サボったら化けて出る。……というのは冗談で、化けて出られるほどの残高が、もう私にはないの」</p>'
++'<p>「最後にひとつだけ、私が視た確率を教えてあげる。あなたがこの先もテーブルに戻ってくる確率――100%。胴元は『そんな数字はない』って文句を言ったけど、いいの。これは彼の計算じゃなくて、私の賭けだから」</p>'
++'<p>「賭け金、覚えてる? 私のことを、最後まで覚えていること。取り立てには行けなくなっちゃったから、自主的に払って。利子はいらない。元本だけ、ずっと」</p>'
++'<p>僕は覚えている。0.45%の夜のこと。18%で世界が終わらなかったこと。11.8%の夢の追い方。35.5%の受ける勇気。58.6%の押す勇気。</p>'
++'<p>それから――どの数字にもならなかった、彼女の笑い方を。</p>'
++'<p>翌週の火曜日、僕はまたノクターンの扉を開ける。100%の側として。それが、彼女への返済だから。</p>'
++'<p style="text-align:center;color:#8b91b8">（第一部・了　――続きは、あなたが1,471回に届いた頃に。）</p>'},
+];
+function getStoryRead(){try{return JSON.parse(localStorage.getItem('pokerTrainerStoryRead')||'[]')}catch(e){return[]}}
+function renderStory(openIdx){
+  const host=document.getElementById('storyBody');const lv=lvFromXP(getXP()).lv;const read=getStoryRead();
+  if(openIdx!==undefined){
+    const c=STORY[openIdx];
+    if(!read.includes(openIdx)){read.push(openIdx);localStorage.setItem('pokerTrainerStoryRead',JSON.stringify(read))}
+    if(read.length>=3)unlockAchv('story3');
+    if(read.includes(STORY.length-1))unlockAchv('storyall');
+    host.innerHTML='<div class="story-read"><div class="num">'+c.num+'</div><h3>「'+c.title+'」</h3>'+c.text
+      +'<button class="backbtn">← 章の一覧へ</button>'
+      +'<div class="story-note">この物語はフィクションです。ただし数字は本物――0.45%（AAが配られる確率）、18%（KKがAAに勝つ確率）、11.8%（フロップでセット）、35.5%（BBがSBの10bbオールインを受ける割合・自前ナッシュ計算）、58.6%（SB 10bbで押す割合・同）、1,471ハンド（実力が運を追い越す反復数、Fiedler & Rock 2009）。全部、教科書とドリルに出てきます。</div></div>';
+    host.querySelector('.backbtn').onclick=()=>{renderStory();window.scrollTo({top:0,behavior:'smooth'})};
+    return;
+  }
+  host.innerHTML='<div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">'+lunaSVG(64)+'<div><h2 style="margin:0;font-size:1.05rem">ルナと1,471回の夜</h2><p style="margin:2px 0 0;color:var(--muted);font-size:.76rem">レベルが上がるたび、次の夜が解放される。</p></div></div>'
+   +'<div class="story-list">'+STORY.map((c,i)=>{
+     const open=lv>=c.lv;
+     return open?'<div class="chap'+(read.includes(i)?' readdone':'')+'" data-i="'+i+'"><span class="num">'+c.num+'</span><h3>「'+c.title+'」</h3><p>'+c.sub+'</p></div>'
+      :'<div class="chap locked"><span class="lock">🔒 Lv '+c.lv+' で解放</span><span class="num">'+c.num+'</span><h3>「???」</h3><p>まだ読めない。ドリルでレベルを上げよう。</p></div>';
+   }).join('')+'</div>';
+  host.querySelectorAll('.chap[data-i]').forEach(el=>el.onclick=()=>{renderStory(+el.dataset.i);window.scrollTo({top:0,behavior:'smooth'})});
+}
+/* ===== v3: growth dashboard ===== */
+const KIND_COLOR={range:'#4be1e8',push:'#ffc84d',call:'#ffa65c',vs:'#ff9ed2',odds:'#ff5c8a',judge:'#9d7bff',mix:'#5ee6a0'};
+function renderGrow(){
+  document.getElementById('kpiWeekStreak').textContent=weekStreak()+'週';
+  document.getElementById('kpiWeekDays').textContent=weekDaysCount()+'/2';
+  document.getElementById('kpiTotalQ').textContent=getQTotal();
+  const recs=getRecords().slice(-30);
+  const svg=document.getElementById('growChart');
+  const W=640,H=240,P={l:34,r:10,t:12,b:22};
+  let inner='';
+  [0,25,50,75,90,100].forEach(y=>{const py=P.t+(100-y)/100*(H-P.t-P.b);inner+='<line x1="'+P.l+'" y1="'+py+'" x2="'+(W-P.r)+'" y2="'+py+'" stroke="'+(y===90?'#5ee6a055':'#2b306055')+'" stroke-width="1"'+(y===90?' stroke-dasharray="4 3"':'')+'/><text x="'+(P.l-6)+'" y="'+(py+3)+'" fill="#8b91b8" font-size="9" text-anchor="end">'+y+'</text>'});
+  if(!recs.length){inner+='<text x="'+(W/2)+'" y="'+(H/2)+'" fill="#8b91b8" font-size="12" text-anchor="middle">まだ記録がありません。1セットやると線が生えます。</text>'}
+  else{
+    const n=recs.length,step=(W-P.l-P.r)/Math.max(n-1,1);
+    const px=i=>P.l+i*step, py=r=>P.t+(100-r)/100*(H-P.t-P.b);
+    // 5セッション移動平均
+    let path='';recs.forEach((r,i)=>{const from=Math.max(0,i-4),win=recs.slice(from,i+1),avg=win.reduce((s,x)=>s+x.rate,0)/win.length;path+=(i?'L':'M')+px(i).toFixed(1)+' '+py(avg).toFixed(1)+' '});
+    inner+='<path d="'+path+'" fill="none" stroke="#eef0ff" stroke-width="2" opacity=".85"/>';
+    recs.forEach((r,i)=>{inner+='<circle cx="'+px(i).toFixed(1)+'" cy="'+py(r.rate).toFixed(1)+'" r="4" fill="'+(KIND_COLOR[r.type]||'#888')+'"><title>'+(LABEL[r.type]||r.type)+' '+r.rate+'%</title></circle>'});
+    inner+='<text x="'+(W-P.r)+'" y="'+(H-6)+'" fill="#8b91b8" font-size="9" text-anchor="end">→ 新しい</text>';
+  }
+  svg.innerHTML=inner;
+  document.getElementById('growLegend').innerHTML=Object.keys(KIND_COLOR).map(k=>'<span><i style="background:'+KIND_COLOR[k]+'"></i>'+LABEL[k]+'</span>').join('')+'<span><i style="background:#eef0ff"></i>移動平均(5)</span><span style="color:#5ee6a0">--- 目標90%</span>';
+  const mh=document.getElementById('mastery');
+  mh.innerHTML=Object.keys(KIND_COLOR).map(k=>{
+    const a=getRecords().filter(r=>r.type===k);
+    const v=a.length?Math.round(a.slice(-3).reduce((s,x)=>s+x.rate,0)/Math.min(a.length,3)):null;
+    const w=v===null?0:v;
+    return '<div class="mrow"><span>'+LABEL[k]+'</span><div class="mbar"><i style="width:'+w+'%;background:'+KIND_COLOR[k]+'"></i></div><b class="'+(v!==null&&v>=90?'goal':'')+'">'+(v===null?'—':v+'%')+'</b></div>';
+  }).join('');
+  const m=getAchvMap();
+  document.getElementById('achvCount').innerHTML='<b>'+Object.keys(m).length+'</b> / '+ACHV.length;
+  document.getElementById('achvGrid').innerHTML=ACHV.map(a=>'<div class="achv'+(m[a.id]?' got':'')+'"><span class="ic">'+a.ic+'</span><span><b>'+a.t+'</b>'+a.d+(m[a.id]?'<br><span style="color:#8b91b8">'+m[a.id]+'</span>':'')+'</span></div>').join('');
 }
 /* ===== records ===== */
 function getRecords(){try{return JSON.parse(localStorage.getItem('pokerTrainerHistory')||'[]')}catch(e){return[]}}
@@ -441,20 +845,30 @@ function renderRecords(){
   h.innerHTML=a.slice(0,40).map(r=>{const d=new Date(r.date);return '<div class="row"><span>'+(LABEL[r.type]||r.type)+'</span><time>'+(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+'</time><b>'+r.rate+'%</b></div>'}).join('');
 }
 /* ===== today's menu ===== */
-function renderToday(){
+function recToday(){
+  // その日の最初の計算で固定する（完走後におすすめが移動するとクエストの的がずれるため）
+  try{const o=JSON.parse(localStorage.getItem('pokerTrainerRec')||'{}');if(o.d===today()&&o.pick)return o}catch(e){}
   const wd=new Date().getDay();// 0 Sun
   const kinds=['range','push','call','vs','odds','judge'];
   const avgs={};kinds.forEach(k=>avgs[k]=avgOf(k,3));
   const untried=kinds.filter(k=>avgs[k]===null);
-  let pick,reason;
-  const due=srsDue('');
-  if(untried.length){pick=untried[0];reason='まだやっていないドリル'}
-  else{let worst=kinds.slice().sort((a,b)=>avgs[a]-avgs[b])[0];if(avgs[worst]<90){pick=worst;reason='直近の正答率 '+avgs[worst]+'%（一番低い）'}else{pick=[ 'range','odds','judge','vs','push','call','judge'][wd];reason='今日の曜日メニュー'}}
-  const el=document.getElementById('today');
-  el.innerHTML='<span>今日のおすすめ: <b>'+LABEL[pick]+'</b>（'+reason+(due.length?'・復習待ち '+due.length+'問':'')+'）</span><button data-go="'+pick+'">始める</button><span class="streak">連続 '+streak()+'日 ・ 練習日数 '+getDays().length+'</span>';
-  el.querySelector('button').onclick=()=>{showTab(pick)};
+  let r;
+  if(untried.length)r={pick:untried[0],reason:'まだやっていないドリル'};
+  else{const worst=kinds.slice().sort((a,b)=>avgs[a]-avgs[b])[0];
+    if(avgs[worst]<90)r={pick:worst,reason:'直近の正答率 '+avgs[worst]+'%（一番低い）'};
+    else r={pick:['mix','odds','judge','vs','push','call','mix'][wd],reason:'今日の曜日メニュー（90%超えは混合で維持）'}}
+  r.d=today();localStorage.setItem('pokerTrainerRec',JSON.stringify(r));
+  return r;
 }
-function showTab(id){document.querySelectorAll('.tab,.view').forEach(x=>x.classList.remove('active'));document.querySelector('.tab[data-tab="'+id+'"]').classList.add('active');document.getElementById(id).classList.add('active');if(id==='charts'){renderChart();renderRecords()}window.scrollTo({top:0,behavior:'smooth'})}
+function renderToday(){
+  const {pick,reason}=recToday();
+  const due=srsDue('');
+  const el=document.getElementById('today');
+  el.innerHTML='<span>今日のおすすめ: <b>'+LABEL[pick]+'</b>（'+reason+(due.length?'・復習待ち '+due.length+'問':'')+'）</span><button data-go="'+pick+'">始める</button><span class="streak">週ストリーク '+weekStreak()+' ・ 今週 '+weekDaysCount()+'日 ・ 通算 '+getDays().length+'日</span>';
+  el.querySelector('button').onclick=()=>{showTab(pick)};
+  renderLuna();
+}
+function showTab(id){document.querySelectorAll('.tab,.view').forEach(x=>x.classList.remove('active'));document.querySelector('.tab[data-tab="'+id+'"]').classList.add('active');document.getElementById(id).classList.add('active');if(id==='charts')renderChart();if(id==='grow'){renderRecords();renderGrow()}if(id==='story')renderStory();window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
 ['chartType','chartPos','chartStack','chartAnte'].forEach(id=>document.getElementById(id).onchange=renderChart);
 document.getElementById('clear').onclick=()=>{if(confirm('ドリル記録・苦手データを削除しますか？（XPは残ります）')){localStorage.removeItem('pokerTrainerHistory');localStorage.removeItem('pokerTrainerSRS');renderRecords()}};
@@ -467,6 +881,6 @@ document.getElementById('weakBtn').onclick=()=>{
   start(kind,pool);showTab(kind);
 };
 document.getElementById('vsHero').onchange=()=>start('vs');document.getElementById('pushAnte').onchange=()=>start('push');document.getElementById('pushStack').onchange=()=>start('push');document.getElementById('callAnte').onchange=()=>start('call');
-start('range');start('push');start('call');start('vs');start('odds');start('judge');renderChart();renderRecords();renderXP();renderToday();
+start('range');start('push');start('call');start('vs');start('odds');start('judge');start('mix');renderChart();renderRecords();renderXP();renderToday();renderQuests();renderStory();renderGrow();
 })();
 </script></body></html>
