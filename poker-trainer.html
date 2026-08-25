@@ -201,6 +201,8 @@ button,select{font:inherit}
 .story-read .num{font-size:.66rem;color:#b7a5ff;font-weight:900;letter-spacing:.12em}
 .story-read p{margin:1.3em 0;text-align:justify}
 .story-read .backbtn{margin:18px 0 4px;width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:13px;min-height:48px;font-weight:800;cursor:pointer}
+.story-img{display:block;width:100%;height:auto;border-radius:16px;margin:12px 0 6px;border:1px solid #3a3f66;box-shadow:0 14px 40px #0007}
+.chap .thumb{float:right;width:86px;height:59px;object-fit:cover;border-radius:9px;margin-left:10px;border:1px solid #3a3f66}
 .story-read em{font-style:normal;color:var(--cyan)}
 .story-note{color:var(--muted);font-size:.72rem;line-height:1.6;margin-top:14px;border-top:1px dashed #2b3060;padding-top:10px}
 @media (min-width:720px){.tabs{grid-template-columns:repeat(10,1fr)}.luna-bubble{font-size:.9rem}}
@@ -677,7 +679,7 @@ function renderLuna(){
 }
 /* ===== v3: story ===== */
 const STORY=[
-{lv:1,num:'第一夜',title:'0.45%',sub:'閉店後のノクターンで、僕は彼女に出会う。',text:
+{lv:1,num:'第一夜',img:'poker-assets/luna-ch1.jpg',title:'0.45%',sub:'閉店後のノクターンで、僕は彼女に出会う。',text:
 '<p>火曜日の雨は、傘を差すほどでもないのに服だけ確実に濡らしていく。そういう雨だった。僕――湊悠人、27歳、取り柄なし――は、駅前の雑居ビル3階のアミューズメントポーカー店「ノクターン」で、その夜も静かに削られていた。</p>'
 +'<p>チップは開始の3分の1。理由なら分かっている。分からないから負けるのではない。分かった気になっているから負けるのだ。</p>'
 +'<p>閉店30分前、フロアの照明が一段落ちた。奥のテーブルに、それまで気づかなかった客がひとり座っていた。制服みたいな黒いワンピースの、僕より少し年下に見える女の子。金色の三日月の髪飾りが、暗い店内でそこだけ灯りみたいに光っていた。</p>'
@@ -693,7 +695,7 @@ const STORY=[
 +'<p>彼女は少しだけ黙った。それから、笑った。雨上がりみたいな顔だった。</p>'
 +'<p>「私のことを、最後まで覚えていること。それが賭け金。安いでしょう?」</p>'
 +'<p>安すぎる賭け金には裏がある。それを僕に教えたのは、他ならぬ彼女なのだけれど――この時の僕はまだ、何も知らなかった。</p>'},
-{lv:3,num:'第二夜',title:'18%',sub:'キングがエースに負けた夜。彼女は結果と選択の話をする。',text:
+{lv:3,num:'第二夜',img:'poker-assets/luna-ch2.jpg',title:'18%',sub:'キングがエースに負けた夜。彼女は結果と選択の話をする。',text:
 '<p>キングがふたり。ルナの授業が始まって二週間、僕は初めての「ほぼ最強」を手にして、教わったとおり3ベットし、教わったとおり全部を入れた。</p>'
 +'<p>相手の手札はエースがふたりだった。ボードは何もしてくれなかった。</p>'
 +'<p>「クソ」と僕は言った。柄にもなく、テーブルを少し叩いた。「教わったとおりに打ったのに」</p>'
@@ -707,7 +709,7 @@ const STORY=[
 +'<p>一瞬だった。次の瞬間には彼女はちゃんと傘をつかんでいて、「ありがと。でも私、濡れないから」と笑って、返してよこした。</p>'
 +'<p>その夜の帰り道、僕は考えていた。82%の側が起きた夜のこと。誰もルナを見ない店内のこと。濡れないから、の意味のこと。</p>'
 +'<p>考えて、やめた。答え合わせをするには、僕はまだ彼女のことを何も知らなかった。</p>'},
-{lv:5,num:'第三夜',title:'11.8%',sub:'小さなペアの夢の見方。そして、写真の中の彼女。',text:
+{lv:5,num:'第三夜',img:'poker-assets/luna-ch3.jpg',title:'11.8%',sub:'小さなペアの夢の見方。そして、写真の中の彼女。',text:
 '<p>「2がふたり」僕は手札を睨んだ。「最弱のペアだ」</p>'
 +'<p>「最弱で、夢がある」とルナは言った。「フロップで3枚目の2が落ちる確率は11.8%。8回にいちどより少し多いくらい。セットは化ける。相手のエースふたりを、裏路地で静かに倒せる」</p>'
 +'<p>「8回に7回は外れるんだろ? 追っていいのか、そんな夢」</p>'
@@ -721,7 +723,7 @@ const STORY=[
 +'<p>帰り際、僕はその写真立てを見た。色褪せた集合写真。優勝トロフィーを抱えた小柄な少女が、真ん中で笑っていた。</p>'
 +'<p>金色の、三日月の髪飾り。</p>'
 +'<p>振り返ると、奥のテーブルにはもう誰もいなかった。ただ、テーブルの上にチップが一枚、まるで置き忘れみたいに残っていて、拾おうとした僕の指は、それをすり抜けた。</p>'},
-{lv:8,num:'第四夜',title:'35.5%',sub:'守りすぎる人は、静かに消えていく。',text:
+{lv:8,num:'第四夜',img:'poker-assets/luna-ch4.jpg',title:'35.5%',sub:'守りすぎる人は、静かに消えていく。',text:
 '<p>「今夜は、受ける勇気の話」ルナはチップを10bbぶんだけ積んだ。「あなたがビッグブラインドで、スモールブラインドの相手が10bbを全部押してきた。相手は配られた手の半分くらいで押してくる。あなたはどれくらいの手で受けるべき?」</p>'
 +'<p>「……いい手だけ。2割くらい?」</p>'
 +'<p>「35.5%」と彼女は言った。「三回にひとつより多く。K9も、Q8のスーテッドも、エースなら全部。あなたが思うより、ずっと広い」</p>'
@@ -733,7 +735,7 @@ const STORY=[
 +'<p>「賭けはまだ途中」と彼女は言った。「答え合わせは、あなたがもう少し強くなってから。――ねえ、それより復習。さっきのK9、本当に受けられる? 明日の夜のあなたが、震えずに?」</p>'
 +'<p>「受けるよ。35.5%、覚えた」</p>'
 +'<p>「よろしい」彼女は笑った。その笑顔がひどく綺麗で、ひどく遠かったこと、その夜の僕は気づかないふりをした。</p>'},
-{lv:11,num:'第五夜',title:'58.6%',sub:'押す勇気の数字。そして、賭けの本当の中身。',text:
+{lv:11,num:'第五夜',img:'poker-assets/luna-ch5.jpg',title:'58.6%',sub:'押す勇気の数字。そして、賭けの本当の中身。',text:
 '<p>「スモールブラインドで10bb。誰もまだ参加していない。あなたは、配られた手の何%で全部を押すべき?」</p>'
 +'<p>「……半分?」</p>'
 +'<p>「58.6%」ルナは言った。「半分より多く。7もあれば押す。ジャックと4のスーテッドでも押す。ほとんどの夜は、勇気の側が正しいの」</p>'
@@ -748,7 +750,7 @@ const STORY=[
 +'<p>「なんで」</p>'
 +'<p>「期待値がプラスだったから」彼女は笑った。出会った夜と同じ、雨上がりの顔で。「あなたに会えたことが」</p>'
 +'<p>僕は何か言おうとして、何も言えなかった。58.6%。押す勇気の数字。それを教わった夜に、彼女の側こそがずっと、いちばん大きな全部を押し続けていたことを知った。</p>'},
-{lv:14,num:'最終夜',title:'100%',sub:'月例トーナメント。彼女のいないテーブルで。',text:
+{lv:14,num:'最終夜',img:'poker-assets/luna-ch6.jpg',title:'100%',sub:'月例トーナメント。彼女のいないテーブルで。',text:
 '<p>月例トーナメントの夜、ノクターンは満員だった。奥のテーブルには誰もいない。二週間前から、ずっと。</p>'
 +'<p>僕は打った。教わったとおりに。0.45%の手は来なかったけれど、来ない夜の打ち方こそ教わっていた。ポジション。境界のハンド。ウェットなボードで頻度を落とすこと。降りない相手にブラフをしないこと。浅くなったら、勇気の側。</p>'
 +'<p>ファイナルテーブルで、僕はK9で10bbのオールインを受けた。35.5%の内側。震えなかった。負けた。正しく負けた。</p>'
@@ -772,7 +774,7 @@ function renderStory(openIdx){
     if(!read.includes(openIdx)){read.push(openIdx);localStorage.setItem('pokerTrainerStoryRead',JSON.stringify(read))}
     if(read.length>=3)unlockAchv('story3');
     if(read.includes(STORY.length-1))unlockAchv('storyall');
-    host.innerHTML='<div class="story-read"><div class="num">'+c.num+'</div><h3>「'+c.title+'」</h3>'+c.text
+    host.innerHTML='<div class="story-read"><div class="num">'+c.num+'</div><h3>「'+c.title+'」</h3>'+(c.img?'<img class="story-img" src="'+c.img+'" alt="挿絵: '+c.num+'「'+c.title+'」" onerror="this.remove()">':'')+c.text
       +'<button class="backbtn">← 章の一覧へ</button>'
       +'<div class="story-note">この物語はフィクションです。ただし数字は本物――0.45%（AAが配られる確率）、18%（KKがAAに勝つ確率）、11.8%（フロップでセット）、35.5%（BBがSBの10bbオールインを受ける割合・自前ナッシュ計算）、58.6%（SB 10bbで押す割合・同）、1,471ハンド（実力が運を追い越す反復数、Fiedler & Rock 2009）。全部、教科書とドリルに出てきます。</div></div>';
     host.querySelector('.backbtn').onclick=()=>{renderStory();window.scrollTo({top:0,behavior:'smooth'})};
@@ -781,7 +783,7 @@ function renderStory(openIdx){
   host.innerHTML='<div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">'+lunaSVG(64)+'<div><h2 style="margin:0;font-size:1.05rem">ルナと1,471回の夜</h2><p style="margin:2px 0 0;color:var(--muted);font-size:.76rem">レベルが上がるたび、次の夜が解放される。</p></div></div>'
    +'<div class="story-list">'+STORY.map((c,i)=>{
      const open=lv>=c.lv;
-     return open?'<div class="chap'+(read.includes(i)?' readdone':'')+'" data-i="'+i+'"><span class="num">'+c.num+'</span><h3>「'+c.title+'」</h3><p>'+c.sub+'</p></div>'
+     return open?'<div class="chap'+(read.includes(i)?' readdone':'')+'" data-i="'+i+'">'+(c.img?'<img class="thumb" src="'+c.img+'" alt="" onerror="this.remove()">':'')+'<span class="num">'+c.num+'</span><h3>「'+c.title+'」</h3><p>'+c.sub+'</p></div>'
       :'<div class="chap locked"><span class="lock">🔒 Lv '+c.lv+' で解放</span><span class="num">'+c.num+'</span><h3>「???」</h3><p>まだ読めない。ドリルでレベルを上げよう。</p></div>';
    }).join('')+'</div>';
   host.querySelectorAll('.chap[data-i]').forEach(el=>el.onclick=()=>{renderStory(+el.dataset.i);window.scrollTo({top:0,behavior:'smooth'})});
