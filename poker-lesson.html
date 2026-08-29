@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>補足レッスン — 傾向1と傾向2をちゃんと理解する</title>
+<style>
+  :root{
+    color-scheme: dark;
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c232c; --line:#2a323d;
+    --tx:#e6edf3; --tx2:#9aa7b4; --tx3:#6e7d8d;
+    --good:#3fb950; --ok:#58a6ff; --warn:#d29922; --bad:#f85149; --accent:#a371f7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);
+    font-family:-apple-system,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic UI",sans-serif;
+    line-height:1.8;font-size:15px}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 90px}
+  h1{font-size:25px;margin:0 0 6px}
+  .sub{color:var(--tx2);font-size:13.5px;margin-bottom:30px}
+  h2{font-size:21px;margin:52px 0 6px;padding-bottom:10px;border-bottom:2px solid var(--accent)}
+  h2 .n{color:var(--accent);font-size:14px;display:block;margin-bottom:2px;letter-spacing:.1em}
+  h3{font-size:17px;margin:32px 0 10px;color:#cfe0f0}
+  h4{font-size:15px;margin:22px 0 6px;color:var(--tx)}
+  p{margin:0 0 15px}
+  em{color:#f0c674;font-style:normal;border-bottom:1px dashed rgba(240,198,116,.5)}
+
+  /* ---- トランプ ---- */
+  .card{display:inline-flex;flex-direction:column;align-items:flex-start;
+    width:50px;height:70px;background:linear-gradient(160deg,#fefefc,#eceff3);
+    border-radius:6px;border:1px solid #b9c0ca;box-shadow:0 3px 8px rgba(0,0,0,.45);
+    padding:4px 0 0 5px;font-family:"Segoe UI",Georgia,serif;position:relative;
+    vertical-align:middle;margin-right:4px;user-select:none}
+  .card.sm{width:38px;height:54px;padding:3px 0 0 4px;margin-right:3px}
+  .card .r{font-size:18px;font-weight:800;line-height:1.05;letter-spacing:-.04em}
+  .card .s{font-size:14px;line-height:1}
+  .card.sm .r{font-size:14px} .card.sm .s{font-size:11px}
+  .card .big{position:absolute;right:4px;bottom:2px;font-size:27px;opacity:.28;line-height:1}
+  .card.sm .big{font-size:20px;right:3px}
+  .card.red{color:#cc2f36} .card.blk{color:#16181d}
+  .card.back{background:repeating-linear-gradient(45deg,#2b3a55,#2b3a55 4px,#22304a 4px,#22304a 8px);
+    border-color:#3d4f6d}
+
+  .cardrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:14px 0}
+  .cardgrp{display:flex;flex-direction:column;gap:3px}
+  .cardgrp .lbl{font-size:11.5px;color:var(--tx3);letter-spacing:.05em}
+  .cardgrp .cs{display:flex;align-items:center}
+  .vs{color:var(--tx3);font-size:13px;font-weight:700;padding:0 2px;align-self:flex-end;margin-bottom:22px}
+  .boardbox{background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+    padding:10px 12px;display:inline-flex;flex-direction:column;gap:4px}
+
+  .showdown{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;margin:18px 0}
+  .showdown .res{font-size:13.5px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--tx2)}
+  .win{color:var(--good);font-weight:600} .lose{color:var(--bad);font-weight:600}
+
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:20px 0}
+  .box.g{border-left:4px solid var(--good)} .box.w{border-left:4px solid var(--warn)}
+  .box.b{border-left:4px solid var(--bad)} .box.a{border-left:4px solid var(--accent)}
+  .box h4{margin-top:0}
+  .box p:last-child{margin-bottom:0}
+
+  .ifthen{display:grid;grid-template-columns:1fr;gap:10px;margin:18px 0}
+  .rule{background:linear-gradient(135deg,#1a2330,#161b22);border:1px solid #2f3d4e;
+    border-radius:10px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start}
+  .rule .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent);
+    color:#0e1116;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .rule .t{flex:1}
+  .rule .if{color:var(--warn);font-weight:700;font-size:13px;letter-spacing:.03em}
+  .rule .then{color:var(--good);font-weight:700;font-size:13px;letter-spacing:.03em}
+  .rule .body{margin-top:3px;font-size:14.5px}
+  .rule .why{margin-top:6px;font-size:13px;color:var(--tx2)}
+
+  .scale{margin:22px 0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+  .bar{display:flex;height:34px;border-radius:6px;overflow:hidden;margin:12px 0 8px;font-size:12px;font-weight:600}
+  .bar div{display:flex;align-items:center;justify-content:center;color:#0e1116}
+  .scale .cap{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2)}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--tx2);font-size:12px;background:var(--panel);letter-spacing:.04em}
+  ul,ol{margin:0 0 15px;padding-left:24px} li{margin-bottom:8px}
+  code{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:13px}
+  footer{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);color:var(--tx3);font-size:12px}
+  .q{background:linear-gradient(135deg,#1d2438,#181d28);border:1px solid #36405c;border-radius:10px;padding:18px 20px;margin:20px 0}
+  .q .qh{color:var(--accent);font-weight:700;font-size:13px;letter-spacing:.06em;margin-bottom:8px}
+  details{margin-top:12px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+  summary{cursor:pointer;font-weight:600;color:var(--ok);font-size:14px}
+  details[open] summary{margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>補足レッスン：傾向1と傾向2</h1>
+<div class="sub">2026-08-29 ／ #001〜010のレビューを受けて ／ 質問への回答</div>
+
+<p>質問ありがとう。特に傾向2について「自分が負け続けている原因だと思った」って言ってくれたのが大きいと思う。<em>自分で腑に落ちた課題は直るスピードが全然違う</em>から、そこは重点的にやるね。</p>
+<p>まず傾向1から。ここは<b>言葉が足りてなかった僕の説明ミス</b>だと思うから、前提から丁寧にいくよ。</p>
+
+<!-- ============ 傾向1 ============ -->
+<h2><span class="n">傾向 1</span>安く取れる場面でベットを見送っている</h2>
+
+<h3>まず「レンジ」という考え方から</h3>
+<p>ポーカーで一番大事な発想の転換がこれなんだ。初心者のうちは<b>「自分の手 vs 相手の手」</b>で考えるんだけど、上達すると<b>「自分のレンジ vs 相手のレンジ」</b>で考えるようになる。</p>
+<p><em>レンジ＝その状況であなたが持っている可能性のある手、全部の集合</em>のこと。</p>
+<p>たとえば君がCOからレイズしたとする。相手から見ると、君の手は1つに特定できないよね。AAかもしれないし、KQsかもしれないし、A5sかもしれない。でも<b>72oではない</b>——だってその手ではレイズしないから。この「ありえる手の集合」がレンジ。</p>
+<p>ここが肝心なんだけど、<em>ベットが通るかどうかは、君の手の強さじゃなくて、君のレンジの強さで決まる</em>。相手は君の手札を見てないからね。相手が見てるのは「この人がこの行動を取るとき、どんな手を持ってる可能性があるか」だけ。</p>
+
+<h3>例1：#006 のフロップ</h3>
+<p>君がBBで、HJのオープンに3ベット。相手がコールしてフロップがこれ。</p>
+
+<div class="showdown">
+  <div class="cardrow">
+    <div class="cardgrp"><span class="lbl">君の手</span><span class="cs" data-cards="Js Ts"></span></div>
+    <div class="vs">──</div>
+    <div class="boardbox"><span class="lbl" style="font-size:11.5px;color:var(--tx3)">フロップ</span><span class="cs" data-cards="Ks Kd 6h"></span></div>
+  </div>
+  <div class="res">実際の進行：君がチェック → 相手もチェック（無料でターンへ）</div>
+</div>
+
+<p>ここで質問。<b>「Kを持ってる可能性が高いのは、君と相手のどっち？」</b></p>
+<p>答えは<em>君</em>なんだ。理由はこう。</p>
+<ul>
+  <li>君は3ベットした側。3ベットのレンジには <b>KK・AK・KQs</b> がしっかり入ってる。</li>
+  <li>相手は3ベットにコールした側。<b>KKやAKなら、普通は4ベットするか、もっと強く抵抗する</b>。コールで済ませる手にKは少ない。</li>
+</ul>
+<p>つまりこのフロップは<b>「君のレンジが相手のレンジより強い」</b>状態。ボード全体が君に味方してる。だからここは、<em>手が何であっても</em>ポットの1/3くらいを打っていい場所なんだ。J♠T♠ でも打つ。</p>
+
+<div class="box a">
+  <h4>「手が弱いのに打っていいの？」の答え</h4>
+  <p>いいんだ。理由は2つある。</p>
+  <p><b>①相手も大半は弱いから。</b>相手だってKKやAKを持ってるのは稀で、ほとんどはAQ・JJ・TTみたいな「Kには勝ってない手」。そういう手はKKKのボードで大きく戦えない。</p>
+  <p><b>②1/3ポットのベットはめちゃくちゃ安いから。</b>ポットが$20なら、$6.6を賭けて$20を取りにいく。計算すると <code>6.6 ÷ (20 + 6.6) = 25%</code>。つまり<em>4回に1回相手が降りれば、それだけで元が取れる</em>。KKKみたいなボードなら、相手は4回に1回どころじゃなく降りてくれる。</p>
+</div>
+
+<h3>例2：#008 のフロップ（こっちは実際に損してる）</h3>
+
+<div class="showdown">
+  <div class="cardrow">
+    <div class="cardgrp"><span class="lbl">君の手（BTNでオープン）</span><span class="cs" data-cards="8s 9s"></span></div>
+    <div class="vs">──</div>
+    <div class="boardbox"><span class="lbl" style="font-size:11.5px;color:var(--tx3)">フロップ</span><span class="cs" data-cards="Jd 5c Kh"></span></div>
+  </div>
+  <div class="res">実際の進行：チェック → ターンもチェック → リバー <span class="cs" style="display:inline-flex;vertical-align:middle" data-cards="4c"></span> で相手が75%ベット → <span class="lose">フォールド（-$3）</span></div>
+</div>
+
+<p>これも同じ構図。君はBTNから開いた側で、相手はBBで守った側。<b>KとJを持ってる可能性は君のほうが明確に高い</b>——BTNのオープンレンジにはKQ・KJ・AJ・KTがたくさん入ってるけど、BBが守る手はもっと下の方の手が多いから。</p>
+<p>ここで$2打っておけば、相手の手の大半（何も当たってない手、小さいペア）は降りてくれた可能性が高い。$2を投資して$6.5のポットを取りにいく賭けだった。</p>
+<p>で、打たなかったらどうなったか。<em>2回チェックしたことで、相手に「この人は何も持ってない」と正しく読ませてしまった</em>。だからリバーで安心して撃ち込まれた。君のフォールド自体は正解なんだけど、<b>降りる羽目になった状況を自分で作ってる</b>のがもったいないところ。</p>
+
+<div class="box g">
+  <h4>覚え方はこれだけでいい</h4>
+  <p>手の強さは見なくていい。<b>この2つだけチェックして。</b></p>
+  <p><b>①最後にレイズしたのは自分か？</b>（＝プリフロップの主導権を持ってるか）<br>
+  <b>②ボードにA・K・Qが1〜2枚あるか？</b>（＝自分のレンジが当たりやすい絵札のボードか）</p>
+  <p><b>両方YESなら、手を見ずにポットの1/3を打つ。</b>これだけで今日の2件は両方カバーできる。</p>
+</div>
+
+<!-- ============ 傾向2 ============ -->
+<h2><span class="n">傾向 2 ／ 最優先</span>1ペアや弱い完成手で大きなポットを作っている</h2>
+
+<p>ここが本丸だね。じゃあまず<b>なぜ起きるのか</b>から。原因が分かると対処が機械的になるから。</p>
+
+<h3>原因：手の「箱」が2つしかない</h3>
+<p>多くの人は、手をこう分類してるんだ。</p>
+<table>
+<thead><tr><th>箱</th><th>やること</th></tr></thead>
+<tbody>
+<tr><td>強い手</td><td>ベット・レイズして大きく取る</td></tr>
+<tr><td>弱い手</td><td>チェック・フォールド</td></tr>
+</tbody>
+</table>
+<p>この2分類だと、<b>トップペアは「強い手」に入る</b>。だからベットするし、レイズもする。自然だよね。</p>
+<p>でも実際には<em>箱は3つ必要</em>なんだ。</p>
+<table>
+<thead><tr><th>箱</th><th>中身</th><th>やること</th></tr></thead>
+<tbody>
+<tr><td style="color:var(--good)">① とても強い</td><td>2ペア以上、セット、ナッツ級のフラッシュ</td><td>大きなポットを目指す</td></tr>
+<tr><td style="color:var(--warn)"><b>② 中くらい</b></td><td><b>1ペア（トップペア含む）、弱い完成手</b></td><td><b>ポットを小さく保って、安く勝つ</b></td></tr>
+<tr><td style="color:var(--tx2)">③ 弱い</td><td>何も当たってない</td><td>降りる、またはブラフ</td></tr>
+</tbody>
+</table>
+<p><b>君に足りてないのは②の箱。</b>ここが無いと、②の手を①として扱うことになる。それが全部の症状の正体なんだ。</p>
+
+<h3>中核の考え方：ポットが大きくなるほど、必要な手の強さが上がる</h3>
+<p>これが理解できれば8割終わりだと思ってる。</p>
+
+<div class="scale">
+  <div class="bar">
+    <div style="flex:1;background:#3fb950">$10のポット</div>
+    <div style="flex:1;background:#8bc34a">$30</div>
+    <div style="flex:1;background:#d29922">$60</div>
+    <div style="flex:1;background:#e8663d">$100</div>
+  </div>
+  <div class="cap"><span>1ペアで余裕で勝てる</span><span>1ペアはほぼ確実に負けてる</span></div>
+</div>
+
+<p>同じ「トップペア」でも、$10のポットなら<b>すごく強い手</b>で、$100のポットなら<b>ほぼ確実に負けてる手</b>なんだ。手は何も変わってないのに。</p>
+<p>なぜかというと、<em>ポットが大きいということは、その分だけ両者が「強い」と主張し合った結果だから</em>。大きなポットに残ってる相手のレンジは、絞られて強くなってる。だから同じ1ペアの価値が下がる。</p>
+<p>だから君がやるべきなのは、<b>②の手を持ったら、ポットを大きくしない</b>。それだけ。</p>
+
+<h3>実際に君が損したハンドで見てみよう</h3>
+
+<div class="showdown">
+  <div style="font-size:13px;color:var(--tx3);margin-bottom:6px">#010 ／ COで 96s、MPのレイズにコール ／ <span class="lose">-$13.80</span></div>
+  <div class="cardrow">
+    <div class="cardgrp"><span class="lbl">君</span><span class="cs" data-cards="6d 9d"></span></div>
+    <div class="vs">VS</div>
+    <div class="cardgrp"><span class="lbl">相手（BB）</span><span class="cs" data-cards="Qc Ts"></span></div>
+    <div class="boardbox" style="margin-left:8px"><span class="lbl" style="font-size:11.5px;color:var(--tx3)">ボード</span><span class="cs" data-cards="9s 2d 8h Qd 3c"></span></div>
+  </div>
+  <div class="res">君の手役＝<b>9のワンペア（キッカー6）</b>／相手＝<b>Qのワンペア</b>。<br>
+  進行：フロップ33%ベット → ターン33% → <b>リバーも33%</b>、全部コールされて <span class="lose">負け</span></div>
+</div>
+
+<p>フロップの時点では、君のトップペアは十分強かった。打つのは正しい。</p>
+<p>問題は<b>リバーの3発目</b>。ここで考えるべきなのはたった1つ。</p>
+
+<div class="box b">
+  <h4 style="color:#ff9d95">「僕より弱い手で、このベットに払ってくれるのは何？」</h4>
+  <p>数えてみよう。相手はすでに2回払ってる。</p>
+  <ul style="margin-bottom:0">
+    <li><b>Qx</b>（実際これだった）→ 君の負け</li>
+    <li><b>9x でキッカーが6より上</b>（9T、9J、A9…）→ 君の負け</li>
+    <li><b>88・22・33</b>（セット）→ 君の負け</li>
+    <li><b>8x</b>（2ペア未満の格下）→ <b>3発目には降りる</b></li>
+    <li><b>外れたドロー</b> → もちろん降りる</li>
+  </ul>
+  <p style="margin-top:12px"><b>払ってくれる格下の手が、実質ゼロ。</b>つまりこのベットは「勝ってる時は誰も払わず、負けてる時だけ払われる」構造になってる。打つほど損なんだ。</p>
+</div>
+
+<p>もう2つ、同じ形のハンドがあった。全部同じ病気だよ。</p>
+
+<div class="showdown">
+  <div style="font-size:13px;color:var(--tx3);margin-bottom:6px">#005 ／ BTNで AK、フロップでチェックレイズされた後の<b>ターンでレイズを被せた</b></div>
+  <div class="cardrow">
+    <div class="cardgrp"><span class="lbl">君</span><span class="cs" data-cards="Ac Ks"></span></div>
+    <div class="vs">VS</div>
+    <div class="cardgrp"><span class="lbl">相手</span><span class="cs" data-cards="Kh 5h"></span></div>
+    <div class="boardbox" style="margin-left:8px"><span class="lbl" style="font-size:11.5px;color:var(--tx3)">ボード</span><span class="cs" data-cards="Qh 7c Kc 8d 9d"></span></div>
+  </div>
+  <div class="res">今回は相手がもっと弱かったので <span class="win">勝った（+$96.50）</span>。でも相手が普通なら、この形は負ける側。<br>
+  ターンでレイズしたせいで、リバーで100bb全部を賭ける決断を迫られた。</div>
+</div>
+
+<div class="showdown">
+  <div style="font-size:13px;color:var(--tx3);margin-bottom:6px">#003 ／ BTNで 96s、9ハイのフラッシュで<b>リバーにポットサイズ</b></div>
+  <div class="cardrow">
+    <div class="cardgrp"><span class="lbl">君（9ハイのフラッシュ）</span><span class="cs" data-cards="6s 9s"></span></div>
+    <div class="vs">VS</div>
+    <div class="cardgrp"><span class="lbl">相手</span><span class="cs" data-cards="2c 4c"></span></div>
+    <div class="boardbox" style="margin-left:8px"><span class="lbl" style="font-size:11.5px;color:var(--tx3)">ボード</span><span class="cs" data-cards="Qs 2s 8s 2d Ac"></span></div>
+  </div>
+  <div class="res">フラッシュは完成してるけど<b>9ハイ</b>。A♠K♠J♠T♠ のどれか1枚を持たれてたら負ける。<br>
+  今回は <span class="win">勝った（+$61.29）</span> けど、ポットサイズで払ってくれる相手ほど、君に勝ってる確率が高い。</div>
+</div>
+
+<h3>じゃあ具体的にどうするか：4つのif-thenルール</h3>
+<p>考えて判断しようとすると、テンフォーは時間が短いから間に合わない。<em>条件を見たら自動で行動が決まる形</em>にしておくのが一番効く。この4つを覚えて。</p>
+
+<div class="ifthen">
+  <div class="rule">
+    <div class="num">1</div>
+    <div class="t">
+      <span class="if">IF</span> ベットしようとしている
+      <div class="body"><span class="then">THEN</span> 打つ前に<b>「僕より弱い手で払ってくれるのは何？」を1つ具体的に言う</b>。言えなければチェック。</div>
+      <div class="why">これが4つの中で一番効く。#010も#003も、これだけで防げた。「たぶん何か払う」はダメ。<b>手の名前を1つ言えるか</b>で判定して。</div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="num">2</div>
+    <div class="t">
+      <span class="if">IF</span> 自分の手が1ペア　<b>AND</b>　これが3回目のベット（リバー）
+      <div class="body"><span class="then">THEN</span> <b>チェック。</b></div>
+      <div class="why">1ペアは2ストリートまで。厳密には例外もあるけど、今の君には例外を考えるより機械的に守るほうが得。#010が直る。</div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="num">3</div>
+    <div class="t">
+      <span class="if">IF</span> 相手がベットかレイズで攻めてきた　<b>AND</b>　自分の手が1ペア
+      <div class="body"><span class="then">THEN</span> <b>コールする。レイズはしない。</b>（降りるかコールかの2択で考える）</div>
+      <div class="why">レイズは2ペア以上と決めておく。#005が直る。1ペアでレイズすると、格下は全部降りて格上だけ残るから、勝ってる相手を追い出して負けてる相手だけ呼ぶことになる。</div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="num">4</div>
+    <div class="t">
+      <span class="if">IF</span> 完成はしてるけど弱い手（9ハイのフラッシュ、キッカーの弱いトップペア）
+      <div class="body"><span class="then">THEN</span> <b>サイズをポットの1/3〜1/2に落とす。</b>ポットサイズは使わない。</div>
+      <div class="why">ポットサイズは①の箱（2ペア以上）専用の道具。弱い完成手で大きく打つと、勝ってる相手は降りて、負けてる相手だけが払う。#003が直る。</div>
+    </div>
+  </div>
+</div>
+
+<div class="box w">
+  <h4>1つだけ選ぶなら、ルール1</h4>
+  <p>4つ全部いっぺんに意識するのはしんどいと思う。今週は<b>ルール1だけ</b>やってみて。ベットボタンを押す前に一瞬止まって、「何が払う？」と自分に聞く。それだけ。</p>
+  <p>ルール2〜4は、実はルール1の<b>具体例</b>なんだ。ルール1が身につけば残りは自動的にできるようになる。</p>
+</div>
+
+<h3>練習：この場面、どうする？</h3>
+
+<div class="q">
+  <div class="qh">練習問題</div>
+  <p>君はBTN。フロップで <b>Aのトップペア（キッカーは9）</b>。フロップとターンを打って、相手は両方コールしてきた。リバーは何も変わらないカード。相手がチェックした。</p>
+  <div class="cardrow">
+    <div class="cardgrp"><span class="lbl">君</span><span class="cs sm" data-cards="Ad 9d"></span></div>
+    <div class="boardbox" style="margin-left:8px"><span class="lbl" style="font-size:11.5px;color:var(--tx3)">ボード</span><span class="cs sm" data-cards="Ah 7c 4s Jd 2c"></span></div>
+  </div>
+  <details>
+    <summary>答えを見る</summary>
+    <p><b>チェック。</b>ルール1で考えてみよう。「僕より弱い手で払ってくれるのは何？」</p>
+    <p>相手は2回払ってる。ということは、少なくともAxか強いドローを持ってた可能性が高い。ここで払ってくれるのは <b>AT・AQ・AK</b>＝全部キッカーで君の負け。7xや4xみたいな格下は、3回目には降りる。<b>払う手が格上しかいない</b>。</p>
+    <p>それにルール2にも引っかかってる（1ペア＋3回目のベット）。両方のルールがチェックを指してるから、迷わなくていい場面だね。</p>
+  </details>
+</div>
+
+<h2>まとめ：明日から意識するのはこの3つ</h2>
+<div class="box g">
+  <p><b>1. ベットの前に「何が払う？」と1回聞く。</b>手の名前を言えなければチェック。（傾向2の特効薬）</p>
+  <p><b>2. 自分が最後にレイズした側で、ボードにA・K・Qがあるなら、手を見ずに1/3打つ。</b>（傾向1の特効薬）</p>
+  <p><b>3. 1ペアではレイズしない。コールか降りるかの2択。</b></p>
+  <p style="margin-top:14px;color:var(--tx2);font-size:13.5px">次の20ハンドで、この3つが守れてるかを僕のほうでチェックするね。ハンドを貼ってくれれば、該当する場面には印をつけて返すよ。</p>
+</div>
+
+<footer>
+出典・前提：レンジ判定は ZeroS 6-max 100bb（<code>scripts/poker_range_lookup.py</code> 経由）／収支は <code>scripts/poker_hand_net.py</code> で生履歴から再計算。<br>
+このページの戦略説明は一般原則に基づく解説で、ソルバー出力の転記ではない。ルール2〜4は君の今の課題に合わせて<b>あえて単純化</b>してあるので、上達したら例外を足していく前提のもの。
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var SUIT = {s:'♠', h:'♥', d:'♦', c:'♣'};
+  var RED = {h:1, d:1};
+  function make(code, small){
+    var r = code.slice(0, code.length-1), su = code.slice(-1);
+    if(!SUIT[su]) return '';
+    var rank = (r === 'T') ? '10' : r;
+    var cls = 'card' + (small ? ' sm' : '') + (RED[su] ? ' red' : ' blk');
+    return '<span class="' + cls + '" role="img" aria-label="' + rank + ' ' + su + '">' +
+           '<span class="r">' + rank + '</span>' +
+           '<span class="s">' + SUIT[su] + '</span>' +
+           '<span class="big">' + SUIT[su] + '</span></span>';
+  }
+  var nodes = document.querySelectorAll('[data-cards]');
+  for(var i=0;i<nodes.length;i++){
+    var el = nodes[i];
+    var small = el.className.indexOf('sm') !== -1;
+    var codes = el.getAttribute('data-cards').trim().split(/\s+/);
+    var html = '';
+    for(var j=0;j<codes.length;j++){ html += make(codes[j], small); }
+    el.innerHTML = html;
+  }
+})();
+</script>
+</body>
+</html>
