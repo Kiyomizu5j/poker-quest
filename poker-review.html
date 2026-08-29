@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ハンドレビュー 2026-08-29 — テンフォー #001〜008</title>
+<style>
+  :root{
+    color-scheme: dark;
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c232c; --line:#2a323d;
+    --tx:#e6edf3; --tx2:#9aa7b4; --tx3:#6e7d8d;
+    --good:#3fb950; --ok:#58a6ff; --warn:#d29922; --bad:#f85149; --accent:#a371f7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);
+    font-family:-apple-system,"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic UI",sans-serif;
+    line-height:1.75;font-size:15px}
+  .wrap{max-width:940px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:24px;margin:0 0 6px;letter-spacing:.02em}
+  .sub{color:var(--tx2);font-size:13px;margin-bottom:28px}
+  h2{font-size:19px;margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:16px;margin:26px 0 8px}
+  p{margin:0 0 14px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:24px 0 8px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .stat .v{font-size:26px;font-weight:600;letter-spacing:-.01em}
+  .stat .k{font-size:12px;color:var(--tx2);margin-top:2px}
+  .alert{background:linear-gradient(180deg,#241a0c,#1b1608);border:1px solid #5c4415;
+    border-left:4px solid var(--warn);border-radius:8px;padding:18px 20px;margin:26px 0}
+  .alert h3{margin:0 0 8px;color:#f0c674;font-size:16px}
+  .alert p{margin:0 0 10px;color:#e4d5b7}
+  .alert p:last-child{margin:0}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--tx2);font-weight:600;font-size:12px;letter-spacing:.04em;background:var(--panel)}
+  tbody tr:hover{background:var(--panel)}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pos{color:var(--good)} .neg{color:var(--bad)}
+  .hand{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:18px 20px;margin:16px 0}
+  .hand-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .hid{font-size:12px;color:var(--tx3);font-variant-numeric:tabular-nums}
+  .cards{font-weight:600;font-size:17px;letter-spacing:.02em}
+  .seat{font-size:12px;color:var(--tx2);border:1px solid var(--line);
+    border-radius:99px;padding:2px 9px;background:var(--panel2)}
+  .badge{font-size:12px;font-weight:600;border-radius:99px;padding:2px 10px;margin-left:auto}
+  .b-good{background:rgba(63,185,80,.15);color:var(--good);border:1px solid rgba(63,185,80,.4)}
+  .b-ok{background:rgba(88,166,255,.13);color:var(--ok);border:1px solid rgba(88,166,255,.35)}
+  .b-warn{background:rgba(210,153,34,.15);color:var(--warn);border:1px solid rgba(210,153,34,.4)}
+  .b-bad{background:rgba(248,81,73,.14);color:var(--bad);border:1px solid rgba(248,81,73,.4)}
+  .board{font-family:ui-monospace,"SF Mono",Consolas,monospace;font-size:13px;
+    background:var(--panel2);border:1px solid var(--line);border-radius:6px;
+    padding:8px 11px;margin:8px 0 12px;color:var(--tx2);overflow-x:auto;white-space:nowrap}
+  .hand p{margin:0 0 10px;font-size:14.5px}
+  .hand p:last-child{margin:0}
+  .verdict{border-left:3px solid var(--line);padding-left:12px;margin-top:12px;color:var(--tx2);font-size:13.5px}
+  .verdict b{color:var(--tx)}
+  ul{margin:0 0 14px;padding-left:22px} li{margin-bottom:7px}
+  .tag{display:inline-block;font-size:11.5px;background:var(--panel2);border:1px solid var(--line);
+    border-radius:5px;padding:1px 7px;color:var(--tx2);margin-right:5px}
+  footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+    color:var(--tx3);font-size:12px}
+  .next{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+  .next ol{margin:0;padding-left:22px}
+  .next li{margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>ハンドレビュー #001〜008</h1>
+<div class="sub">2026-08-29 11:00〜11:33 ET ／ PokerStars ファストフォールド 6-max NL100（テンフォー）／ ヒーロー = Shimizu</div>
+
+<div class="stats">
+  <div class="stat"><div class="v">8</div><div class="k">レビュー済みハンド</div></div>
+  <div class="stat"><div class="v pos">+293bb</div><div class="k">収支（約33分）</div></div>
+  <div class="stat"><div class="v">5勝3敗</div><div class="k">勝敗</div></div>
+  <div class="stat"><div class="v" style="color:var(--warn)">2件</div><div class="k">要修正の傾向（ともにポストフロップ）</div></div>
+</div>
+
+<div class="alert" style="background:linear-gradient(180deg,#2a1416,#1d0f11);border-color:#6b2b2b;border-left-color:var(--bad)">
+  <h3 style="color:#ff9d95">訂正（2026-08-29・ユーザー指摘により修正）</h3>
+  <p style="color:#f0cfcc">初版で <b>#002 の A♦9♦ の UTG オープンを「レンジ外・明確なミス（×）」と判定したのは誤りでした。</b>正しくは6人卓の標準的なオープンで、修正は不要です。</p>
+  <p style="color:#f0cfcc">原因は参照した表の取り違えです。使った <code>learning/poker-ranges.json</code> は<b>9人卓</b>のチャート（Preflop Wizard 9-max）で、6人卓には適用できません。6人卓用のデータはリポジトリ内の <code>research/poker/zeros/zeros_ranges.json</code>（ZeroS 6-max 100bb）にあり、そちらでは <b>A9s の EP（6max UTG）オープン = R（レイズ）</b>です。初版で「機械照合済み」と書いたのは事実ですが、照合先の表そのものが間違っていました。</p>
+  <p style="color:#f0cfcc">この訂正に伴い #001 と #003 の評価も見直しています（各ハンドの欄に明記）。再発防止として、レンジ照会を <code>scripts/poker_range_lookup.py</code> 経由に一本化し、卓人数を必須引数にして表の取り違えが起きない形にしました。</p>
+</div>
+
+<div class="alert">
+  <h3>この結果を実力の証拠として受け取らないでください</h3>
+  <p>33分で+293bb（約$293）は、NL100の実力差から出る数字ではありません。上手いレギュラーの期待値がだいたい5〜10bb/100ハンドですから、8ハンドで+293bbというのは統計的にほぼ純粋な運の領域です。</p>
+  <p>問題は勝ったこと自体ではなく、<b>今回いちばん大きく勝った2ハンド（#002・#005）が、いちばん判断が疑わしいハンドだった</b>ことです。人間の学習は結果で強化されるので、このまま進むと「損をする打ち方」が「勝ちパターン」として定着します。今日いちばん価値のある作業は、勝ち額を喜ぶことではなく、勝った理由を分離することです。</p>
+</div>
+
+<h2>収支の内訳（プロセス評価と並べる）</h2>
+<table>
+<thead><tr><th>#</th><th>席</th><th>ハンド</th><th class="num">収支</th><th>プロセス評価</th></tr></thead>
+<tbody>
+<tr><td>001</td><td>CO</td><td>6♣6♥</td><td class="num neg">-2.00</td><td>ポストフロップ◎／プリフロップのコールは判定保留</td></tr>
+<tr><td>002</td><td>UTG</td><td>A♦9♦</td><td class="num pos">+99.50</td><td>オープン◎（訂正）／4betのみ要検討</td></tr>
+<tr><td>003</td><td>BTN</td><td>6♠9♠</td><td class="num pos">+61.29</td><td>○ 河のサイズだけ過大（オープンは境界手）</td></tr>
+<tr><td>004</td><td>CO</td><td>K♠Q♠</td><td class="num pos">+3.50</td><td>◎ 判断／△ 3betサイズ過大</td></tr>
+<tr><td>005</td><td>BTN</td><td>A♣K♠</td><td class="num pos">+96.50</td><td>△ 1ペアでポットを膨らませた</td></tr>
+<tr><td>006</td><td>BB</td><td>J♠T♠</td><td class="num pos">+30.99</td><td>◎ turn以降／△ flopのcbet放棄</td></tr>
+<tr><td>007</td><td>BTN</td><td>9♣9♠</td><td class="num pos">+6.37</td><td>◎ 全街正解（薄く確実に取る）</td></tr>
+<tr><td>008</td><td>BTN</td><td>8♠9♠</td><td class="num neg">-3.00</td><td>△ flopのcbet放棄／河の降りは正解</td></tr>
+</tbody>
+</table>
+<p style="color:var(--tx2);font-size:13.5px">収支は投入額と回収額の差額。#004は相手が降りたため実質+3.50、#007は未コールのベットが返却されているため+6.37です。</p>
+
+<h2>今日見つかった傾向は「攻撃の量」ではなく「攻撃の配分」</h2>
+
+<p>最初は「サイズが大きめに寄る癖」だと思って見ていましたが、8ハンド並べると、もっと正確な言い方ができます。あなたは攻めすぎでも守りすぎでもなく、<b>攻めるべき場面と降りるべき場面が入れ替わっている</b>状態です。具体的には次の2つが同時に起きています。</p>
+
+<h3>傾向1：安く取れる場面でベットを見送っている（2件）</h3>
+<p>#006のフロップ K♠K♦6♥ と、#008のフロップ J♦5♣K♥。どちらもあなたのレンジが相手より圧倒的に強いボードです。BBの3betレンジにはKKやAKが入るのに相手のコールレンジには入りにくい（#006）、BTNのオープンレンジはKもJも多く含む（#008）。こういう board では、手が何であってもポットの3分の1程度を高い頻度で打つのが基本線です。1回あたり数ドルの投資で、相手のレンジの大半を降ろせます。</p>
+<p>#008はその見送りが直接損につながりました。フロップとターンをチェックで通したせいで、相手は「この人は何も持っていない」と正しく読める状態になり、リバーの4♣（クラブ3枚目）で75%のベットを打たれて降ろされています。あなたのフォールド自体は正しいのですが、<b>そもそも降りる状況を自分で作ってしまった</b>のが問題です。</p>
+
+<h3>傾向2：1ペアや弱い完成手で大きなポットを作っている（3件）</h3>
+<p>#002は相手のミニ3betに4betで返しています。#005はA♣K♠のトップペアで、フロップでチェックレイズされた相手のターンのリードに対して、さらにレイズを被せています。#003は9ハイという弱いフラッシュで、リバーにポットサイズを打っています。</p>
+<p>3つに共通するのは、<b>「そこそこ強いが、大きなポットでは勝てない手」で100bbのポットを作りにいっている</b>という形です。今回は3つとも相手がそれ以上に弱かったので全部勝ちましたが、相手が普通のレギュラーなら、同じ場面でお金が入るのは相手の側です。</p>
+
+<h2>ハンド別の詳細</h2>
+
+<div class="hand">
+  <div class="hand-h"><span class="hid">#001</span><span class="cards">6♣ 6♥</span><span class="seat">CO</span><span class="badge b-good">◎ ポストフロップ</span></div>
+  <div class="board">HJ 2bb → CO call ／ 4way ／ A♥3♦Q♥ → Q♦ → 7♣ ／ 全街チェック → SBの75%にフォールド</div>
+  <p>AとQが両方落ちた4人ポットで66は打つ理由がありません。降ろせる相手も払わせる相手もいない場面で、4回連続で「何もしない」を選べています。リバーのSBのリードはAxとQxに強く寄っているので、フォールドも明確に正解です。<b>フロップ以降は文句なしです。</b></p>
+  <p style="background:rgba(210,153,34,.08);border-left:3px solid var(--warn);padding:10px 14px;border-radius:4px"><b style="color:#f0c674">訂正:</b> 初版はプリフロップのコールも「標準」と書きましたが、根拠を確認していませんでした。6人卓のZeroS表では <b>CO vs EPオープンの66 = F（フォールド）</b>です。ただし今回の相手はHJ（表のMP）からの2bbオープンで、表が想定する「EPからの3bb」と条件が2つズレています。前の席が1つ遅くレイズも小さいぶんコール側は広がるため、<b>この局面の直接の答えは表にありません。判定は保留します。</b></p>
+  <div class="verdict"><b>持ち帰り：</b>降り方の規律は今日の8ハンドで最も再現性のある強みです。維持してください。プリフロップの是非は、COが早い席のオープンに対してポケットペアをどう扱うかを別途調べます。<span class="tag">fold-discipline</span><span class="tag">multiway</span><span class="tag">要追加検証</span></div>
+</div>
+
+<div class="hand">
+  <div class="hand-h"><span class="hid">#002</span><span class="cards">A♦ 9♦</span><span class="seat">UTG</span><span class="badge b-warn">△ 4betのみ要検討</span></div>
+  <div class="board">UTG 3bb → BBが$6.50にミニ3bet → hero 4bet $19.50 → BBが$32.50に5bet → call ／ K♦2♠Q♦ にオールイン被せ → call ／ ナッツフラッシュ完成で勝ち</div>
+  <p style="background:rgba(248,81,73,.08);border-left:3px solid var(--bad);padding:10px 14px;border-radius:4px"><b style="color:#ff9d95">訂正:</b> 初版はこのオープンを「レンジ外」として×判定しましたが、誤りです。6人卓のZeroS表では <b>A9s の EP（6max UTG）= R（レイズ）</b>で、標準的なオープンです。初版が参照した表は9人卓のもので、6人卓は前の席が3つ少ないぶんUTGのレンジが明確に広くなります。<b>1手目に修正点はありません。</b></p>
+  <p>検討の余地があるのは4betのほうです。相手の3betは$3→$6.50という極端に小さいサイズでした。小さいレイズに対しては<b>安く見られるのだから見る</b>のが素直で、$3.50払ってポット$13に対するコール（必要勝率21%）はA9sなら十分足ります。しかもあなたは相手に対してポジションがあります。4betは、相手にフォールドさせる力が弱い（相手は価格上ほぼ降りない）まま、自分の手を相手の強いレンジに固定する方向に働きました。</p>
+  <p style="color:var(--tx2);font-size:13.5px">ただしこの4bet評価は<b>表で裏取りできていない俺の判断</b>です。ZeroS表には「ミニ3betに直面したUTG」の局面がなく、6人卓ソルバーの出力も手元にありません。A♦のブロッカー価値を評価して4betを混ぜる戦略自体は成立しうるので、断定はしません。</p>
+  <p>そこから先は正しいです。5betへのコールは$13でポット$55.50に対して必要勝率19%、A9sはQQ+/AK相手でも22〜30%あるので足ります。フロップのオールインコールもナッツフラッシュドローで必要33%に対して約35%、コミット済みなので降りる選択肢はありません。</p>
+  <div class="verdict"><b>持ち帰り：</b>UTGはレンジ表どおりに開く。小さい3betには4betでなくコールで応じる。<span class="tag">preflop-range</span><span class="tag">4bet-bluff</span></div>
+</div>
+
+<div class="hand">
+  <div class="hand-h"><span class="hid">#003</span><span class="cards">6♠ 9♠</span><span class="seat">BTN</span><span class="badge b-ok">○ サイズのみ</span></div>
+  <div class="board">BTN 3bb → BB call ／ Q♠2♠8♠ でフラッシュ完成 → 33%ベット ／ 2♦ で相手リード → 3xレイズ ／ A♣ で相手チェック → ポットサイズ$43.36 → 2♣4♣（トリップス）にコールされ勝ち</div>
+  <p>プリフロップは許容範囲です。6人卓のZeroS表で 96s の BTN オープンは <b>Rl（弱い相手ならレイズ＝境界の手）</b>で、無条件の標準オープンまでは行きません。開くこと自体は問題ありませんが、相手が堅い時は落としてよい手です。モノトーンボードで小さく打つのも、ターンで相手のリードにレイズを返すのも良い判断です。</p>
+  <p>気になるのはリバーのポットサイズベットです。あなたのフラッシュは9ハイで、A♠K♠J♠T♠のどれか1枚を持たれていたら負けます。さらにボードは2が2枚落ちてフルハウスの可能性もある。<b>ポットサイズで払ってくれる相手は、あなたに勝っている確率がかなり高い</b>という構造です。ここは50〜60%（$22〜26）に落とすと、今回コールしたトリップスからは同じように取れて、負けている時の損失だけが減ります。</p>
+  <div class="verdict"><b>持ち帰り：</b>「弱い完成手ほどサイズを落とす」。強い手のためにポットサイズを取っておく。<span class="tag">sizing</span><span class="tag">thin-value</span></div>
+</div>
+
+<div class="hand">
+  <div class="hand-h"><span class="hid">#004</span><span class="cards">K♠ Q♠</span><span class="seat">CO</span><span class="badge b-ok">○ 判断◎/サイズ△</span></div>
+  <div class="board">UTGが2bbオープン → CO 3bet $10（5倍）→ 全員フォールド</div>
+  <p>UTGのオープンにKQsで3betを返す判断は完全に正解です。KQsはバリューとして十分な強さがあり、ポジションもあります。</p>
+  <p>サイズだけ調整の余地があります。$2のオープンに対してポジションありの3betは3〜3.5倍（$6〜7）が標準で、$10は5倍です。大きく打つと、勝てる相手（弱いオープンレンジ）まで降ろしてしまい、コールしてくるのは自分より強い手に寄ります。今回は全員降りたので$3.50取れましたが、$7でも同じように降りていた可能性が高いです。</p>
+  <div class="verdict"><b>持ち帰り：</b>ポジションありの3betは3〜3.5倍、なしは4倍。#006では4倍で正しく打てています。<span class="tag">sizing</span><span class="tag">3bet</span></div>
+</div>
+
+<div class="hand">
+  <div class="hand-h"><span class="hid">#005</span><span class="cards">A♣ K♠</span><span class="seat">BTN</span><span class="badge b-warn">△ 要検討</span></div>
+  <div class="board">BTN 3bb → BB call ／ Q♥7♣K♣ で33%ベット → 相手チェックレイズ$8.68 → call ／ 8♦ で相手リード$11.93 → hero 3xレイズ$35.79 → call ／ 9♦ で相手オールイン$52.53 → call ／ K♥5♥に勝ち</div>
+  <p>プリフロップとフロップのベットまでは標準です。分かれ目はターンです。相手はフロップでチェックレイズ、ターンで自分から打つという、非常に強さを主張するラインを踏んでいます。そこにトップペアでレイズを被せると、<b>あなたより弱い手はほぼ降り、強い手だけが残る</b>ポットになります。ここはコールで1枚見るのが基本線です。</p>
+  <p>実際その結果、リバーの9♦で7-8-9の並びが完成した状態でオールインを受けることになりました。リバーのコール自体は、必要勝率35.5%に対してクラブのドローが外れた分のブラフが相手に十分あるので、悪くありません。つまり<b>リバーで難しい決断を強いられたこと自体が、ターンのレイズが作った状況</b>です。</p>
+  <p>相手がK♥5♥（弱いキッカーのトップペア）で3ストリート撃ってきたのは相手のミスです。あなたの勝ちはその贈り物であって、ターンレイズが正しかったことの証明ではありません。</p>
+  <div class="verdict"><b>持ち帰り：</b>相手が強さを主張したラインに、1ペアでレイズを重ねない。コールで安く見る。<span class="tag">bloated-pot</span><span class="tag">one-pair</span></div>
+</div>
+
+<div class="hand">
+  <div class="hand-h"><span class="hid">#006</span><span class="cards">J♠ T♠</span><span class="seat">BB</span><span class="badge b-good">◎ turn以降</span></div>
+  <div class="board">HJ 2.5bb → BB 3bet $10（4倍）→ call ／ K♠K♦6♥ で両者チェック ／ 6♠ で33%ベット → call ／ 9♠ でフラッシュ完成 → 50%ベット → A♥Q♥にコールされ勝ち</div>
+  <p>3betのサイズ$10（ポジションなしで4倍）はこの日いちばん正確なサイジングでした。ターンのセミブラフ、リバーのバリューベットも良い判断です。</p>
+  <p>唯一の修正点はフロップです。K♠K♦6♥ は3betしたあなたのレンジが圧倒的に有利なボードで（KKやAKはあなたのレンジにあって相手のコールレンジには薄い）、ここは何を持っていても小さく打つ場面です。今回はチェックしても結果的にフラッシュが完成しましたが、通常は相手に無料でカードを与える損になります。</p>
+  <div class="verdict"><b>持ち帰り：</b>3bet後のペアボードは、手の強さに関係なく小さく高頻度で打つ。<span class="tag">missed-cbet</span><span class="tag">semi-bluff(良)</span></div>
+</div>
+
+<div class="hand">
+  <div class="hand-h"><span class="hid">#007</span><span class="cards">9♣ 9♠</span><span class="seat">BTN</span><span class="badge b-good">◎ 修正なし</span></div>
+  <div class="board">HJ 3bb → BTN call ／ 6♥8♠3♣ で33%ベット → call ／ 2♣ で33%ベット → 相手フォールド</div>
+  <p>今日のベストハンドです。オーバーペアで、小さいサイズを2回続けて、相手を降ろして確実に取る。派手さはありませんが、これが長期的にお金を生む形です。</p>
+  <p>#002や#005で$96〜99勝ったのに対し、このハンドの利益は$6.37です。しかし<b>再現性はこちらのほうが圧倒的に高い</b>。同じ場面を100回やれば、#007は100回とも黒字に近く、#005は相手が普通なら赤字に転びます。</p>
+  <div class="verdict"><b>持ち帰り：</b>これを「地味な勝ち」ではなく「基準」として記憶してください。<span class="tag">value-bet</span><span class="tag">sizing(良)</span></div>
+</div>
+
+<div class="hand">
+  <div class="hand-h"><span class="hid">#008</span><span class="cards">8♠ 9♠</span><span class="seat">BTN</span><span class="badge b-warn">△ cbet放棄</span></div>
+  <div class="board">BTN 3bb → BB call ／ J♦5♣K♥ でチェックバック ／ 3♣ でもチェック ／ 4♣（クラブ3枚目）で相手が75%ベット → フォールド</div>
+  <p>J♦5♣K♥ はBTNのオープンレンジが有利なボードです。あなたは98sでバックドアのストレートの目もありました。ここで$2程度打っておけば、相手のレンジの大半（Ax、小さいペア、完全に外した手）を降ろせます。</p>
+  <p>2回チェックしたことで、相手に「弱い」と正しく読ませてしまい、リバーで安全に撃ち込まれました。<b>リバーのフォールドは正しい</b>のですが、その状況は自分で作ったものです。損失は$3と小さいものの、#006と同じ形なので傾向として記録します。</p>
+  <div class="verdict"><b>持ち帰り：</b>BTNオープンでハイカード2枚のボードは、手が弱くても小さく打つ。<span class="tag">missed-cbet</span><span class="tag">fold-discipline(良)</span></div>
+</div>
+
+<h2>相手プールについて（事前の想定と食い違いました）</h2>
+<p>「強いプレイヤーが多い印象」と聞いていたので、採点はGTO寄りの基準で始めました。ただ今回の8ハンドで見えた相手の打ち方は、その想定と逆方向です。</p>
+<ul>
+  <li>#002のYasunori：KQsで$3→$6.50のミニ3bet、さらに$19.50→$32.50のミニ5bet。強い手を安く売っていて、サイズの設計ができていません。</li>
+  <li>#003のToshiko：2♣4♣でBBから3bbをコールし、リバーでポットサイズまで払っています。</li>
+  <li>#005のren3：K♥5♥（キッカー5）でチェックレイズ→リード→オールインの3ストリート。</li>
+  <li>#006のTiltFishSP：A♥Q♥で3betにコールし、K K 6 6 のボードで2ストリート払っています。</li>
+</ul>
+<p>ただし<b>8ハンドで結論は出せません</b>。ファストフォールドは毎ハンド卓が変わるので、たまたま弱い相手に当たり続けた可能性も十分あります。しばらくは「強いプール想定」のまま堅く打ち、30〜50ハンド貯まった時点で判定し直すのが安全です。方針を変えるのはそのあとで構いません。</p>
+
+<h2>次の3ステップ</h2>
+<div class="next">
+<ol>
+  <li><b>「相手のレンジより自分のレンジが強いフロップ」で3分の1ベットを必ず打つ。</b>#006と#008で2回見送っています。判断基準は「A・K・Qが1〜2枚あって、自分が最後にレイズした側か」だけで足ります。手の強さは見なくて構いません。今日いちばん確実に直せる場所です。</li>
+  <li><b>1ペアでレイズを重ねない。</b>#005が典型です。相手が強さを主張してきたら、トップペアはコールで見る手です。レイズするのは2ペア以上と決めておくと、迷いが消えます。</li>
+  <li><b>弱い完成手ほどサイズを落とす。</b>#003のリバーが該当します。ポットサイズは、払ってくれる相手が自分より強い時に最も高くつきます。</li>
+</ol>
+</div>
+<p style="margin-top:16px">3つともポストフロップの話で、プリフロップのレンジには今日直すべき点は見つかりませんでした（#001だけ判定保留）。次の20ハンドで <code>missed-cbet</code> と <code>bloated-pot</code> が再び出るかを見れば、身についたかが判定できます。</p>
+
+<footer>
+生成: Claude Code（ハンドレビュー運用）／ raw履歴 = research/poker/hands/2026-08-29-001〜008.txt ／ 台帳 = research/poker/hand-review-log.md<br>
+<b>レンジ照合の前提（初版から訂正）:</b> 6人卓の判定は <code>research/poker/zeros/zeros_ranges.json</code>（ZeroS 6-max 100bb キャッシュ・NL20レーキ設定・オープン×3bb前提）を <code>scripts/poker_range_lookup.py</code> 経由で参照。初版が使った <code>learning/poker-ranges.json</code> は9人卓用で、この卓には適用できません。<br>
+エクイティと必要勝率は概算で、ソルバー出力ではありません。ポストフロップの評価（cbet頻度・レイズ判断・サイズ）は表による裏取りができておらず、一般原則に基づく判断です。
+</footer>
+
+</div>
+</body>
+</html>
