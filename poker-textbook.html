@@ -112,6 +112,8 @@ footer a{color:var(--accent)}
 .cell.z-ROL{background:#2f8a68;color:#fff}.cell.z-ROLf{background:#8ac6a9;color:#0a1a12}.cell.z-OL{background:#d9c26a;color:#1a1608}
 .cell.z-4b5b{background:#b0362e;color:#fff}.cell.z-4bF{background:#d9534f;color:#fff}.cell.z-AI{background:#111;color:#fff;outline:1px solid #888}
 .cell.z-c12{background:#2f8a68;color:#fff}.cell.z-c95{background:#3fa07c;color:#fff}.cell.z-c8{background:#5fb48f;color:#0a1a12}.cell.z-c7{background:#8ac6a9;color:#0a1a12}.cell.z-c6{background:#b5d9c4;color:#0a1a12}.cell.z-c5{background:#d9c26a;color:#1a1608}
+.cell.p6-EP{background:#c94f4f;color:#fff}.cell.p6-MP{background:#cf8b2e;color:#fff}.cell.p6-CO{background:#58a15f;color:#fff}.cell.p6-BTN{background:#4f74c9;color:#fff}
+.dot.p6-EP{background:#c94f4f}.dot.p6-MP{background:#cf8b2e}.dot.p6-CO{background:#58a15f}.dot.p6-BTN{background:#4f74c9}
 details.zgroup{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0}
 details.zgroup summary{cursor:pointer;font-weight:700;color:var(--accent)}
 details.zgroup summary small{color:var(--muted);font-weight:400;margin-left:8px}
@@ -145,9 +147,9 @@ details.selftest ol{margin:.6em 0 .2em}
 <ol>
  <li><a href="#ch0">この本の使い方</a> <small>読み方の約束と、v2からの訂正</small></li>
  <li><a href="#ch1">アミュ店の「形」を知る</a> <small>深さで使う章が変わる ／ 1-2 リングゲーム</small></li>
- <li><a href="#ch2">最初の2枚で決める（プリフロップ）</a> <small>6枚の表と、その理屈</small></li>
+ <li><a href="#ch2">最初の2枚で決める（プリフロップ）</a> <small>6枚の表と、その理屈 ／ <a href="#sec-2-3b"><b>2-3b 6人卓（テンフォー）のレンジ</b></a></small></li>
  <li><a href="#ch3">数字の暗算</a> <small>覚える式は3つだけ</small></li>
- <li><a href="#ch4">3枚めくれた後（フロップ以降）</a> <small>ボード分類・ターンとリバー・ブラフの選び方</small></li>
+ <li><a href="#ch4">3枚めくれた後（フロップ以降）</a> <small><a href="#sec-4-0"><b>4-0 まず守る2つのルール</b></a> ／ ボード分類・ターンとリバー・ブラフの選び方</small></li>
  <li><a href="#ch5">チップが浅くなったら（終盤）</a> <small>押す表と、受ける勇気</small></li>
  <li><a href="#ch6">アミュ店の相手に合わせる</a> <small>4タイプと標準調整</small></li>
  <li><a href="#ch7">練習の回し方</a> <small>POKER QUESTと12週プラン</small></li>
@@ -303,6 +305,66 @@ details.selftest ol{margin:.6em 0 .2em}
 <div class="warn">枠組みの数値（各席+4〜6ポイント・SBフォールド33%・3bb推奨）は出典どおりだが、<b>オレンジのマスの個別の選定はその枠内での本書の編集で、ソルバー出力の転記ではない</b>。QJo・53sなどの境界マスは本来ミックス戦略。印刷用の1枚版は別紙 poker-range-ante.html。</div>
 <div class="src">出典: GTO Wizard「How to Crush Ante Cash Games」（7-max 100bb・アンティ合計0.7bbのシミュレーション。9人卓への適用は外挿）。ベースは2-3のPreflop Wizard表。</div>
 
+<h3 id="sec-2-3b">2-3b. 6人卓（テンフォー）のレンジ ― 実戦で使うのはこちら</h3>
+<p>【前提】6人卓・100bb・キャッシュゲーム・オープンはEP / MP / CO＝×3bb、BTN＝×2.5bb・あなたの前は全員フォールド。出典はZeroS表（NL20レーキ設定）。</p>
+
+<h4>なぜ章を分けるか</h4>
+<p>2-3の表は9人卓を前提にしています。6人卓は前の席が3つ少ないため、同じ「UTG（最初に行動する席）」でもレンジが広くなります。参加率は9人卓の12.5%から、6人卓では14.9%です。9人卓の表をそのまま6人卓に使うと、本来なら開ける手まで降りてしまいます。</p>
+
+<h4>1枚で見る、席ごとのオープンレンジ</h4>
+<p>各ハンドを、最初にオープンできる席で色分けしました。最も狭いEPで開ける手はEP色、MPで初めて入る手はMP色、以下CO色・BTN色です。どの席からも開けない手は無色です。EP ⊂ MP ⊂ CO ⊂ BTNという入れ子が成立しているため、4枚の表を1枚に畳めます。</p>
+<div id="p6Combined" class="combined"></div>
+<div class="legend"><span><span class="dot p6-EP"></span>EPから</span><span><span class="dot p6-MP"></span>MPから</span><span><span class="dot p6-CO"></span>COから</span><span><span class="dot p6-BTN"></span>BTNから</span><span><span class="dot"></span>どこでも開けない</span></div>
+<p>参加率はEP 14.9%（R 29手＋Rl 4手＝33手）、MP 19.6%（R 35手＋Rl 7手＝42手）、CO 24.9%（R 49手＋Rl 6手＝55手）、BTN 39.1%（R 77手＋Rl 4手＝81手）です。参加率はスートやペアを含む全1326コンボを基準にしています。</p>
+
+<details class="zgroup p6group" data-keys="OR_EP OR_MP OR_CO OR_BTN"><summary>席別4枚を開く <small>EP・MP・CO・BTNのオープンレンジ</small></summary><div class="zbody"></div></details>
+
+<h4>深掘り(1) 「Rl（弱い相手ならレイズ）」という3つ目の答え</h4>
+<p>ZeroS表は「レイズ／降りる」の2値ではなく、境界の手に<b>Rl（弱い相手ならレイズ）</b>という3つ目の答えを置いています。Rlは、相手が降りやすい、またはレイズへの受けが弱いと判断できる時だけ開ける手です。堅い相手や、まだ傾向を読めない相手には降りて構いません。</p>
+<p>RlはEP 4手、MP 7手、CO 6手、BTN 4手です。境界で迷ったら、まずは降りる側に倒すのが安全です。</p>
+
+<h4>深掘り(2) 「開ける手」と「他人のレイズに払える手」は別物</h4>
+<div class="warn"><b>ここは実戦で特に間違えやすい点です。</b> 96sはBTNのオープンではRlなので、条件がよければ開けられます。しかしCOで早い席のレイズに直面した場合（COvsEP）はF、つまりフォールドです。</div>
+<ol>
+<li>オープンは全員が降りればその場でポットを取れますが、コールドコール（自分がまだ参加していない状態で他人のレイズにコールすること）にその勝ち筋はありません。</li>
+<li>コールドコールでは、主導権、つまり次にベットして展開を作りやすい立場が相手にあります。</li>
+<li>まだ後ろに席が残っており、後ろからのレイズで挟まれるリスクがあります。</li>
+</ol>
+<p class="point"><b>結論：</b>BTNで開ける手を、COで他人のレイズに払ってはいけません。</p>
+
+<h4>SBとBBはどうなるのか</h4>
+<p><b>BBには「オープンレンジ」が構造的に存在しません。</b>6人卓ではBBが最後に行動するので、全員が降りたらBBがその場でポットを取ります。開く相手がいないからです。BBの仕事は、誰かのレイズに対して守る（BBvsEP / BBvsCO / BBvsBTN / BBvsSB）ことと、リンプ（レイズせずにBBと同額だけ払って参加すること）した人がいる時にレイズする（ROL_BB / ROL_BBvsSB）ことの2つだけです。</p>
+<p><b>SBのオープンレンジは、本書が使っているZeroS表には収録されていません。</b>オープン表があるのはEP / MP / CO / BTNの4枚だけです。SBについて表があるのは「守る側」（SBvsEP / SBvsCO / SBvsBTN）、「リンプ越しレイズ」（ROL_SB）、「3ベットされた側」（V3B_BBvsSBは逆側なので注意）、「スクイーズ（レイズとコールが入った後に、さらにレイズすること）」（SQZ_SB_EP_CO / SQZ_SB_CO_BTN）です。</p>
+<p><b>ただし、SBのオープン頻度は複数の情報源で一致しており、約41〜44%です。</b></p>
+<div class="scroll"><table>
+<tr><th>情報源・条件</th><th>SBのオープン頻度</th></tr>
+<tr><td>Crafty Penguin GTOソルバー（6-max NL500・100bb・2026-07-28更新、BeyondGTO掲載）</td><td class="num">約44%</td></tr>
+<tr><td>MyPokerCoaching</td><td class="num">39〜47%</td></tr>
+<tr><td>うに丸（6max 100bbキャッシュの実践者）</td><td class="num">41.5%</td></tr>
+<tr><td>参考：本書2-3の9人卓表のSB（人数が多いぶん狭い）</td><td class="num">33.6%</td></tr>
+</table></div>
+<p><b>実務上は、SBでZeroSのBTN表（39.1%）をそのまま使って構いません。</b>目標の44%に対して約4.9ポイント狭いだけで、方向としては「やや堅め」に外れるので安全側です。BTN表のうち境界のRlをどう扱うかで微調整します。</p>
+<p><b>100bbのキャッシュではSBはリンプせず、レイズかフォールドの2択にします。</b>出典側も「100bbではレンジ全体がレイズまたはフォールドとして機能する」と述べています。ただし、アンティがある卓や浅いトーナメントではSBのリンプが正解になる場面があり、これは別の話です（本書2-3aと5章）。</p>
+<div class="warn"><b>注意：</b>BTN表の流用は本書の実務的な近似であり、ソルバーがSB向けに出力したレンジの転記ではありません。SBはポジションが無い、つまりフロップ以降に先に行動するぶん、ボード後に難しくなる手（弱いスーテッドギャッパーなど）から先に落とすのが自然です。</div>
+<div class="src">出典: <a href="https://beyondgto.com/ranges/sb-open-6max-100bb">BeyondGTO「SB Open — 6-Max 100bb」</a> ／ <a href="https://www.mypokercoaching.com/optimal-cash-game-opening-ranges-100bb/">MyPokerCoaching「Optimal Cash Game Opening Ranges (100bb)」</a></div>
+
+<h4>相手が先にオープンした時</h4>
+<p>表中のcc35 / cc30 / cc25 / cc225 / cc20は、相手のレイズがそれぞれ3.5bb / 3.0bb / 2.5bb / 2.25bb / 2.0bbまでならコールしてよい、という上限です。たとえばcc25なら2.5bbにはコールできますが、3bbにはコールしません。</p>
+<details class="zgroup p6group" data-keys="MPvsEP COvsEP BTNvsEP BTNvsCO"><summary>対オープンの4枚を開く <small>MP vs EP・CO vs EP・BTN vs EP・BTN vs CO</small></summary><div class="zbody"></div></details>
+
+<h4>自分のオープンが3ベットされた時</h4>
+<p>ポジションが無い場合はV3B_OOP48 / V3B_OOP74 / V3B_OOP10を相手の3ベット率別に使い、ポジションがある場合はV3B_IP_CO75 / V3B_IP_BTN118を使います。表中のc12 / c95 / c8 / c7 / c6 / c5は、相手の3ベット額がそれぞれ12bb / 9.5bb / 8bb / 7bb / 6bb / 5bbまでならコールしてよい、という上限です。相手の3ベット率が高いほど、相手のレンジは弱い手も含むため、こちらも広く受けて構いません。</p>
+<details class="zgroup p6group" data-keys="V3B_OOP48 V3B_OOP74 V3B_OOP10 V3B_IP_CO75 V3B_IP_BTN118"><summary>3ベットされた側の5枚を開く <small>ポジション無し3枚・ポジション有り2枚</small></summary><div class="zbody"></div></details>
+
+<h4>覚え方</h4>
+<ul>
+<li>6人卓では9人卓より早い席から広く開けます。EPでも14.9%です。</li>
+<li>EP → MP → CO → BTNの順に、後ろの席ほどオープンレンジを広げます。</li>
+<li>Rlは相手の弱さを確認できた時だけ使い、迷ったらフォールドします。</li>
+<li>「自分から開ける」「先のレイズに対応する」「3ベットに対応する」は別の表で判断します。</li>
+</ul>
+<div class="src">出典: ZeroS プリフロップ表（6人卓100bb・NL20レーキ設定）https://docs.google.com/spreadsheets/d/1XTcwFr12vB8gcvWnTP1yxRoypzLKA8PO-A-b7_LsS2E ／ 参加率とレンジの入れ子は本書側で機械検証済み。</div>
+
 <h3>2-4. レイズの大きさ</h3>
 <p>【前提】あなたがオープンレイズする時のサイズ。</p>
 <ul>
@@ -433,6 +495,21 @@ details.selftest ol{margin:.6em 0 .2em}
 <section class="ch" id="ch4">
 <h2><span class="no">4</span>3枚めくれた後（フロップ以降）</h2>
 <p class="ch-lede">結論：あなたがベットする前に「これはバリュー（勝っているから払わせる）か、ブラフ（降ろす）か」を1語で言う。どちらでもなければチェック。</p>
+
+<h3 id="sec-4-0">4-0. まず守る2つのルール（迷ったらこれだけ）</h3>
+<p>フロップ以降は考えることが多く、実戦の数秒では処理が追いつきません。この本の4章以降を全部覚える前に、まず次の2つだけを反射でできるようにします。この2つは、実際のハンド履歴の分析から、失っている金額が最も大きい2箇所を選んだものです。</p>
+<ol>
+<li><b>ルール1（サイズ）：</b>打つなら基本はポットの1/3です。2ペア以上の手を持っている時だけ2/3にします。サイズで迷わないよう、選択肢を2つに固定します。</li>
+<li><b>ルール2（レイズされたら）：</b>自分からベットして相手にレイズし返されたら降ります。続けるのは2ペア以上の時だけです。判定するのは「レイズされたかどうか」という外側の出来事だけで、自分の手が強く感じるかどうかは関係ありません。手が強いと感じている時ほど、このルールの価値が高くなります。</li>
+</ol>
+<div class="scroll"><table>
+<tr><th>あなたの手</th><th>打つサイズ</th><th>レイズされたら</th></tr>
+<tr><td><b>2ペア以上</b></td><td><b>2/3</b></td><td><b>続けてよい</b></td></tr>
+<tr><td><b>それ未満</b></td><td><b>1/3かチェック</b></td><td><b>降りる</b></td></tr>
+</table></div>
+<p><b>なぜこの2つか：</b>ルールを増やすほど実戦では機能しなくなります。単純なルールは、たまに損をする代わりに、考えなくても実行できます。その取引が成立する限りは、単純なほうが強いのです。</p>
+<p><b>この2つが反射でできるようになってから</b>、4-1以降の頻度・サイズの使い分けや、ドロー（まだ完成していないが、次のカードで強い役になりうる手）を持っている場合の例外を1つずつ足していきます。順番を守ってください。</p>
+<p class="point"><b>迷ったらチェック。それで大きく損をすることはありません。</b></p>
 
 <h3>4-1. 2つの軸：「どれくらいの頻度で打つか」と「どの大きさで打つか」</h3>
 <p>【前提】この章の4-2〜4-5は、<b>あなたがプリフロップでレイズし、BB1人だけがコールした</b>ヘッズアップのポットが基準。人数が増えた時・あなたがコールした側の時は、そのつど注記する。</p>
@@ -870,6 +947,30 @@ function renderText(){
 }
 renderOpen();renderCombined();renderAnte();renderPush();renderText();
 document.getElementById('pfStack').onchange=renderPush;document.getElementById('pfAnte').onchange=renderPush;
+/* ---- 2-3b: six-max ZeroS ranges ---- */
+(function(){
+ if(typeof ZEROS==='undefined'||typeof NASH==='undefined')return;
+ const RANKS=['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
+ const CL=NASH.classes,CI={};CL.forEach((c,i)=>CI[c]=i);
+ const COLORS={'3b5b':'#b0362e','3bF':'#d9534f','3bC':'#2f5fae','3bCs':'#6f94d6','cc35':'#2f8a68','cc30':'#3fa07c','cc25':'#5fb48f','cc225':'#8ac6a9','cc20':'#d9c26a','R':'#2f8a68','Rl':'#8ac6a9','4b5b':'#b0362e','4bF':'#d9534f','AI':'#111','c12':'#2f8a68','c95':'#3fa07c','c8':'#5fb48f','c7':'#8ac6a9','c6':'#b5d9c4','c5':'#d9c26a'};
+ function hand(i,j){const r=RANKS[i],c=RANKS[j];return i===j?r+r:i<j?r+c+'s':c+r+'o'}
+ function grid(key){
+  const t=ZEROS.tables[key];let h='<figure class="rangefig"><figcaption>'+t.title+'</figcaption><div class="matrix">';
+  RANKS.forEach((r,i)=>RANKS.forEach((c,j)=>{const code=hand(i,j),a=t.acts[CI[code]];h+='<div class="cell'+(a&&a!=='F'?' z-'+a:'')+'" title="'+(ZEROS.legend[t.kind][a]||'')+'">'+code+'</div>'}));
+  return h+'</div></figure>';
+ }
+ function legend(kind){
+  const L=ZEROS.legend[kind];return '<div class="zlegend">'+Object.keys(L).filter(k=>k!=='F').map(k=>'<span><i style="background:'+(COLORS[k]||'#666')+'"></i>'+L[k]+'</span>').join('')+'<span><i style="background:#23262d"></i>降りる</span></div>';
+ }
+ const order=[['OR_EP','EP'],['OR_MP','MP'],['OR_CO','CO'],['OR_BTN','BTN']],first={};
+ order.forEach(([key,pos])=>ZEROS.tables[key].acts.forEach((a,i)=>{if((a==='R'||a==='Rl')&&!first[CL[i]])first[CL[i]]=pos}));
+ const combined=document.getElementById('p6Combined');
+ if(combined){let h='<div class="matrix">';RANKS.forEach((r,i)=>RANKS.forEach((c,j)=>{const code=hand(i,j),pos=first[code];h+='<div class="cell'+(pos?' p6-'+pos:'')+'">'+code+'</div>'}));combined.innerHTML=h+'</div>'}
+ document.querySelectorAll('details.p6group').forEach(d=>d.addEventListener('toggle',()=>{
+  if(!d.open||d.dataset.done)return;d.dataset.done='1';const keys=d.dataset.keys.split(' '),kind=ZEROS.tables[keys[0]].kind;
+  d.querySelector('.zbody').innerHTML=legend(kind)+'<div class="grids">'+keys.map(grid).join('')+'</div>';
+ }));
+})();
 /* ---- Appendix B: ZeroS situational ranges (lazy render) ---- */
 (function(){
  if(typeof ZEROS==='undefined')return;
