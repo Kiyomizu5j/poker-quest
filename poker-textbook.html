@@ -354,8 +354,37 @@ details.selftest ol{margin:.6em 0 .2em}
 <details class="zgroup p6group" data-keys="MPvsEP COvsEP BTNvsEP BTNvsCO"><summary>対オープンの4枚を開く <small>MP vs EP・CO vs EP・BTN vs EP・BTN vs CO</small></summary><div class="zbody"></div></details>
 
 <h4>自分のオープンが3ベットされた時</h4>
-<p>ポジションが無い場合はV3B_OOP48 / V3B_OOP74 / V3B_OOP10を相手の3ベット率別に使い、ポジションがある場合はV3B_IP_CO75 / V3B_IP_BTN118を使います。表中のc12 / c95 / c8 / c7 / c6 / c5は、相手の3ベット額がそれぞれ12bb / 9.5bb / 8bb / 7bb / 6bb / 5bbまでならコールしてよい、という上限です。相手の3ベット率が高いほど、相手のレンジは弱い手も含むため、こちらも広く受けて構いません。</p>
-<details class="zgroup p6group" data-keys="V3B_OOP48 V3B_OOP74 V3B_OOP10 V3B_IP_CO75 V3B_IP_BTN118"><summary>3ベットされた側の5枚を開く <small>ポジション無し3枚・ポジション有り2枚</small></summary><div class="zbody"></div></details>
+<p><b>まず、どちらの表を使うかを決めます。</b>基準は「3ベットしてきたのが誰か」だけです。</p>
+<ul>
+<li><b>ブラインド（SB・BB）が3ベットした</b> → フロップ以降はブラインドが先に行動するので、<b>あなたにポジションがあります</b>。EP/MPからのオープンなら <code class="zcode">V3B_IP_EMP48</code>、COなら <code class="zcode">V3B_IP_CO75</code>、BTNなら <code class="zcode">V3B_IP_BTN118</code>。</li>
+<li><b>自分より後ろの席（MP・CO・BTN）が3ベットした</b> → <b>あなたにポジションがありません</b>。<code class="zcode">V3B_OOP74</code>（相手の3ベット率7.4%）を基本にします。相手が3ベットを多用するタイプなら <code class="zcode">V3B_OOP10</code>、堅いなら <code class="zcode">V3B_OOP48</code>。</li>
+</ul>
+<p>表の中の <code class="zcode">c12</code> <code class="zcode">c95</code> <code class="zcode">c8</code> <code class="zcode">c7</code> <code class="zcode">c6</code> <code class="zcode">c5</code> は、<b>相手の3ベットが何bbまでならコールしてよいかの上限</b>です（順に 12 / 9.5 / 8 / 7 / 6 / 5 bb）。上限を超えるサイズを打たれたら降ります。</p>
+
+<div class="warn"><b>覚え方はこれだけで足ります。</b><br>
+<b>オフスートはほぼ降りる。スーテッドとポケットペアは残る。</b><br>
+理由は、3ベットされたポットは相手のレンジが強いので「トップペアになりました」では足りず、<b>大きく勝てる可能性</b>が要るからです。フラッシュやストレートを作れるスーテッドと、セットになれるペアがそれを持っています。</div>
+
+<p>実際の数字がこの覚え方を裏づけています。EP/MPでオープンしてブラインドに3ベットされた場合、続けられるのは169手中41手だけで、その内訳はこうです。</p>
+
+<div class="scroll"><table>
+<tr><th>上限</th><th>ポケットペア</th><th>スーテッド</th><th>オフスート</th></tr>
+<tr><td><b>4ベットで返す</b></td><td>AA</td><td>A5s</td><td>—</td></tr>
+<tr><td><b>12bbまで</b></td><td>KK QQ JJ TT 99</td><td>AKs AQs</td><td>AKo</td></tr>
+<tr><td><b>9.5bbまで</b></td><td>88 77 66 55</td><td>AJs KQs QJs JTs T9s</td><td>—</td></tr>
+<tr><td><b>8bbまで</b></td><td>—</td><td>ATs KJs QTs J9s 98s A4s A3s</td><td>—</td></tr>
+<tr><td><b>7bbまで</b></td><td>—</td><td>KTs T8s A9s A8s A2s</td><td>AQo</td></tr>
+<tr><td><b>6bbまで</b></td><td>—</td><td>K9s Q9s A7s A6s</td><td>KQo</td></tr>
+<tr><td><b>5bbまで</b></td><td>—</td><td>—</td><td>AJo KJo QJo JTo</td></tr>
+</table></div>
+
+<p><b>オフスートは7手しかなく、しかもAKo以外は5〜7bbで打ち止め</b>です。一方スーテッドは23手あり、上位は9.5〜12bbまで粘れます。ポケットペアは55以上が全部9.5bb以上です。</p>
+
+<p>ポジションが無い場合（後ろの席から3ベットされた場合）も形は同じで、続けられるのは45手。違いは、A5s・A4s・A3s・KTsが<b>4ベットで返す側</b>に回ることと、22・33・44のような小さいペアや65s・76s・87sが7〜8bbまで受けられることです。ポジションが無いぶん「中途半端にコールする」を減らし、<b>4ベットか降りるか</b>に寄せる設計になっています。</p>
+
+<div class="src">相手の3ベット率（4.8% / 7.4% / 10% / 11.8%）が高いほど相手のレンジには弱い手が混ざるので、こちらも広く受けて構いません。上の数字は最も堅い前提（4.8%）のものなので、相手が3ベットを多用するなら1段広げてください。</div>
+
+<details class="zgroup p6group" data-keys="V3B_IP_EMP48 V3B_IP_CO75 V3B_IP_BTN118 V3B_OOP48 V3B_OOP74 V3B_OOP10"><summary>3ベットされた側の6枚を開く <small>ポジション有り3枚（EP/MP・CO・BTN）／ポジション無し3枚</small></summary><div class="zbody"></div></details>
 
 <h4>覚え方</h4>
 <ul>
