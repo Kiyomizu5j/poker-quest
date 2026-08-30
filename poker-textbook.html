@@ -48,6 +48,7 @@ dfn{font-style:normal;border-bottom:1px dotted var(--gold);cursor:help}
 .point{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.93rem}
 .warn{background:var(--red-soft);border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.9rem}
 .tip{background:var(--gold-soft);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.9rem}
+.zcode{font-family:ui-monospace,"SF Mono",Consolas,"Courier New",monospace;font-size:.92em;background:#1c232c;border:1px solid #2f3d4e;border-radius:4px;padding:1px 5px;letter-spacing:.06em;color:#8ac6a9}
 .src{background:var(--blue-soft);border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:8px 14px;margin:14px 0;font-size:.8rem;color:var(--muted)}
 .src a{color:var(--blue)}
 /* tables */
@@ -315,16 +316,16 @@ details.selftest ol{margin:.6em 0 .2em}
 <p>各ハンドを、最初にオープンできる席で色分けしました。最も狭いEPで開ける手はEP色、MPで初めて入る手はMP色、以下CO色・BTN色です。どの席からも開けない手は無色です。EP ⊂ MP ⊂ CO ⊂ BTNという入れ子が成立しているため、4枚の表を1枚に畳めます。</p>
 <div id="p6Combined" class="combined"></div>
 <div class="legend"><span><span class="dot p6-EP"></span>EPから</span><span><span class="dot p6-MP"></span>MPから</span><span><span class="dot p6-CO"></span>COから</span><span><span class="dot p6-BTN"></span>BTNから</span><span><span class="dot"></span>どこでも開けない</span></div>
-<p>参加率はEP 14.9%（R 29手＋Rl 4手＝33手）、MP 19.6%（R 35手＋Rl 7手＝42手）、CO 24.9%（R 49手＋Rl 6手＝55手）、BTN 39.1%（R 77手＋Rl 4手＝81手）です。参加率はスートやペアを含む全1326コンボを基準にしています。</p>
+<p>参加率はEP 14.9%（R（レイズ）29手＋<code class="zcode">Rl</code>（境界）4手＝33手）、MP 19.6%（R（レイズ）35手＋<code class="zcode">Rl</code>（境界）7手＝42手）、CO 24.9%（R（レイズ）49手＋<code class="zcode">Rl</code>（境界）6手＝55手）、BTN 39.1%（R（レイズ）77手＋<code class="zcode">Rl</code>（境界）4手＝81手）です。参加率はスートやペアを含む全1326コンボを基準にしています。</p>
 
 <details class="zgroup p6group" data-keys="OR_EP OR_MP OR_CO OR_BTN"><summary>席別4枚を開く <small>EP・MP・CO・BTNのオープンレンジ</small></summary><div class="zbody"></div></details>
 
-<h4>深掘り(1) 「Rl（弱い相手ならレイズ）」という3つ目の答え</h4>
-<p>ZeroS表は「レイズ／降りる」の2値ではなく、境界の手に<b>Rl（弱い相手ならレイズ）</b>という3つ目の答えを置いています。Rlは、相手が降りやすい、またはレイズへの受けが弱いと判断できる時だけ開ける手です。堅い相手や、まだ傾向を読めない相手には降りて構いません。</p>
-<p>RlはEP 4手、MP 7手、CO 6手、BTN 4手です。境界で迷ったら、まずは降りる側に倒すのが安全です。</p>
+<h4>深掘り(1) 「<code class="zcode">Rl</code>（弱い相手ならレイズ）」という3つ目の答え</h4>
+<p>ZeroS表は「レイズ／降りる」の2値ではなく、境界の手に<b>Rl（弱い相手ならレイズ）</b>という3つ目の答えを置いています。<code class="zcode">Rl</code>は、相手が降りやすい、またはレイズへの受けが弱いと判断できる時だけ開ける手です。堅い相手や、まだ傾向を読めない相手には降りて構いません。</p>
+<p>Rl の数は EP 4手、MP 7手、CO 6手、BTN 4手です。境界で迷ったら、まずは降りる側に倒すのが安全です。</p>
 
 <h4>深掘り(2) 「開ける手」と「他人のレイズに払える手」は別物</h4>
-<div class="warn"><b>ここは実戦で特に間違えやすい点です。</b> 96sはBTNのオープンではRlなので、条件がよければ開けられます。しかしCOで早い席のレイズに直面した場合（COvsEP）はF、つまりフォールドです。</div>
+<div class="warn"><b>ここは実戦で特に間違えやすい点です。</b> 96sはBTNのオープンでは<code class="zcode">Rl</code>なので、条件がよければ開けられます。しかしCOで早い席のレイズに直面した場合（COvsEP）はF、つまりフォールドです。</div>
 <ol>
 <li>オープンは全員が降りればその場でポットを取れますが、コールドコール（自分がまだ参加していない状態で他人のレイズにコールすること）にその勝ち筋はありません。</li>
 <li>コールドコールでは、主導権、つまり次にベットして展開を作りやすい立場が相手にあります。</li>
