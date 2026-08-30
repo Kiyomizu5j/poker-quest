@@ -113,6 +113,7 @@ function render(){
   const d = D[me][opp] || D[me]["open"];
   const isOpen = d.mode === "open";
   document.getElementById("hTitle").textContent =
+    d.mode === "none" ? `${LABEL[me]}（誰も入ってない）` :
     isOpen ? `${LABEL[me]} から開く` : `${LABEL[me]} vs ${LABEL[opp]}のレイズ`;
   document.getElementById("hSub").textContent =
     d.mode === "none" ? "" : (isOpen ? "全員が降りて自分の番" : "まだ自分は何も入れていない");
