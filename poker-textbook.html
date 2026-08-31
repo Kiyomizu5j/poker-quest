@@ -117,6 +117,7 @@ footer a{color:var(--accent)}
 @media (max-width:660px){figure.rangefig{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}.matrix{min-width:472px}.cell{font-size:.62rem}.cell .lim{font-size:.5rem;opacity:.95}}
 .cell.p6-EP{background:#c94f4f;color:#fff}.cell.p6-MP{background:#cf8b2e;color:#fff}.cell.p6-CO{background:#58a15f;color:#fff}.cell.p6-BTN{background:#4f74c9;color:#fff}
 .dot.p6-EP{background:#c94f4f}.dot.p6-MP{background:#cf8b2e}.dot.p6-CO{background:#58a15f}.dot.p6-BTN{background:#4f74c9}
+.cell.p6v-SB{background:#3f8f8a;color:#fff}.dot.p6v-SB{background:#3f8f8a}
 details.zgroup{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:12px 0}
 details.zgroup summary{cursor:pointer;font-weight:700;color:var(--accent)}
 details.zgroup summary small{color:var(--muted);font-weight:400;margin-left:8px}
@@ -337,6 +338,20 @@ details.selftest ol{margin:.6em 0 .2em}
 <li>まだ後ろに席が残っており、後ろからのレイズで挟まれるリスクがあります。</li>
 </ol>
 <p class="point"><b>結論：</b>BTNで開ける手を、COで他人のレイズに払ってはいけません。</p>
+
+<h4>深掘り(3) 守る側（vsオープン）も1枚に畳める</h4>
+<p>オープンレンジと同じ入れ子が、<b>「誰かのレイズに続けるか」の表にも成立します</b>。自分の席を固定すると、レイズしてきた相手が後ろの席になるほど続ける手が広くなり、機械照合の結果、<b>BTN・SB・BBの全チェーンで例外ゼロ</b>でした（EPのレイズに続ける手は、CO・BTN・SBのレイズにも必ず続けます）。だから席ごとに1枚に畳めます。色は「<b>最も早い席のレイズまで続けられるか</b>」——EP色ならどのレイズにも続ける、BTN色ならBTN（かそれより後ろ）のレイズにだけ続ける、という読み方です。</p>
+<div class="grids">
+ <figure class="rangefig"><figcaption>BTNで守る<small>続ける手：vs EP/MP 26手 → vs CO 33手</small></figcaption><div id="p6vBTN"></div></figure>
+ <figure class="rangefig"><figcaption>SBで守る<small>続ける手：vs EP/MP 27手 → vs CO 31手 → vs BTN 40手</small></figcaption><div id="p6vSB"></div></figure>
+ <figure class="rangefig"><figcaption>BBで守る<small>続ける手：vs EP/MP 94手 → vs CO 114手 → vs BTN 129手 → vs SB 134手</small></figcaption><div id="p6vBB"></div></figure>
+</div>
+<div class="legend"><span><span class="dot p6-EP"></span>EP/MPのレイズから続ける（＝誰のレイズにも）</span><span><span class="dot p6-CO"></span>COから</span><span><span class="dot p6-BTN"></span>BTNから</span><span><span class="dot p6v-SB"></span>SBのみ（BBだけ）</span><span><span class="dot"></span>誰のレイズにも降りる</span></div>
+<p>MPとCOは相手にできるオープンがEP/MP系の1種類しかないので、畳む対象がなく従来の単表のまま（付録B-2）。注意点は2つ：</p>
+<ul>
+<li><b>色は「続けるか」だけを表す。</b>3ベットで続けるかコールで続けるかは相手の席によって入れ替わる（例：SBのペア66〜99はvs EPではコール、vs COからは3ベット）。アクションの細部は付録B-2の個別表か「プレイ中の1枚」で確認する。</li>
+<li><b>入れ子が成立するのは「自分の席を固定した」方向だけ。</b>「レイズした相手を固定して、自分の席を後ろへ」の方向は成立しない。破れの正体はBTNの3ベットブラフ（54s・65s・76s・A2sなど）で、ポジションがあるBTNだけが混ぜる手をブラインドは持たないため。<b>この1枚型を「後ろの席ほど広い」と読み替えないこと。</b></li>
+</ul>
 
 <h4>SBとBBはどうなるのか</h4>
 <p><b>BBには「オープンレンジ」が構造的に存在しません。</b>6人卓ではBBが最後に行動するので、全員が降りたらBBがその場でポットを取ります。開く相手がいないからです。BBの仕事は、誰かのレイズに対して守る（BBvsEP / BBvsCO / BBvsBTN / BBvsSB）ことと、リンプ（レイズせずにBBと同額だけ払って参加すること）した人がいる時にレイズする（ROL_BB / ROL_BBvsSB）ことの2つだけです。</p>
@@ -1004,6 +1019,20 @@ document.getElementById('pfStack').onchange=renderPush;document.getElementById('
  order.forEach(([key,pos])=>ZEROS.tables[key].acts.forEach((a,i)=>{if((a==='R'||a==='Rl')&&!first[CL[i]])first[CL[i]]=pos}));
  const combined=document.getElementById('p6Combined');
  if(combined){let h='<div class="matrix">';RANKS.forEach((r,i)=>RANKS.forEach((c,j)=>{const code=hand(i,j),pos=first[code];h+='<div class="cell'+(pos?' p6-'+pos:'')+'">'+code+'</div>'}));combined.innerHTML=h+'</div>'}
+ /* 深掘り(3): 守る側の1枚型。色=最も早い席のレイズまで続けられるか（続ける=F以外）。
+    入れ子（vsEP⊆vsCO⊆…）はpoker_inject_data.pyが注入時にassertしている */
+ const VCHAINS={p6vBTN:[['BTNvsEP','EP'],['BTNvsCO','CO']],
+                p6vSB:[['SBvsEP','EP'],['SBvsCO','CO'],['SBvsBTN','BTN']],
+                p6vBB:[['BBvsEP','EP'],['BBvsCO','CO'],['BBvsBTN','BTN'],['BBvsSB','SB']]};
+ Object.keys(VCHAINS).forEach(id=>{
+  const el=document.getElementById(id);if(!el)return;
+  const firstDef={};
+  VCHAINS[id].forEach(([key,pos])=>ZEROS.tables[key].acts.forEach((a,i)=>{if(a!=='F'&&!firstDef[CL[i]])firstDef[CL[i]]=pos}));
+  let h='<div class="matrix">';
+  RANKS.forEach((r,i)=>RANKS.forEach((c,j)=>{const code=hand(i,j),pos=firstDef[code];
+   h+='<div class="cell'+(pos?(pos==='SB'?' p6v-SB':' p6-'+pos):'')+'">'+code+'</div>'}));
+  el.innerHTML=h+'</div>';
+ });
  document.querySelectorAll('details.p6group').forEach(d=>d.addEventListener('toggle',()=>{
   if(!d.open||d.dataset.done)return;d.dataset.done='1';const keys=d.dataset.keys.split(' '),kind=ZEROS.tables[keys[0]].kind;
   d.querySelector('.zbody').innerHTML=legend(kind)+'<div class="grids">'+keys.map(grid).join('')+'</div>';
