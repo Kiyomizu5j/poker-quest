@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#12141b">
+<title>ポーカー教科書・トーナメント編</title>
+<style>
+:root{
+  color-scheme:dark;
+  --paper:#12141b; --card:#1a1d27; --card2:#20242f; --ink:#e9e8e1; --muted:#9a9d96; --line:#2e323d;
+  --accent:#d9b35e; --accent-soft:#3a321e; --green:#63c596; --green-soft:#1d3329; --red:#e48a80; --red-soft:#3a2523;
+  --blue:#7fb3ff; --blue-soft:#1d2a3e;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);line-height:1.8;font-size:15px;
+ font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP",sans-serif}
+.page{max-width:820px;margin:auto;padding:26px 18px 90px}
+h1,h2,h3{line-height:1.4;letter-spacing:.01em}
+h1{font-size:1.55rem;margin:.2em 0 .1em}
+.lede{color:var(--muted);font-size:.88rem;margin:0 0 6px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.badge{font-size:.74rem;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:3px 11px;color:var(--muted)}
+.badge a{color:var(--accent);text-decoration:none;font-weight:700}
+h2{font-size:1.25rem;margin:0;display:flex;align-items:center;gap:10px}
+h2 .no{flex:none;width:34px;height:34px;border-radius:9px;background:var(--accent);color:#241c08;display:flex;align-items:center;justify-content:center;font-size:1rem}
+h3{font-size:1.02rem;margin:1.7em 0 .5em;border-left:4px solid var(--accent);padding-left:10px}
+section.ch{margin-top:46px;padding-top:18px;border-top:2px solid var(--line)}
+.ch-lede{color:var(--muted);font-size:.88rem;margin:8px 0 0 44px}
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em;margin:.5em 0}
+li{margin:.3em 0}
+.point{background:var(--green-soft);border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.93rem}
+.warn{background:var(--red-soft);border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.9rem}
+.tip{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 14px;margin:14px 0;font-size:.9rem}
+.src{background:var(--blue-soft);border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:8px 14px;margin:14px 0;font-size:.8rem;color:var(--muted)}
+.src a{color:var(--blue)}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.86rem;background:var(--card)}
+th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--card2);font-size:.8rem}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.scroll{overflow-x:auto}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:18px}
+.toc-t{font-size:.72rem;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:8px}
+.toc ol{margin:0;padding-left:1.5em}
+.toc a{color:var(--accent);text-decoration:none;font-weight:600}
+details.selftest{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;margin:18px 0}
+details.selftest>summary{cursor:pointer;font-weight:700;color:var(--accent);font-size:.9rem}
+details.selftest ol{margin-top:10px}
+.pnav{display:flex;gap:5px;margin-bottom:14px}
+.pnav a,.pnav .cur{flex:1;text-align:center;font-size:11px;padding:6px 2px;border-radius:7px;
+  background:var(--card);border:1px solid var(--line);color:var(--muted);text-decoration:none;
+  white-space:nowrap;overflow:hidden}
+.pnav .cur{background:#3a321e;border-color:var(--accent);color:var(--accent);font-weight:700}
+footer{margin-top:56px;padding-top:14px;border-top:2px solid var(--line);color:var(--muted);font-size:.78rem}
+footer a{color:var(--accent)}
+.rolebox{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0}
+.rolebox .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.9rem}
+.rolebox .box b{color:var(--accent)}
+@media (min-width:700px){.rolebox{grid-template-columns:repeat(3,1fr)}}
+strong{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<nav class="pnav">
+  <a href="poker-portal.html">🏠 入口</a>
+  <a href="poker-textbook.html">📖 基礎編</a>
+  <span class="cur">🏆 トナメ編</span>
+  <a href="poker-trainer.html">🎮 QUEST</a>
+</nav>
+
+<header>
+<h1>ポーカー教科書・トーナメント編</h1>
+<p class="lede">アミュ店トーナメントの中盤から先——賞金がチップの価値を歪める領域だけを扱う分冊。レンジ表・ポストフロップの基礎・押し引きの表は<a href="poker-textbook.html" style="color:var(--accent)">基礎編（v3）</a>にある。この本は「同じ手・同じ勝率でも、賞金構造によって正解が変わる」場面のための1冊。2026-08-31 初版。</p>
+<div class="badges">
+ <span class="badge">📖 レンジと基礎 → <a href="poker-textbook.html">基礎編</a></span>
+ <span class="badge">🎮 ドリル → <a href="poker-trainer.html">POKER QUEST</a></span>
+ <span class="badge">押し引き表 → <a href="poker-textbook.html#ch5">基礎編5章</a></span>
+</div>
+</header>
+
+<div class="warn" style="margin-top:18px"><b>この本の数値の出どころ（先に読む）</b><br>
+①ICM・バブルファクターの数値は<b>自前計算</b>（Malmuth-Harville近似・引き分け無視・賞金比50/30/20の例で計算。スクリプト=<code>scripts/poker_icm_examples.py</code>、出力=<code>research/poker/icm-examples-output.txt</code>）。数値は例のスタック構成に依存するので、<b>覚えるのは数字でなく大小関係</b>。
+②一般式と典型域はGTO Wizard「What is the Bubble Factor」、M値はHarrington（いずれも基礎編と同じ出典）。
+③サイジングと高圧環境の対策はサボテンポーカーの動画2本（各節に明記。1本はポーカーチェイス前提なので適用条件つき）。
+④<b>中盤25〜40bb帯の精密なレンジは、手元に検証可能なデータがないため出さない</b>。原則だけを示し、精密化はデータが手に入った時に行う。</div>
+
+<nav class="toc">
+<div class="toc-t">目次</div>
+<ol>
+<li><a href="#ch1">チップと賞金は別物（ICM）</a></li>
+<li><a href="#ch2">バブルファクター——「誰と戦うか」で必要勝率が変わる</a></li>
+<li><a href="#ch3">押す側と受ける側は対称じゃない</a></li>
+<li><a href="#ch4">ステージ別の設計図（どの本のどの章を使うか）</a></li>
+<li><a href="#ch5">中盤 25〜40bb——基礎編の空白地帯</a></li>
+<li><a href="#ch6">バブルの実践——スタック別の役割</a></li>
+<li><a href="#ch7">ICM影響下のベットサイジング</a></li>
+<li><a href="#ch8">ファイナルテーブルとラダー</a></li>
+<li><a href="#ch9">リエントリー・レイトレジ・アドオン</a></li>
+<li><a href="#ch10">直前に見る1枚</a></li>
+</ol>
+</nav>
+
+<!-- ==================== 1 ==================== -->
+<section class="ch" id="ch1">
+<h2><span class="no">1</span>チップと賞金は別物（ICM）</h2>
+<p class="ch-lede">トーナメントの賞金期待値はチップ比例では増えない。ここが本書全体の土台。</p>
+
+<p>キャッシュゲームではチップ1点＝1円で固定だ。トーナメントでは違う。<b>チップを2倍にしても、賞金の期待値は2倍にならない</b>。優勝しても賞金は1位の分しかもらえない（余ったチップに払い戻しはない）からで、この換算のズレを数値化したものが<b>ICM</b>（Independent Chip Model）だ。</p>
+
+<p>実際に計算するとこうなる。残り4人・入賞3人（賞金比50/30/20）・スタック18000/12000/7000/3000の卓：</p>
+
+<div class="scroll"><table>
+<thead><tr><th>プレイヤー</th><th class="num">チップシェア</th><th class="num">賞金期待値($EV)</th><th>チップ1点の価値</th></tr></thead>
+<tbody>
+<tr><td>A（ビッグ 18000）</td><td class="num">45.0%</td><td class="num">35.8</td><td>薄い（0.80）</td></tr>
+<tr><td>B（2番手 12000）</td><td class="num">30.0%</td><td class="num">30.3</td><td>ほぼ等価（1.01）</td></tr>
+<tr><td><b>C（あなた 7000）</b></td><td class="num">17.5%</td><td class="num">22.9</td><td>濃い（1.31）</td></tr>
+<tr><td>D（ショート 3000）</td><td class="num">7.5%</td><td class="num">11.0</td><td>最も濃い（1.47）</td></tr>
+</tbody>
+</table></div>
+
+<p>読み方は2つだけでいい。</p>
+<ul>
+<li><b>持ちチップが少ない人ほど、1点の価値が濃い。</b>ショートのDはチップの7.5%しか持っていないのに、賞金期待値は11%ある。逆にビッグのAは45%持っていても賞金期待値は35.8%。<b>チップを積み上げる側より、失う側のダメージが常に大きい</b>。</li>
+<li><b>だから「五分の勝負」はトーナメントでは五分じゃない。</b>同じ量のチップを賭けて勝率50%の勝負をすると、賞金期待値では損をする。これが次章のバブルファクターにつながる。</li>
+</ul>
+
+<div class="point"><b>結論を1行で：</b>トーナメントの終盤に近づくほど、「チップで得か」でなく「賞金で得か」で判断する。両者は序盤ほぼ一致し、バブルと入賞後に大きく割れる。</div>
+
+<div class="src">出典: ICMの数値は自前計算（<code>scripts/poker_icm_examples.py</code>・Malmuth-Harville近似・引き分け無視）。ICM自体は標準理論（基礎編3-4のGTO Wizard資料と同じ枠組み）。</div>
+</section>
+
+<!-- ==================== 2 ==================== -->
+<section class="ch" id="ch2">
+<h2><span class="no">2</span>バブルファクター——「誰と戦うか」で必要勝率が変わる</h2>
+<p class="ch-lede">基礎編3-4の「33%→37〜38%」の中身。相手ごとに数字が違うのがポイント。</p>
+
+<p><b>バブルファクター（BF）＝負けた時に失う賞金期待値 ÷ 勝った時に得る賞金期待値</b>。キャッシュなら常に1.0。トーナメントでは1.0を超え、五分の勝負を受けるのに必要な勝率は <b>BF÷(BF＋1)</b> に上がる（GTO Wizardの式）。BF=1.5なら60%、BF=2.0なら67%だ。</p>
+
+<p>重要なのは、<b>BFは自分と相手の組み合わせで決まる</b>ということ。1章と同じ卓（あなた=C 7000）で全組み合わせを計算した：</p>
+
+<div class="scroll"><table>
+<thead><tr><th>自分＼相手</th><th>A(ビッグ)</th><th>B(2番手)</th><th>C(あなた)</th><th>D(ショート)</th></tr></thead>
+<tbody>
+<tr><td>A(ビッグ)</td><td>—</td><td class="num">1.51 (60%)</td><td class="num">1.20 (54%)</td><td class="num">1.08 (52%)</td></tr>
+<tr><td>B(2番手)</td><td class="num"><b>2.99 (75%)</b></td><td>—</td><td class="num">1.37 (58%)</td><td class="num">1.11 (53%)</td></tr>
+<tr><td><b>C(あなた)</b></td><td class="num"><b>2.56 (72%)</b></td><td class="num"><b>2.31 (70%)</b></td><td>—</td><td class="num">1.12 (53%)</td></tr>
+<tr><td>D(ショート)</td><td class="num">1.52 (60%)</td><td class="num">1.42 (59%)</td><td class="num">1.21 (55%)</td><td>—</td></tr>
+</tbody>
+</table></div>
+<p style="font-size:.8rem;color:var(--muted)">カッコ内＝五分の勝負を受けるのに必要な勝率。チップEVだけなら全マス50%。</p>
+
+<p>この表から出る実戦ルールは3つ：</p>
+<ul>
+<li><b>自分をカバーしている相手（負けたら飛ぶ相手）との勝負が一番高くつく。</b>あなた(C)がAやBと全額勝負するには勝率70%以上が要る。AKでも五分の相手には受けられない数字だ。</li>
+<li><b>ショートとの勝負はほぼ通常どおり。</b>vs D は53%で、キャッシュの50%とほとんど変わらない。</li>
+<li><b>上位スタック同士の衝突が卓全体で最悪</b>（B vs A ＝75%）。だからビッグ同士は互いを避け、間にいるミドルとショートが絞られる。これが「バブルではチップリーダーが暴れる」構造の正体。</li>
+</ul>
+
+<h3>実例：同じオールインでも、押した相手で答えが変わる</h3>
+<p>あなたはBB（C=7000）、ブラインド500/1000。SBがオールインしてきた。</p>
+<div class="scroll"><table>
+<thead><tr><th>押してきた相手</th><th class="num">チップEVの必要勝率</th><th class="num">ICMの必要勝率</th><th>意味</th></tr></thead>
+<tbody>
+<tr><td>D（ショート3000）</td><td class="num">33%</td><td class="num"><b>36%</b></td><td>ほぼ通常。基礎編5-4の受けレンジを少し絞る程度</td></tr>
+<tr><td>B（12000・あなたをカバー）</td><td class="num">43%</td><td class="num"><b>64%</b></td><td>負けたら即バブル落ち（$EV=0）。AQでも降りる数字</td></tr>
+</tbody>
+</table></div>
+
+<div class="warn"><b>覚え違い注意：</b>「バブルはタイトに」を全部に適用しない。<b>絞るのは“カバーされてる相手からの攻撃を受ける時”だけ</b>。ショート相手の判断はほぼ変わらないし、自分から押す判断もあまり変わらない（次章）。</div>
+
+<div class="src">出典: BF式と典型域（1.1〜2.0、ミドル同士は2超）=GTO Wizard「What is the Bubble Factor」（基礎編3-4と同一）。表と実例の数値=自前計算（前提は本文どおり。<b>スタック構成が違えば数値は変わる</b>）。</div>
+
+<details class="selftest"><summary>ミニチェック（3問・閉じたまま答えてから開く）</summary><ol>
+<li>バブルであなたはミドル。チップリーダーが毎回オープンしてくる。広く受けて咎めるべき？ → <b>受けない</b>（vs カバー相手の必要勝率は70%級。咎める役はあなたの仕事ではない）</li>
+<li>同じ場面で、ショートのオールインを受けるかは？ → <b>ほぼ通常どおり</b>（BF約1.1。基礎編5-4の表を少し絞る程度）</li>
+<li>BF=2.0の相手と五分の勝負。受けるのに必要な勝率は？ → <b>67%</b>（BF/(BF+1)）</li>
+</ol></details>
+</section>
+
+<!-- ==================== 3 ==================== -->
+<section class="ch" id="ch3">
+<h2><span class="no">3</span>押す側と受ける側は対称じゃない</h2>
+<p class="ch-lede">ICMで変わるのは主に「受け」。「押し」はあまり変わらず、むしろ強くなる。</p>
+
+<p>前章で「受けの必要勝率が上がる」ことを見た。ここで大事な非対称がある：<b>相手の必要勝率が上がるということは、こちらの押しが通りやすくなる</b>ということだ。</p>
+<ul>
+<li><b>押す側：</b>相手はICMのせいで正しい戦略として降りやすくなっている。フォールドエクイティ（降ろして取る価値）がキャッシュより大きい。だから<b>自分から先に押す判断は基礎編5-3の表からあまり狭めなくていい</b>（基礎編5-4の「押すのはほぼ通常どおり」と同じ結論）。</li>
+<li><b>受ける側：</b>2章のとおり、カバーされている相手に対しては大きく絞る。</li>
+</ul>
+<div class="point"><b>結論：</b>バブルの正解は「タイトになる」ではなく、<b>「先に動く側に回る」</b>。同じ35%の勝負でも、押せば相手の降りで浮き、受ければICM税を払う。迷ったら「この勝負、先に全額入れたのはどっちか」を確認する。</div>
+<p>ただし押しにも例外が1つ：<b>押す相手が全員ビッグスタックで、かつ呼ばれたら飛ぶ場面</b>では、ビッグ側の受けの必要勝率が低い（2章の表でA視点のvs Dは52%）ので降りてくれにくい。ショートの押しは「降りてくれる人がいる方向」に向ける。</p>
+<div class="src">出典: 構造は2章と同じ自前計算からの帰結。基礎編5-4（受け35%・押しは変えない）との接続。</div>
+</section>
+
+<!-- ==================== 4 ==================== -->
+<section class="ch" id="ch4">
+<h2><span class="no">4</span>ステージ別の設計図（どの本のどの章を使うか）</h2>
+<p class="ch-lede">迷ったらこの表に戻る。トナメ全体のナビゲーション。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>ステージ</th><th>持ちbbの目安</th><th>やること</th><th>使う章</th></tr></thead>
+<tbody>
+<tr><td>序盤</td><td class="num">80〜100bb</td><td>キャッシュとほぼ同じ。無理をせず、レンジ表どおり。<b>この時間の主目的は相手の観察</b>（誰が降りない人か、誰が本物しか打たない人か）</td><td>基礎編2〜4章・6章</td></tr>
+<tr><td>中盤</td><td class="num">25〜40bb</td><td>コールを減らしてレイズに寄せる。カバー関係を常時把握</td><td><b>本書5章</b></td></tr>
+<tr><td>バブル前後</td><td class="num">—</td><td>スタック別の役割に従う。カバー相手との全額勝負を避ける</td><td><b>本書2・6章</b></td></tr>
+<tr><td>終盤（浅い）</td><td class="num">〜20bb</td><td>M値で帯を確認し、押し引きの表へ</td><td>基礎編5章</td></tr>
+<tr><td>ファイナルテーブル</td><td class="num">—</td><td>ラダー（順位の階段）を意識。ショートが他にいる間は待つ</td><td><b>本書8章</b></td></tr>
+</tbody>
+</table></div>
+<div class="tip">アミュ店のブラインドは後半ターボ化する店が多い（基礎編1-1）。<b>「今何bbか」を毎周確認する習慣</b>がステージ判定のすべて。bb数を見失うと、25bbのつもりで100bbの戦い方をする。</div>
+</section>
+
+<!-- ==================== 5 ==================== -->
+<section class="ch" id="ch5">
+<h2><span class="no">5</span>中盤 25〜40bb——基礎編の空白地帯</h2>
+<p class="ch-lede">基礎編は100bb（2〜4章）と20bb以下（5章）が厚い。間のこの帯は原則で戦う。</p>
+
+<div class="warn"><b>【前提】</b>この帯の精密なレンジ表は本書には無い（検証可能なデータが手元にないため。基礎編5-3のような自前計算もこの帯は複雑すぎて品質を保証できない）。以下は方向だけ示す原則で、<b>数値の細部は信用しないこと</b>。</div>
+
+<ul>
+<li><b>オープンは小さく（2〜2.2bb）。</b>100bbの3bbオープンをそのまま続けない。浅くなるほど小さいレイズで同じ仕事（ブラインドを取りに行く）ができ、3ベットされた時の傷も浅い。</li>
+<li><b>コールを減らし、レイズ／フォールドに寄せる。</b>コールで参加してフロップを外した時に捨てる余裕（実質のバッファ）がこの帯にはない。「コールしたい手」の多くは、降りるか、3ベットするかのどちらかに振り分ける。</li>
+<li><b>3ベットは「戻れない」ことを覚悟してから。</b>30bb持ちで9bbの3ベットをすると、4ベット（大抵オールイン）を受けた時に降りづらいポットができる。3ベットする手は「オールインまで行っていい手」か「降ろせなかったら諦めがつく手」に寄せる。</li>
+<li><b>SPRが最初から浅い。</b>2.5bbオープンにコールが1人つくとポット約6bb、残り30bb弱でSPR5前後。基礎編4-4の感覚より1段浅く、トップペアのコミット判断が早く来る。</li>
+<li><b>カバー関係を毎ハンド確認する。</b>「この相手に負けたら飛ぶのか、削られるだけか」。同じKQsでも、カバーされている相手の3ベットとショートの3ベットでは受け方が違う（2章）。</li>
+</ul>
+<div class="src">出典: この帯の一般原則（オープンサイズ縮小・レイズ寄せ）はGTO Wizard「Short-Stacked Play in MTTs」等で方向として語られる内容だが、<b>上記の具体的な語り方はこの本の整理であり、ソルバー出力で裏取りしていない</b>。</div>
+</section>
+
+<!-- ==================== 6 ==================== -->
+<section class="ch" id="ch6">
+<h2><span class="no">6</span>バブルの実践——スタック別の役割</h2>
+<p class="ch-lede">2章の数表を「自分がどれか」で引き直す。役割は3つしかない。</p>
+
+<div class="rolebox">
+<div class="box"><b>ビッグスタック</b><br>圧力をかける側。ミドルのブラインドを2〜2.2bbで取り続ける。<b>ただし他のビッグとだけは戦わない</b>（2章：ビッグ同士の衝突が卓全体で最悪）。ショートの押しは52〜55%で受けられるので、価格が合えば淡々と受けて潰しに行く。</div>
+<div class="box"><b>ミドル（一番苦しい）</b><br>最タイト帯。カバーされている相手との全額勝負は70%級が必要（2章）。ビッグからの攻撃は「知っていて降りる」が正解で、悔しがる場面ではない。<b>狙いはただ1つ：自分より先にショートが飛ぶのを待つ</b>。その間もショート相手には通常どおり戦ってよい。</div>
+<div class="box"><b>ショート</b><br>受け身にならない。<b>先に押す側に回る</b>（3章：フォールドエクイティが最大の資産）。押す方向は「降りられる人がいる方向」＝ミドルのブラインド。基礎編5-3の表を土台に、バブルの受け手はさらに降りやすくなっている分だけ強気でいい。</div>
+</div>
+
+<h3>高圧環境で殴ってくる相手（バブルファクター無視型）への対処</h3>
+<p>バブルで一番困るのは、ICMを武器にして<b>異常な頻度で攻めてくるアグレッシブな相手</b>だ。サボテンポーカーはこのタイプ（「気合太郎」）への対策を2系統挙げている：</p>
+<ol>
+<li><b>大きなポットを作らせない：</b>オープンを2bbに抑える／CBを小さくする／フロップのチェック頻度を上げる（チェックには「相手からレイズという択を消す」効果がある）。</li>
+<li><b>ベットレンジを最初からポラライズする：</b>マージナルな手（トップペア弱キッカー等）でベットしない。打つのは「レイズされても続けられる手」か「降ろされても痛くない手」だけ。マージナルはチェックに回すと、相手の雑なブラフを小さいポットで安全にキャッチできる。</li>
+</ol>
+<p>基本は<b>戦わずに自滅を待つ</b>こと。このタイプは1位も多いが飛ぶのも早い。あなたが咎めなくても、他の誰かと勝手に衝突する。</p>
+
+<div class="src">出典: サボテンポーカー「バブルファクター無視!? 気合太郎の対処法」（KjOgpxUQBAc）。<b>適用条件に注意</b>：動画はポーカーチェイスのランク戦（常時高バブルファクター）前提で、著者自身が一般トナメへの流用に留保を付けている。ここでは「バブル付近・高BF状況限定の対策」として引用（動画ノート=<code>research/poker/channel-notes/saboten-opponents.md</code>）。</div>
+
+<details class="selftest"><summary>ミニチェック（3問）</summary><ol>
+<li>バブルでミドルのあなたのブラインドを、チップリーダーが毎回2bbで取りに来る。→ <b>基本は降り続けて正解</b>（悔しさは数字で消す：受けに必要なのは70%級）</li>
+<li>ショートのあなたが押す方向は？ → <b>降りてくれる人（ミドル）の方向</b>。ビッグのBBに向かって押すのは受けられやすい</li>
+<li>攻めてくるアグレ相手にマージナルなトップペアで打つ？ → <b>打たない（チェック）</b>。打つのは耐えられる手か捨てられる手だけ</li>
+</ol></details>
+</section>
+
+<!-- ==================== 7 ==================== -->
+<section class="ch" id="ch7">
+<h2><span class="no">7</span>ICM影響下のベットサイジング</h2>
+<p class="ch-lede">バブル・FTでは基本サイズ自体が小さくなる。基礎編4-0のルール1のトナメ終盤版。</p>
+
+<p>ICMが強く効く場面（バブル・ファイナルテーブル）では、基本のベットサイズはキャッシュより小さくなる。サボテンポーカーの整理：</p>
+<ul>
+<li><b>基本サイズ：フロップ25〜33%・ターン以降50%。</b>目的はオールインまでの距離を遠ざけ、飛ぶリスクを抑えること。終盤は1bbの価値が大きく、小さいバリューでも十分意味があり、ブラフの失敗も安く済む。</li>
+<li><b>判断の順序：①SPR → ②相手の傾向 → ③レンジ構成。</b>SPRが最重要（ここを誤ると一撃で賞金期待値に響く）。SPRが低いほどサイズを抑えて<b>降りる余地を残す</b>。</li>
+<li>相手がアグレッシブ→サイズ大きく・頻度低く・ポラライズ。パッシブ→サイズ小さく・頻度高く。</li>
+</ul>
+<div class="point"><b>基礎編4-0との関係：</b>ルール1（1/3、2ペア以上だけ2/3）はICM影響下でもほぼそのまま通用する（25〜33%帯に収まっている）。変わるのは「2/3に上げる閾値」で、終盤は2ペアでも<b>SPRを見てから</b>にする。ルール2（打ってレイズされたら降りる）は終盤ほど強く効く。</div>
+<div class="src">出典: サボテンポーカー「ICM影響下のベットサイジング」（4OzMRZOIvDg・ノート=<code>research/poker/channel-notes/saboten-opponents.md</code>）。卓人数・スタックの数値前提は動画内に明示なし。</div>
+
+<details class="selftest"><summary>ミニチェック（3問）</summary><ol>
+<li>FTでフロップにバリューベット。基本サイズは？ → <b>25〜33%</b></li>
+<li>サイズを決める時、最初に見るのは？ → <b>SPR</b>（相手の傾向より先）</li>
+<li>ICM影響下で、打ってレイズを返された。→ <b>基礎編ルール2をより強く適用</b>（2ペア未満は降りる）</li>
+</ol></details>
+</section>
+
+<!-- ==================== 8 ==================== -->
+<section class="ch" id="ch8">
+<h2><span class="no">8</span>ファイナルテーブルとラダー</h2>
+<p class="ch-lede">全員入賞してもICMは消えない。順位の階段（ラダー）が続く限り同じ構造が繰り返す。</p>
+
+<p>入賞が確定すると気が緩んで「もうチップEVで打っていい」と思いがちだが、賞金に段差がある限りICMは残る。3人残り（賞金50/30/20）・スタック15000/15000/10000で計算すると：</p>
+<ul>
+<li>同スタック同士（X vs Y）の全額勝負のBFは<b>1.44＝必要勝率59%</b>。まだ五分では受けられない。</li>
+<li>ショートZがいる間、XとYが戦う理由は薄い。<b>「自分以外にショートがいる間は待つ」はFTでも常に有効</b>。</li>
+</ul>
+<p>実戦ルール：</p>
+<ul>
+<li><b>ペイジャンプ（次の賞金の段差）が近いほど、2章のバブルと同じ構造が再現される。</b>段差の直前が「ミニバブル」。</li>
+<li><b>ヘッズアップになったらICMはほぼ消える。</b>残る賞金差は1位と2位の差だけで、チップ比例に近い世界に戻る。ここからはチップEVで殴り合ってよい。</li>
+<li>アミュ店では上位賞品が「次回参加券」「リングイベント出場権」など<b>換金しづらい形</b>のことがある。賞品の実価値に段差がないなら、ICMのプレッシャーも実際には小さい。<b>座る前に「何位まで・何がもらえるか」を確認しておく</b>のはこのため。</li>
+</ul>
+<div class="src">出典: 数値=自前計算（実例4）。賞品形態は店により異なる（<b>未検証・あなたの通う店の構造は要確認</b>）。</div>
+</section>
+
+<!-- ==================== 9 ==================== -->
+<section class="ch" id="ch9">
+<h2><span class="no">9</span>リエントリー・レイトレジ・アドオン</h2>
+<p class="ch-lede">座る前とバーストした直後の判断。ここはEV計算より予算規律の領分。</p>
+
+<div class="warn"><b>【前提】</b>アミュ店の料金体系・賞品構造は店ごとに大きく違い、あなたの通う店の構造をこの本は把握していない。以下は判断の枠組みだけ。</div>
+<ul>
+<li><b>レイトレジ（途中参加）：</b>基礎編1-1のとおり、閉切りは15〜30bbが相場。遅く入るほど「観察時間を失う」が「拘束時間も短い」。<b>20bb未満で入るなら、最初から基礎編5章のゲームだと割り切って座る</b>（100bbの戦い方を持ち込まない）。</li>
+<li><b>リエントリー：</b>原則は「早い時間ほど価値が高い」（深いスタックで打てる時間が長い）。終盤近くの再入場は、押し引きゲームへの参加料として見合うかで判断。<b>その日の上限回数を座る前に決めておく</b>——バースト直後は判断力が最も低い瞬間で、その場で決めるべきではない（基礎編「実戦を歩く」のティルト管理と同じ理屈）。</li>
+<li><b>アドオン（追加チップ購入）：</b>ある場合、判断基準は「追加チップで自分のM値がどの帯に移るか」（基礎編5-2）。M5以下→M8以上に戻れるなら価値が高く、M8がM9になるだけなら薄い。</li>
+</ul>
+<div class="src">出典: レイトレジ相場=note「THE ストラクチャー」（基礎編1-1と同一）。リエントリー・アドオンの枠組みは一般論で、<b>数値の裏取りはない</b>。</div>
+</section>
+
+<!-- ==================== 10 ==================== -->
+<section class="ch" id="ch10">
+<h2><span class="no">10</span>直前に見る1枚</h2>
+<p class="ch-lede">店に入る前・休憩中にこれだけ読み直す。</p>
+
+<ol style="font-size:1rem;line-height:2.1">
+<li><b>今何bbか</b>を毎周確認。25bb台に入ったらコールを減らしてレイズへ（5章）。</li>
+<li>バブルで絞るのは<b>「カバー相手からの攻撃を受ける時」だけ</b>。押しは通常どおり、ショート相手も通常どおり（2・3章）。</li>
+<li>迷ったら<b>先に全額入れる側に回る</b>。受ける側がICM税を払う（3章）。</li>
+<li>ビッグ同士・同スタック同士の全額勝負は最後まで避ける（2・8章）。</li>
+<li>終盤のベットは<b>フロップ25〜33%・ターン以降50%・SPR最優先</b>（7章）。</li>
+<li>リエントリーの上限は<b>座る前に</b>決める（9章）。</li>
+</ol>
+
+<details class="selftest"><summary>総合ミニチェック（4問）</summary><ol>
+<li>バブルでBBのあなた（ミドル）に、カバーしている2番手がSBから押してきた。AQoで受ける？ → <b>降りる</b>（実例2：必要勝率64%。AQoでは届かない）</li>
+<li>同じ押しがショート（BF1.1）からなら？ → <b>基礎編5-4の表どおり受けてよい</b>（必要勝率はチップEV+数%）</li>
+<li>入賞確定後の3人卓、同スタックの相手とAJoで全額勝負を「打診される」側になった。→ <b>避ける</b>（BF1.44＝59%必要。ショートが飛ぶのを待つ）</li>
+<li>32bb持ちの中盤、オープンサイズは？ → <b>2〜2.2bb</b>（3bbのままにしない）</li>
+</ol></details>
+</section>
+
+<footer>
+関連： <a href="poker-portal.html">🏠 入口</a> ／ <a href="poker-textbook.html">📖 基礎編（レンジ表・押し引き表・ポストフロップ）</a> ／ <a href="poker-trainer.html">🎮 POKER QUEST（ドリル）</a><br>
+数値の再現: <code>python scripts/poker_icm_examples.py</code>（出力=<code>research/poker/icm-examples-output.txt</code>）。ICM=Malmuth-Harville近似・引き分け無視。例の賞金比50/30/20・スタック構成は本文明記のとおりで、<b>構成が変われば数値は変わる（大小関係を覚える）</b>。<br>
+動画出典: サボテンポーカー 4OzMRZOIvDg（ICMサイジング）・KjOgpxUQBAc（高BF環境の対処・ポーカーチェイス前提）。ノート=<code>research/poker/channel-notes/saboten-opponents.md</code><br>
+2026-08-31 初版（Claude Code・ハンドレビュー運用と同系列）
+</footer>
+
+</div>
+</body>
+</html>
