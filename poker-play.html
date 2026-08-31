@@ -13,6 +13,12 @@
     padding:10px 10px 30px;line-height:1.5;font-size:14px}
   .wrap{max-width:480px;margin:0 auto}
 
+  .pnav{display:flex;gap:5px;margin-bottom:9px}
+  .pnav a,.pnav .cur{flex:1;text-align:center;font-size:11px;padding:6px 2px;border-radius:7px;
+    background:var(--panel);border:1px solid var(--line);color:var(--tx2);text-decoration:none;
+    white-space:nowrap;overflow:hidden}
+  .pnav .cur{background:#2b4a6b;border-color:#5b8cc4;color:#fff;font-weight:600}
+
   .rules{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:11px}
   .r{background:linear-gradient(150deg,#1d2531,#161b22);border:1px solid #32404f;border-radius:9px;padding:8px 10px}
   .r .n{font-size:9.5px;color:#a371f7;font-weight:800;letter-spacing:.1em}
@@ -60,6 +66,13 @@
 </head>
 <body>
 <div class="wrap">
+
+<nav class="pnav">
+  <a href="poker-portal.html">🏠 入口</a>
+  <span class="cur">🎯 プレイ中</span>
+  <a href="poker-textbook.html">📖 教科書</a>
+  <a href="poker-trainer.html">🎮 QUEST</a>
+</nav>
 
 <div class="rules">
   <div class="r"><div class="n">RULE 1 ─ サイズ</div>
