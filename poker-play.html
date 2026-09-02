@@ -184,7 +184,7 @@ function render(){
        `<span><i class="sw" style="background:var(--a)"></i>${l1} ${d.na}手</span>`+
        `<span><i class="sw" style="background:var(--b)"></i>${l2} ${d.nb}手</span>`+
        `<span><i class="sw" style="background:var(--f);border:1px solid var(--line)"></i>降りる ${d.nf}手</span></div>`;
-  if(isV3b && d.nb) g += `<div class="note">緑の数字＝相手の3ベットが何bbまでならコールしてよいか。赤＝4ベットで返す（無印＝5ベットされたら降りる／「5b」＝5ベットにも入れる／「AI」＝即オールイン）。</div>`;
+  if(isV3b && d.nb) g += `<div class="note">緑の数字＝相手の3ベットが何bbまでならコールしてよいか。赤＝4ベットで返す（無印＝5ベットされたら降りる／「5b」＝5ベットにも入れる／「AI」＝相手の3ベットが9bb以上なら即オールイン、8bb以下なら4ベット→5ベットにコール）。</div>`;
   else if(isSqz) g += `<div class="note">赤＝スクイーズ（3ベット10〜15bb）。赤の文字＝<b>4ベットされた時</b>（5b＝5ベットで全部入れる／無印＝降りる）。緑の数字＝相手のレイズが何bbまでならコールで3人ポットへ行けるか。<b>表が無い組み合わせ</b>（例: BTNでHJレイズ＋COコール）は、いちばん近い表を<b>堅め</b>に使う——赤はAA・KK・QQ・AKだけ、緑は減らす。</div>`;
   else if(!isOpen && d.nb) g += `<div class="note">緑の数字＝相手のレイズが何bbまでならコールしてよいかの上限。赤の文字＝<b>3ベット後に4ベットされた時</b>（無印＝降りる／C＝コール／5b＝5ベットで返す／C?＝状況次第）。</div>`;
   if(d.note) g += `<div class="note">${d.note}</div>`;
