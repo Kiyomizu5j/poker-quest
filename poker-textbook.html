@@ -161,7 +161,15 @@ details.posgrids>summary{cursor:pointer;color:var(--muted);font-size:.85rem;padd
 .cell.z-4b5b{background:#b0362e;color:#fff}.cell.z-4bF{background:#d9534f;color:#fff}.cell.z-AI{background:#111;color:#fff;outline:1px solid #888}
 .cell.z-c12,.cell.z-c95,.cell.z-c8,.cell.z-c7,.cell.z-c6,.cell.z-c5{background:#2f8a68;color:#fff}
 .cell .lim{display:block;font-size:.66em;opacity:.9;font-weight:400;line-height:1.1}
-@media (max-width:660px){figure.rangefig{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}.matrix{min-width:472px}.cell{font-size:.62rem}.cell .lim{font-size:.5rem;opacity:.95}}
+@media (max-width:660px){
+ figure.rangefig,.combined{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;max-width:100%}
+ .matrix{min-width:472px}.cell{font-size:.62rem}.cell .lim{font-size:.5rem;opacity:.95}
+ /* 横スクロールできることを示す（13×13は画面幅に収まらないので中でスクロール） */
+ .combined::before,figure.rangefig::before{content:"↔ 表は横にスクロールできる";display:block;font-size:.68rem;color:var(--muted);margin-bottom:3px}
+}
+/* 横あふれの最終防波堤（グリッド子要素の min-width:auto がカード幅を押し広げないように） */
+.grids,.grids>figure,.content,.page{min-width:0}
+body{overflow-x:hidden}
 .cell.p6-EP{background:#c94f4f;color:#fff}.cell.p6-MP{background:#cf8b2e;color:#fff}.cell.p6-CO{background:#58a15f;color:#fff}.cell.p6-BTN{background:#4f74c9;color:#fff}
 .dot.p6-EP{background:#c94f4f}.dot.p6-MP{background:#cf8b2e}.dot.p6-CO{background:#58a15f}.dot.p6-BTN{background:#4f74c9}
 .cell.p6v-SB{background:#3f8f8a;color:#fff}.dot.p6v-SB{background:#3f8f8a}
