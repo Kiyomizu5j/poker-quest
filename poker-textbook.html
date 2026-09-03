@@ -136,7 +136,9 @@ figure.rangefig{margin:0}
 figcaption{font-size:.85rem;font-weight:700;margin-bottom:6px}
 figcaption small{display:block;color:var(--muted);font-weight:400;font-size:.74rem;line-height:1.5}
 .matrix{display:grid;grid-template-columns:repeat(13,1fr);gap:2px}
-.cell{aspect-ratio:1;border-radius:3px;background:var(--out-cell);color:var(--out-ink);display:flex;align-items:center;justify-content:center;font-size:clamp(.42rem,1.15vw,.6rem);font-weight:700}
+.cell{aspect-ratio:1;min-width:0;overflow:hidden;border-radius:3px;background:var(--out-cell);color:var(--out-ink);display:flex;align-items:center;justify-content:center;font-size:clamp(.42rem,1.15vw,.6rem);font-weight:700}
+.matrix{min-width:0}
+figure.rangefig{min-width:0;max-width:100%}
 .cell.in{background:var(--in-cell);color:#fff}
 .cell.pair.in{background:var(--in-pair)}
 .cell.mix{background:var(--mix-cell);color:#dfe}
@@ -226,8 +228,8 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);color:v
  .side .sch li.done a::before{content:"✓ ";color:var(--accent)}
  .content{grid-column:2;min-width:0}
  .tabs{display:none}
- .grids{grid-template-columns:repeat(3,1fr);gap:18px}
- .cell{font-size:.58rem}
+ .grids{grid-template-columns:repeat(2,1fr);gap:22px}  /* 3列だと13×13が列幅を超えて隣に重なる */
+ .cell{font-size:.6rem}
  .ch-head h2{font-size:1.45rem}
  html{scroll-padding-top:110px}
  article.sec{scroll-margin-top:110px}
